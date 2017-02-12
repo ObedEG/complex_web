@@ -3,3 +3,4 @@ pymongo==3.0.3
 passlib==1.6.5
 requests==2.8.0
 pytz==2016.10
+uwsgi
