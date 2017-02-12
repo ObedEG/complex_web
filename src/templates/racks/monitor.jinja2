@@ -1,0 +1,17 @@
+{% extends "base.jinja2" %}
+{% block content %}
+    <div class="page-header">
+        <h1>Racks in readiness <small>. . .showing already existing racks</small></h1>
+    </div>
+    <div class="list-group">
+        {% for rack in racks %}
+
+            <a href="{{ url_for('racks.rdns_rack', lerom=rack.lerom, rack_id=rack.rack_id) }}" class="list-group-item">
+                <h4 class="list-group-item-heading">
+                    <span class="glyphicon glyphicon-remove-circle"></span> Rack {{ rack.rack_id }} for lerom {{ rack.lerom }}</h4>
+                <p class="list-group-item-text">Readiness started at <strong>{{ rack.rdns_start.strftime("%d-%m-%Y at %H:%M in %Z%z") }}</strong></br>
+                    Rack type: <strong>{{ rack.rack_type }}</strong></p></a>
+        {% endfor %}
+    </div>
+    <a class="btn btn-success" href="{{ url_for('racks.home_template') }}"><span class="glyphicon glyphicon-plus"></span> Create new</a>
+{% endblock %}

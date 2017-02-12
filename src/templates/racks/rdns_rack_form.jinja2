@@ -1,0 +1,37 @@
+{% extends "base.jinja2" %}
+{% block content %}
+<div class="container page-form">
+    <form id="register-form" action="/racks/rdns_register" method="post">
+        <div class="form-group">
+            <label for="rack_id"> Rack ID </label>
+            <input type="text" id="rack_id" class="form-control" name="rack_id">
+        </div>
+        <div class="form-group">
+            <label for="lerom"> LeROM # </label>
+            <input type="text" id="lerom" class="form-control" name="lerom">
+        </div>
+        <div class="form-group">
+            <label for="client"> Client </label>
+            <input type="text" id="client" class="form-control" name="client">
+        </div>
+        <div class="form-group">
+            <label for="sn">Serial Number</label>
+            <input type="text" id="sn" class="form-control" name="sn">
+        </div>
+        <div class="form-group">
+            <label for="mo">MO</label>
+            <input type="text" id="mo" class="form-control" name="mo">
+        </div>
+        <div class="form-group">
+            <label for="so">SO</label>
+            <input type="text" id="so" class="form-control" name="so">
+        </div>
+        <div class="form-group">
+            <label for="ship_date"> Ship Date </label>
+            <input type="text" id="ship_date" class="form-control" name="ship_date">
+        </div>
+        <button type="submit" class="btn btn-sucess">Register</button>
+    </form>
+
+</div>
+{% endblock %}

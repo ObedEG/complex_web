@@ -1,0 +1,9 @@
+{% extends "base.jinja2" %}
+{% block content %}
+    <div class="jumbotron">
+        <h1>ComplexWEB</h1>
+            <p>We finally monitoring our rack orders.</p>
+            <p>Just sign up, and get started by looking at the current racks under test!</p>
+            <p><a class="btn btn-primary btn-lg" href="{{ url_for('users.register_user') }}" role="button">Sign Up</a></p>
+    </div>
+{% endblock %}
