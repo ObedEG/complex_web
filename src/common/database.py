@@ -11,7 +11,7 @@ class Database(object):
     @staticmethod
     def initialize():
         client = pymongo.MongoClient(Database.URI, tz_aware=Database.AWARE)
-        Database.DATABASE = client['complex']
+        Database.DATABASE = client.get_default_database()
 
     @staticmethod
     def insert(collection, data):
