@@ -46,20 +46,7 @@ def user_in():
     return redirect(url_for('home'))
 
 
-@user_blueprint.route('/alerts')
-@user_decorators.requires_login
-def user_alerts():
-    user = User.find_by_email(session['email'])
-    alerts = user.get_alerts()
-    return render_template('users/alerts.jinja2', alerts=alerts)
-
-
 @user_blueprint.route('/logout')
 def logout_user():
     session['email'] = None
     return redirect(url_for('home'))
-
-
-@user_blueprint.route('/check_alerts/<string:user_id>')
-def check_user_alerts(user_id):
-    pass
