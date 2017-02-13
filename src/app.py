@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-import src.config
+from src import config
 from src.common.database import Database
 from src.models.users.views import user_blueprint
 from src.models.racks.views import rack_blueprint
