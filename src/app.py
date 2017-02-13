@@ -6,7 +6,7 @@ from src.models.racks.views import rack_blueprint
 from src.models.tasks.views import task_blueprint
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object('src.config')
 app.secret_key = "123"
 
 app.register_blueprint(user_blueprint, url_prefix="/users")
