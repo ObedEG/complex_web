@@ -94,7 +94,7 @@ class Rack(object):
                               description="Validate that there are no error LED's on any devices"))
 
         self.task_list.append(Task(db_rackid=self._id, category="Power redundancy check",
-                                  description="Check if  the rack devices are wired in power redundant configuration"))
+                                   description="Check if  the rack devices are wired in power redundant configuration"))
         self.task_list.append(Task(db_rackid=self._id, category="Power redundancy check",
                                    description="Perform power redundancy test per  p-07918, if apply"))
 

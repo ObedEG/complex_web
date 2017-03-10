@@ -1,17 +1,21 @@
 import os
 
 import pymongo
+from urllib.parse import quote_plus
 
 
 class Database(object):
-    URI = os.environ.get("MONGODB_URI")
+    user = "complex"
+    password = "passw0rd"
+    socket_path = "127.0.0.1:27017"
+    URI = "mongodb://%s:%s@%s" % (quote_plus(user), quote_plus(password), socket_path)
     AWARE = True
     DATABASE = None
 
     @staticmethod
     def initialize():
-        client = pymongo.MongoClient(Database.URI)
-        Database.DATABASE = client.get_default_database()
+        client = pymongo.MongoClient(Database.URI, tz_aware=Database.AWARE)
+        Database.DATABASE = client['complex']
 
     @staticmethod
     def insert(collection, data):
