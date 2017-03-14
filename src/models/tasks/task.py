@@ -13,10 +13,10 @@ class Task(object):
         self.category = category
         self.description = description
         self.db_failureid = None if db_failureid is None else db_failureid
-        self.start_at = '' if start_at is None else start_at
-        self.start_db_userid = '' if start_db_userid is None else start_db_userid
-        self.finish_at = '' if finish_at is None else finish_at
-        self.finish_db_userid = '' if finish_db_userid is None else finish_db_userid
+        self.start_at = None if start_at is None else start_at
+        self.start_db_userid = None if start_db_userid is None else start_db_userid
+        self.finish_at = None if finish_at is None else finish_at
+        self.finish_db_userid = None if finish_db_userid is None else finish_db_userid
         self.status = "Readiness" if status is None else status
         self._id = uuid.uuid4().hex if _id is None else _id
 
