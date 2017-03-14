@@ -30,12 +30,12 @@
             </ul>
             {% if session['email'] %}
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" ><span class="glyphicon glyphicon-console"></span><font face="verdana" color="green"> WELCOME {{ session['email'] }}</font></a></li>
                     <li><a href="{{ url_for('racks.home_template') }}"><span class="glyphicon glyphicon-plus"></span> Create Rack</a></li>
                     <li><a href="{{ url_for('users.logout_user') }}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
                 </ul>
             {% else %}
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ url_for('users.register_user') }}"><span class="glyphicon glyphicon-user"></span> Sign up</a></li>
                     <li><a href="{{ url_for('users.login_user') }}"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
                 </ul>
             {% endif %}

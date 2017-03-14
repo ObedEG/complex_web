@@ -2,8 +2,24 @@
 {% block content %}
     <div class="jumbotron">
         <h1>ComplexWEB</h1>
-            <p>We finally monitoring our rack orders.</p>
-            <p>Just sign up, and get started by looking at the current racks under test!</p>
-            <p><a class="btn btn-primary btn-lg" href="{{ url_for('users.register_user') }}" role="button">Sign Up</a></p>
+            <p>Monitoring Rack Orders under test...</p>
+            <small>Created by TE for TE</small>
+            {% if session['email'] %}
+
+            {% else %}
+                <div class="form-size">
+                    <form action="{{ url_for('users.login_user') }}" method="post">
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-default">Log in</button>
+                    </form>
+                </div>
+            {% endif %}
     </div>
 {% endblock %}
