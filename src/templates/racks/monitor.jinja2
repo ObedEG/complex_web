@@ -1,7 +1,7 @@
 {% extends "base.jinja2" %}
 {% block content %}
     <div class="page-header">
-        <h1>Racks in readiness <small>. . .showing already existing racks</small></h1>
+        <h1>Select a Rack to work with...</h1>
     </div>
     <div class="list-group">
         {% for rack in racks %}
@@ -13,5 +13,5 @@
                     Rack type: <strong>{{ rack.rack_type }}</strong></p></a>
         {% endfor %}
     </div>
-    <a class="btn btn-success" href="{{ url_for('racks.home_template') }}"><span class="glyphicon glyphicon-plus"></span> Create new</a>
+    <a class="btn btn-success" href="{{ url_for('racks.create_rack') }}"><span class="glyphicon glyphicon-plus"></span> Create new</a>
 {% endblock %}

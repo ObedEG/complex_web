@@ -3,11 +3,13 @@
     <div class="jumbotron">
         <h1>ComplexWEB</h1>
             <p>Monitoring Rack Orders under test...</p>
-            <small>Created by TE for TE</small>
-            {% if session['email'] %}
 
+            {% if session['email'] %}
+            <p><font face="verdana" color="green"> WELCOME {{ session['email'] }}</font></p>
             {% else %}
                 <div class="form-size">
+                    <span class="help-block">Sign in... To register a TE User Account please contact: oescobedo@lenovo.com</span>
+
                     <form action="{{ url_for('users.login_user') }}" method="post">
                         <div class="form-group">
                             <label for="email">Email address</label>

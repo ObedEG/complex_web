@@ -26,13 +26,18 @@ def rdns_register():
 
 
 @rack_blueprint.route('/', methods=['POST', 'GET'])
-def home_template():
+def create_rack():
     return render_template('racks/rdns_rack_form.jinja2')
+
+
+@rack_blueprint.route('/readiness', methods=['POST', 'GET'])
+def readiness_rack():
+    return render_template('racks/readiness.jinja2')
 
 
 @rack_blueprint.route('/rdns_monitoring')
 @user_decorators.requires_login
-def rdns_monitor():
+def monitor_rack():
     racks = Rack.get_all()
     return render_template('racks/monitor.jinja2', racks=racks)
 
