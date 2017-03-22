@@ -9,7 +9,7 @@ class Manual(object):
         self.file_name = file_name
         self.path = path  # This is the location path including the filename
         self.description = description
-        self._id = uuid.uuid4.hex() if _id is None else _id
+        self._id = uuid.uuid4().hex if _id is None else _id
 
     def json(self):
         return {
