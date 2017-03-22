@@ -18,8 +18,7 @@ def create_manual():
         path = request.form['path']
         description = request.form['description']
         if Manual(file_name, path, description).save_to_db():
-                return redirect(url_for("."))
-
+                return redirect(url_for(".show_manuals"))
     return render_template("/manuals/create_manual.jinja2")
 
 
