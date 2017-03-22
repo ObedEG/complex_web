@@ -1,0 +1,22 @@
+{% extends "base.jinja2" %}
+{% block content %}
+
+    <div class="form-size">
+        <form action="{{ url_for('manuals.create_manual') }}" method="post">
+            <div class="form-group">
+                <label for="file_name">File Name</label>
+                <input type="text" class="form-control" id="file_name" name="file_name">
+            </div>
+            <div class="form-group">
+                <label for="path">Path (location in MTY01)</label>
+                <input type="text" class="form-control" id="path" name="path">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" class="form-control" id="description" name="description">
+            </div>
+            <button type="submit" class="btn btn-default">Create File</button>
+        </form>
+    </div>
+
+{% endblock %}
