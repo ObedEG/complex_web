@@ -2,45 +2,72 @@ import uuid
 
 import src.models.tasks.constants as TasksConstants
 from src.common.database import Database
-from src.common.utils import Utils
 
 
 class Task(object):
-    def __init__(self, db_rackid, category, description,
-                 db_failureid=None, start_at=None, start_db_userid=None,
-                 finish_at=None, finish_db_userid=None, status=None, _id=None):
-        self.db_rackid = db_rackid
-        self.category = category
-        self.description = description
-        self.db_failureid = None if db_failureid is None else db_failureid
-        self.start_at = None if start_at is None else start_at
-        self.start_db_userid = None if start_db_userid is None else start_db_userid
-        self.finish_at = None if finish_at is None else finish_at
-        self.finish_db_userid = None if finish_db_userid is None else finish_db_userid
-        self.status = "Readiness" if status is None else status
-        self._id = uuid.uuid4().hex if _id is None else _id
+
+    def __init__(self, rack, category, description, started_at=None, start_user=None,
+                 finished_at=None, finish_user=None, failure=None, status=None, _id=None):
+        self.rack = rack
+        self.category = category  # According to racktype... and Task...
+        self.description = description  # Describe the step (Task, Failure or Fix)
+        self.started_at = "" if started_at is None else started_at
+        self.start_user = "" if start_user is None else start_user
+        self.finished_at = "" if finished_at is None else finished_at
+        self.finish_user = "" if finish_user is None else finish_user
+        self.failure = "" if failure is None else failure  # if it fails here will be the failure._id
+        self.status = "Waiting..." if status is None else status  # could be: In process, Debugging, Finished
+        self._id = uuid.uuid1().hex if _id is None else _id
+
+    def json(self):
+        return {
+            "rack": self.rack,
+            "description": self.description,
+            "started_at": self.started_at,
+            "start_user": self.start_user,
+            "finished_at": self.finished_at,
+            "finish_user": self.finish_user,
+            "category": self.category,
+            "failure": self.failure,
+            "status": self.status,
+            "_id": self._id
+        }
+
+    @classmethod
+    def get_tasks_by_racktype(cls, racktype, rack):
+        task_list = []
+        if racktype == "ryo" or racktype == "ryo_nw":
+            task_list.append(cls(rack=rack, category="Power on validation",
+                                 description="PDUs power on (Apply power to rack)").save_task())
+            task_list.append(cls(rack=rack, category="Power on validation",
+                                 description="All devices power on (power on servers/devices)").save_task())
+            task_list.append(cls(rack=rack, category="Power on validation",
+                                  description="Validate that there are no error LED's on any devices").save_task())
+            task_list.append(cls(rack=rack, category="Power redundancy check",
+                                  description="Check if  the rack devices are wired in power redundant configuration").save_task())
+            task_list.append(cls(rack=rack, category="Power redundancy check",
+                                  description="Perform power redundancy test per  p-07918, if apply").save_task())
+            task_list.append(cls(rack=rack, category="Power Cycle",
+                                  description="Complete one AC power cycle").save_task())
+            return task_list
+        else:
+            return task_list
+
+    #  [cls(**elem) for elem in Database.find(RacksConstants.COLLECTIONS, {})]
+    def save_task(self):
+        Database.insert(TasksConstants.COLLECTIONS, self.json())
+        return self._id
 
     def update_to_mongo(self):
         Database.update(TasksConstants.COLLECTION, {"_id": self._id}, self.json())
         return True
 
-    def json(self):
-        return {
-            "_id": self._id,
-            "db_rackid": self.db_rackid,
-            "category": self.category,
-            "description": self.description,
-            "db_failureid": self.db_failureid,
-            "start_at": self.start_at,
-            "start_db_userid": self.start_db_userid,
-            "finish_at": self.finish_at,
-            "finish_db_userid": self.finish_db_userid,
-            "status": self.status
-        }
+    def save_to_mongo(self):
+        Database.insert(TasksConstants.COLLECTIONS, self.json())
 
     @classmethod
-    def get_task_by_id(cls, db_taskid):
-        return cls(**Database.find_one(TasksConstants.COLLECTIONS, {"_id": db_taskid}))
+    def get_task_by_id(cls, task):
+        return cls(**Database.find_one(TasksConstants.COLLECTIONS, {"_id": task}))
 
     def finish(self):
         pass

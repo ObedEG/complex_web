@@ -1,15 +1,13 @@
 {% extends "base.jinja2" %}
 {% block content %}
     <div class="page-header">
-        <h1>Select a Rack...</h1>
+        <h1>Select a Rack to edit info:</h1>
     </div>
     <div class="list-group">
         {% for rack in racks %}
-
-            <a href="{{ url_for('racks.monitor_rack', rack=rack._id) }}" class="list-group-item">
+            <a href="{{ url_for('racks.edit_info', rack_id=rack._id) }}" class="list-group-item">
                 <h4 class="list-group-item-heading">
                     <span class="glyphicon glyphicon-remove-circle"></span> Rack {{ rack.rackid }} || {{ rack.customer }}, lerom: {{ rack.lerom }}</h4>
-                <p class="list-group-item-text">Readiness started at <strong></strong></br>
                     type: <strong>{{ rack.racktype }}</strong></p></a>
         {% endfor %}
     </div>

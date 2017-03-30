@@ -1,0 +1,185 @@
+{% extends "base.jinja2" %}
+{% block content %}
+<!-- Include Bootstrap Datepicker -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+<link rel="stylesheet" href="/vendor/bootstrap-combobox/css/bootstrap-combobox.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+<script src="/vendor/bootstrap-combobox/js/bootstrap-combobox.js"></script>
+
+<style type="text/css">
+/**
+ * Override feedback icon position
+ * See http://formvalidation.io/examples/adjusting-feedback-icon-position/
+ */
+#eventForm .form-control-feedback {
+    top: 0;
+    right: -15px;
+}
+</style>
+
+<form action="{{ url_for('racks.create_rack') }}" id="eventForm" method="post" class="form-horizontal">
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="rackid">rackid</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="rackid" name="rackid">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="crm">crm</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="crm" name="crm">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="mfg_so">mfg_so</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="mfg_so" name="mfg_so">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="lerom">lerom</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="lerom" name="lerom">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="mtm">mtm</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="mtm" name="mtm">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="customer">customer</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="customer" name="customer">
+		</div>
+	</div>
+
+    <div class="form-group">
+        <label class="col-xs-3 control-label">Type</label>
+        <div class="col-xs-5 selectContainer">
+            <select class="form-control" id="racktype" name="racktype">
+                <option value="">Choose a rack type</option>
+                <option value="ryo">RYO</option>
+                <option value="ryo_nw">RYO with N/W</option>
+                <option value="ic">Intelligent Cluster</option>
+                <option value="gss">GSS</option>
+                <option value="ic_gss">Intelligent Cluster & GSS</option>
+                <option value="hs">HyperScale</option>
+            </select>
+        </div>
+    </div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="sn">sn</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="sn" name="sn">
+		</div>
+	</div>
+
+    <div class="form-group">
+        <label class="col-xs-3 control-label">expected_ship_date</label>
+        <div class="col-xs-5 date">
+            <div class="input-group input-append date" id="expected_ship_date">
+                <input type="text" class="form-control" name="expected_ship_date" />
+                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3 control-label">ctb_date</label>
+        <div class="col-xs-5 date">
+            <div class="input-group input-append date" id="ctb_date">
+                <input type="text" class="form-control" name="ctb_date" />
+                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3 control-label">estimated_ship_date</label>
+        <div class="col-xs-5 date">
+            <div class="input-group input-append date" id="estimated_ship_date">
+                <input type="text" class="form-control" name="estimated_ship_date" />
+                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+    </div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="comments">comments</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="comments" name="comments">
+		</div>
+	</div>
+
+    <div class="form-group">
+        <div class="col-xs-5 col-xs-offset-3">
+            <button type="submit" class="btn btn-default">Create RACK</button>
+        </div>
+    </div>
+</form>
+
+<script>
+$(document).ready(function() {
+    $('#expected_ship_date')
+        .datepicker({
+            autoclose: true,
+            format: 'mm/dd/yyyy'
+        })
+        .on('changeDate', function(e) {
+            // Revalidate the date field
+            $('#eventForm').formValidation('revalidateField', 'date');
+        });
+
+    $('#ctb_date')
+        .datepicker({
+            autoclose: true,
+            format: 'mm/dd/yyyy'
+        })
+        .on('changeDate', function(e) {
+            // Revalidate the date field
+            $('#eventForm').formValidation('revalidateField', 'date');
+        });
+
+    $('#estimated_ship_date')
+        .datepicker({
+            autoclose: true,
+            format: 'mm/dd/yyyy'
+        })
+        .on('changeDate', function(e) {
+            // Revalidate the date field
+            $('#eventForm').formValidation('revalidateField', 'date');
+        });
+
+    $('#eventForm')
+        .formValidation({
+            framework: 'bootstrap',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            excluded: ':disabled',
+            fields: {
+                racktype: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The rack type is required'
+                            }
+                        }
+                    }
+                }
+    })
+    .find('[name="racktype"]')
+            .combobox()
+            .end()
+});
+</script>
+{% endblock %}

@@ -2,10 +2,8 @@
 {% block content %}
 
 <div class="list-group">
-  <a href="{{ url_for('racks.create_rack') }}" class="list-group-item">Create a Rack</a>
-  <a href="#" class="list-group-item">Manage KVM (mhost, mgt)</a>
-  <a href="#" class="list-group-item">Other readiness thing</a>
-  <a href="#" class="list-group-item"></a>
+  <a href="{{ url_for('racks.create_rack') }}" class="list-group-item">Create New Rack</a>
+  <a href="{{ url_for('racks.edit') }}" class="list-group-item">Edit Rack's info</a>
 </div>
 
 {% endblock %}

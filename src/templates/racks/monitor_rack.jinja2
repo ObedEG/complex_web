@@ -1,0 +1,46 @@
+{% extends "base.jinja2" %}
+{% block content %}
+<div class="page-header">
+        <h1>Rack's Monitor
+            <small>RACK {{ rack.rackid }} || customer: {{ rack.customer }}, lerom: {{ rack.lerom }}</small>
+        </h1>
+</div>
+	<div class="row">
+		<label class="col-xs-3 control-label"> EXPECTED SHIP DATE :</label>
+		<div class="col-xs-5">
+			<label><strong>{{rack.expected_ship_date}}</strong></label>
+		</div>
+	</div>
+
+    <div class="row">
+    </div>
+
+    <div class="row">
+		<label class="col-xs-3 control-label"> ESTIMATED SHIP DATE :</label>
+		<div class="col-xs-5">
+			<label><strong>{{rack.estimated_ship_date}}</strong></label>
+		</div>
+    </div>
+
+    <div class="row">
+    </div>
+<!---
+	<div class="row">
+        <label class="col-xs-3 control-label">              STATUS :</label>
+		<div class="col-xs-5">
+			<label><strong>{{rack.status}}</strong></label>
+		</div>
+	</div>
+--->
+
+    <div class="row">
+    </div>
+
+	<div class="row">
+        <label class="col-xs-3 control-label">            COMMENTS :</label>
+		<div class="col-xs-5">
+			<label><strong>{{rack.comments}}</strong></label>
+		</div>
+	</div>
+
+{% endblock %}
