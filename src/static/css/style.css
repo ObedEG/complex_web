@@ -2,11 +2,57 @@
     max-width: 640px;
     margin: 0 auto;
 
-    background-color: #B0C4DE;
     padding: 20px;
 
     border: 1px solid #D5D5D5;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+}
+
+img {
+    border: 1px solid black;
+}
+
+.transbox {
+    border: 1px solid black;
+    opacity: 0.9;
+    filter: alpha(opacity=90); /* For IE8 and earlier */
+}
+
+.fullservers {
+    background: url('../img/Servers-Germany-4.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.fullcircuit {
+    background: url('../img/CircuitBoard-Sparkles.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.fullcables {
+    background: url('../img/Network-Cables.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.fullbuttons {
+    background: url('../img/Factory-Buttons.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.stroke {
+  -webkit-text-stroke-width: 1px;
+-webkit-text-stroke-color: #000000;
 }
