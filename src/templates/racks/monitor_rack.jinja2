@@ -2,29 +2,45 @@
 {% block content %}
 <div class="content container fullbuttons">
 	<div class="page-header">
-			<h1>Rack's Monitor
-				<small>RACK {{ rack.rackid }} || customer: {{ rack.customer }}, lerom: {{ rack.lerom }}</small>
-			</h1>
-	</div>
-	<div class="row">
-		<label class="col-xs-3 control-label"> EXPECTED SHIP DATE :</label>
-		<div class="col-xs-5">
-			<label><strong>{{rack.expected_ship_date}}</strong></label>
-		</div>
+			<h1>Rack Monitor</h1>
 	</div>
 
-    <div class="row">
-    </div>
+	<div class="row transbox">
+  		<div class="col-lg-7">
+    		<div class="bs-component">
+      			<div class="panel panel-primary">
+        			<div class="panel-heading">
+						<h2 class="panel-title"> RACK {{ rack.rackid }} <br><br> Customer: <b>  {{ rack.customer }}</b> <br><br> LeROM:  <b>  {{ rack.lerom }}</b></h2>
+        			</div>
+        			<div class="panel-body">
+          				<label class="col-lg-3 control-label">COMMENTS:</label>
+						<div class="col-lg-9">
+							<label><strong>{{rack.comments}}</strong></label>
+						</div>
 
-    <div class="row">
-		<label class="col-xs-3 control-label"> ESTIMATED SHIP DATE :</label>
-		<div class="col-xs-5">
-			<label><strong>{{rack.estimated_ship_date}}</strong></label>
+						<label class="col-lg-4 control-label"><br>EXPECTED SHIP DATE :</label>
+						<div class="col-lg-6">
+							<label><strong><br>{{rack.expected_ship_date}}</strong></label>
+						</div>
+
+						<label class="col-lg-4 control-label"><br>ESTIMATED SHIP DATE :</label>
+						<div class="col-lg-6">
+							<label><strong><br>{{rack.estimated_ship_date}}</strong></label>
+						</div>
+        			</div>
+
+				</div>
+			</div>
+  		</div>
+
+		<div class="col-lg-7">
+			<div class="bs-component">
+				  <ul class="pager">
+					<li class="previous"><a href="{{ url_for('racks.monitor')}}">← BACK</a></li>
+				  </ul>
+			</div>
 		</div>
-    </div>
-
-    <div class="row">
-    </div>
+	</div>
 <!---
 	<div class="row">
         <label class="col-xs-3 control-label">              STATUS :</label>
@@ -33,15 +49,5 @@
 		</div>
 	</div>
 --->
-
-    <div class="row">
-    </div>
-
-	<div class="row">
-        <label class="col-xs-3 control-label">            COMMENTS :</label>
-		<div class="col-xs-5">
-			<label><strong>{{rack.comments}}</strong></label>
-		</div>
-	</div>
 </div>
 {% endblock %}

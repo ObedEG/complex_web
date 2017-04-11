@@ -27,13 +27,25 @@
         <div id="navbar" class="navbar-collapse">
             {% if session['email'] %}
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('racks.readiness_rack') }}">Readiness</a></li>
-                    <li><a href="#">Test</a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Readiness <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('racks.create_rack') }}">Create New Rack</a></li>
+                            <li><a href="{{ url_for('racks.edit') }}">Edit Rack Info</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Test <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Racks Under Test</a></li>
+                            <li><a href="{{ url_for('manuals.show_manuals') }}">Manuals</a></li>
+                        </ul>
+                    </li>
                     <li><a href="{{ url_for('racks.monitor') }}">Monitor</a></li>
-                    <li><a href="#"><font face="verdana" color="blue">Look Up! <span class="glyphicon glyphicon-search"></span></font></a></li>
+                    <li><a href="#"><font face="verdana">Look Up! <span class="glyphicon glyphicon-search"></span></font></a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" ><span class="glyphicon glyphicon-console"></span><font face="verdana" color="green"> WELCOME {{ session['email'] }}</font></a></li>
+                    <li><a href="#" ><span class="glyphicon glyphicon-console"></span><font face="verdana"> WELCOME {{ session['email'] }}</font></a></li>
                     <li><a href="{{ url_for('users.logout_user') }}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
                 </ul>
             {% else %}
@@ -49,7 +61,7 @@
 </nav>
 <footer class="footer">
   <div class="container">
-    <p class="text-muted">Created by TE for Rack Test & Management Process Automation </p>
+    <p class="text-muted">Created by TE for Rack Test & Management Automation </p>
   </div>
 </footer>
 
@@ -58,5 +70,11 @@
 
     {% endblock %}
 </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../static/js/jquery.min.js"><\/script>')</script>
+    <script src="../static/js/bootstrap.min.js"></script>
 </body>
 </html>

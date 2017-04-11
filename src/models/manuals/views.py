@@ -22,9 +22,9 @@ def create_manual():
     return render_template("/manuals/create_manual.jinja2")
 
 
-@manual_blueprint.route('/dowload/<string:manual_db_id>')
-def download(manual_db_id):
-    file = Manual.get_manual_by_id(manual_db_id)
+@manual_blueprint.route('/dowload/<string:file_name>')
+def download(file_name):
+    file = Manual.get_manual_by_name(file_name)
     try:
         return send_file(file.path, attachment_filename=file.file_name)
     except Exception as e:

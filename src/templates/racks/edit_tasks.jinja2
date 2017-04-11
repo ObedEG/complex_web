@@ -7,14 +7,20 @@
 
 List of task of this rack
 
+{ url_for('racks.rdns_rack', lerom=rack.lerom, rackid=rack.rackid) }}
+
     <div class="list-group">
         {% for task in tasks %}
-
-            <a href="{{ url_for('racks.rdns_rack', lerom=rack.lerom, rackid=rack.rackid) }}" class="list-group-item">
+            <a href="#" class="list-group-item">
                 <h4 class="list-group-item-heading">
-                    <span class="glyphicon glyphicon-remove-circle"></span> Task {{ task.category }} </h4>
+                    <span class="glyphicon glyphicon-remove-circle"></span> {{ task.category }} </h4>
                 <p class="list-group-item-text"><strong></strong></br>
-                    Description: <strong>{{ task.description }}</strong></p></a>
+                    Description: <strong>{{ task.description }}</strong></p>
+                <small>
+                    <span class="btn-group">
+                        <button type="button" class="btn btn-danger btn-lg">Remove</button>
+                    </span>
+                </small></a>
         {% endfor %}
     </div>
     <a class="btn btn-success" href="{{ url_for('racks.create_rack') }}"><span class="glyphicon glyphicon-plus"></span> Create new</a>

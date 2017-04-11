@@ -32,7 +32,7 @@ def create_rack():
     return render_template('racks/form.jinja2')
 
 
-@rack_blueprint.route('/edit_info/')
+@rack_blueprint.route('/edit_info')
 @user_decorators.requires_login
 def edit():
     return render_template('racks/editor.jinja2', racks=Rack.get_all())
@@ -70,12 +70,6 @@ def edit_info(rack_id):
     return render_template('racks/edit_info.jinja2', rack=Rack.get_rack_by_id(rack_id))
 
 
-@rack_blueprint.route('/readiness', methods=['POST', 'GET'])
-@user_decorators.requires_login
-def readiness_rack():
-    return render_template('racks/readiness.jinja2')
-
-
 @rack_blueprint.route('/adding_tasks/<string:_id>', methods=['POST', 'GET'])
 @user_decorators.requires_login
 def adding_tasks(_id):
@@ -98,6 +92,13 @@ def monitor():
 def monitor_rack(rack):
     rack = Rack.get_rack_by_id(rack)
     return render_template('racks/monitor_rack.jinja2', rack=rack)
+
+
+@rack_blueprint.route('/adding_tasks/<string:_id>', methods=['POST', 'GET'])
+@user_decorators.requires_login
+def racks_under_test():
+    racks = Rack.get_all()
+    return render_template('racks/monitor.jinja2', racks=racks)
 
 
 #  This is the trick for run a python function from the DOM (kind of special wrapper)

@@ -19,7 +19,7 @@
         {% for rack in racks %}
                  <!---class="list-group-item"> -->
 
-                    <tr class="active">
+                    <tr class="active transbox">
                         <td><a href="{{ url_for('racks.monitor_rack', rack=rack._id) }}"><span class="glyphicon glyphicon-menu-right"></span>   {{ rack.rackid }}</td>
                         <td><strong>{{ rack.comments }}</strong></br></td>
                         <td>{{ rack.racktype }}</td>

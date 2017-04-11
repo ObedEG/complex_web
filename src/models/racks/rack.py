@@ -20,7 +20,7 @@ class Rack(object):
         self.expected_ship_date = expected_ship_date
         self.ctb_date = ctb_date
         self.estimated_ship_date = estimated_ship_date
-        self.comments = comments # Describe current rack status, which VM to use, etc
+        self.comments = comments  # Describe current rack status, which VM to use, etc
         self.status = "Not Under Test" if status is None else status # NotUnderTest, Running, Debugging, Passed
         self.start_user = "" if start_user is None else start_user
         self.started_at = "" if started_at is None else started_at

@@ -1,15 +1,26 @@
 {% extends "base.jinja2" %}
 {% block content %}
 <div class="content container fullservers" style="height:100%">
-    <div class="jumbotron transbox">
-        <h1>ComplexWEB</h1>
-            <p>Monitoring Rack Orders under test...</p>
+
 
             {% if session['email'] %}
-            <p><font face="verdana" color="green"> WELCOME {{ session['email'] }}</font></p>
+
+    <div class="row transbox">
+        <div class="col-lg-4">
+            <div class="bs-component">
+              <div class="well well-lg">
+                  <h3><font face="verdana" color="green"> WELCOME {{ session['email'] }}</font></h3>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+              </div>
+            </div>
+          </div>
+    </div>
             {% else %}
-                <div class="form-size">
-                    <span class="help-block">Sign in... To register a TE User Account please contact: oescobedo@lenovo.com</span>
+        <div class="jumbotron transbox">
+            <h1>ComplexWEB</h1>
+            <p>Monitoring Rack Orders under test...</p>
+            <div class="form-size">
+                    <span class="help-block">Sign in ... <small>[ Admin:  oescobedo@lenovo.com ]<small></small></span>
 
                     <form action="{{ url_for('users.login_user') }}" method="post">
                         <div class="form-group">

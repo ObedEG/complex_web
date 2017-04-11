@@ -24,8 +24,8 @@ class Manual(object):
         return True
 
     @classmethod
-    def get_manual_by_id(cls, manual_db_id):
-        return cls(**Database.find_one(ManualsConstants.COLLECTIONS, {"_id": manual_db_id}))
+    def get_manual_by_name(cls, manual_name):
+        return cls(**Database.find_one(ManualsConstants.COLLECTIONS, {"file_name": manual_name}))
 
     @classmethod
     def get_all(cls):
