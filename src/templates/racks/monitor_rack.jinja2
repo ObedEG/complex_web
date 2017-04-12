@@ -6,26 +6,32 @@
 	</div>
 
 	<div class="row transbox">
-  		<div class="col-lg-7">
+  		<div class="col-lg-8">
     		<div class="bs-component">
       			<div class="panel panel-primary">
         			<div class="panel-heading">
 						<h2 class="panel-title"> RACK {{ rack.rackid }} <br><br> Customer: <b>  {{ rack.customer }}</b> <br><br> LeROM:  <b>  {{ rack.lerom }}</b></h2>
         			</div>
         			<div class="panel-body">
-          				<label class="col-lg-3 control-label">COMMENTS:</label>
+          				<div class="col-lg-3">
+							<label class="control-label">COMMENTS:</label>
+						</div>
 						<div class="col-lg-9">
 							<label><strong>{{rack.comments}}</strong></label>
 						</div>
 
-						<label class="col-lg-4 control-label"><br>EXPECTED SHIP DATE :</label>
-						<div class="col-lg-6">
-							<label><strong><br>{{rack.expected_ship_date}}</strong></label>
+						<div class="col-lg-4">
+							<label class="control-label"><br>EXPECTED SHIP DATE :</label>
+						</div>
+						<div class="col-lg-8">
+							<label><strong><br>  {{rack.expected_ship_date}}</strong></label>
 						</div>
 
-						<label class="col-lg-4 control-label"><br>ESTIMATED SHIP DATE :</label>
-						<div class="col-lg-6">
-							<label><strong><br>{{rack.estimated_ship_date}}</strong></label>
+						<div class="col-lg-4" >
+							<label class="control-label"><br>ESTIMATED SHIP DATE :</label>
+						</div>
+						<div class="col-lg-8">
+							<label><strong><br>  {{rack.estimated_ship_date}}</strong></label>
 						</div>
         			</div>
 
