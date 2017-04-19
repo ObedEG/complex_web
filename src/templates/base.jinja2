@@ -37,7 +37,8 @@
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle">Test <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Racks Under Test</a></li>
+                            <li><a href="{{ url_for('racks.racks_under_readiness')}}">Racks in Readiness</a></li>
+                            <li><a href="{{ url_for('racks.racks_under_test') }}">Racks under Test</a></li>
                             <li><a href="{{ url_for('manuals.show_manuals') }}">Manuals</a></li>
                         </ul>
                     </li>

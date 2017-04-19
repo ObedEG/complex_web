@@ -77,15 +77,15 @@ def adding_tasks(_id):
     tasks_list = []
     for elem in rack.tasks:
         tasks_list.append(Task.get_task_by_id(elem))
-    #  tasks = TaskController.get_tasks_by_racktype(racktype=rack.racktype, rack=_id)
-    #  rack.update_tasks(tasks)
     return render_template('racks/edit_tasks.jinja2', rack=rack, tasks=tasks_list)
 
 
 @rack_blueprint.route('/monitor')
 def monitor():
     racks = Rack.get_all()
-    return render_template('racks/monitor.jinja2', racks=racks)
+    title = "Rack Orders Monitor"
+    message = "Click on 'Details' for more information"
+    return render_template('racks/monitor.jinja2', racks=racks,title=title, message=message)
 
 
 @rack_blueprint.route('/monitor/<string:rack>')
@@ -94,11 +94,30 @@ def monitor_rack(rack):
     return render_template('racks/monitor_rack.jinja2', rack=rack)
 
 
-@rack_blueprint.route('/adding_tasks/<string:_id>', methods=['POST', 'GET'])
+@rack_blueprint.route('/test')
 @user_decorators.requires_login
 def racks_under_test():
-    racks = Rack.get_all()
-    return render_template('racks/monitor.jinja2', racks=racks)
+    racks = Rack.get_racks_under_test()
+    title = "Racks Under Test"
+    message = "Select a rack to continue testing"
+
+    return render_template('racks/monitor.jinja2', racks=racks, title=title, message=message)
+
+
+@rack_blueprint.route('/test/start')
+@user_decorators.requires_login
+def racks_under_readiness():
+    racks = Rack.get_racks_under_readiness()
+    title = "Racks in Readiness"
+    message = "Click on <strong>START</strong> button to begin"
+    return render_template('racks/monitor.jinja2', racks=racks, title=title, message=message)
+
+
+@rack_blueprint.route('/delete/<string:rack>', methods=['POST', 'GET'])
+@user_decorators.requires_login
+def delete_rack(rack):
+    Rack.get_rack_by_id(rack).delete()
+    return render_template('racks/delete.jinja2', rack=rack)
 
 
 #  This is the trick for run a python function from the DOM (kind of special wrapper)

@@ -1,6 +1,9 @@
 import uuid
 
 import src.models.racks.constants as RacksConstants
+import src.models.tasks.constants as TasksConstants
+import src.models.failures.constants as FailuresConstants
+import src.models.fixes.constants as FixesConstants
 from src.common.database import Database
 from src.models.tasks.task import Task
 
@@ -21,7 +24,7 @@ class Rack(object):
         self.ctb_date = ctb_date
         self.estimated_ship_date = estimated_ship_date
         self.comments = comments  # Describe current rack status, which VM to use, etc
-        self.status = "Not Under Test" if status is None else status # NotUnderTest, Running, Debugging, Passed
+        self.status = "Readiness" if status is None else status  # Readiness, Running, Debugging, Passed
         self.start_user = "" if start_user is None else start_user
         self.started_at = "" if started_at is None else started_at
         self.finish_user = "" if finish_user is None else finish_user
@@ -64,15 +67,34 @@ class Rack(object):
         return [cls(**elem)for elem in Database.find(RacksConstants.COLLECTIONS, {})]
 
     @classmethod
+    def get_racks_under_test(cls):
+        # Readinnes, Running, Debugging, Passed
+        return [cls(**elem)for elem in Database.find(RacksConstants.COLLECTIONS,
+                                                     {"status": {"$in": ['Running', 'Debugging']}})]
+
+    @classmethod
+    def get_racks_under_readiness(cls):
+        # Readinnes, Running, Debugging, Passed
+        return [cls(**elem) for elem in Database.find(RacksConstants.COLLECTIONS, {"status": 'Readiness'})]
+
+    @classmethod
     def get_rack_by_id(cls, _id):
         return cls(**Database.find_one(RacksConstants.COLLECTIONS, {"_id": _id}))
 
-    @classmethod
-    def get_rack_by_lerom_rackid(cls, lerom, rackid):
-        return cls(**Database.find_one(RacksConstants.COLLECTIONS, {"lerom": lerom, "rackid": rackid}))
-
     def update_tasks(self, tasks):
         self.tasks = tasks
+        self.update_to_mongo()
+
+    def start_rack(self):
+        self.status = "Running"
+        self.update_to_mongo()
+
+    def failed_rack(self):
+        self.status = "Debugging"
+        self.update_to_mongo()
+
+    def finish_rack(self):
+        self.status = "Passed"
         self.update_to_mongo()
 
     def update_to_mongo(self):
@@ -80,3 +102,6 @@ class Rack(object):
 
     def delete(self):
         Database.remove(RacksConstants.COLLECTIONS, {'_id': self._id})
+        Database.remove(TasksConstants.COLLECTIONS, {'rack': self._id})
+        Database.remove(FailuresConstants.COLLECTIONS, {'rack': self._id})
+        Database.remove(FixesConstants.COLLECTIONS, {'rack': self._id})

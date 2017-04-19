@@ -16,7 +16,7 @@ class Task(object):
         self.finished_at = "" if finished_at is None else finished_at
         self.finish_user = "" if finish_user is None else finish_user
         self.failure = "" if failure is None else failure  # if it fails here will be the failure._id
-        self.status = "Waiting..." if status is None else status  # could be: In process, Debugging, Finished
+        self.status = "Waiting..." if status is None else status  # could be: Running, Debugging, Finished
         self._id = uuid.uuid1().hex if _id is None else _id
 
     def json(self):
@@ -36,7 +36,7 @@ class Task(object):
     @classmethod
     def get_tasks_by_racktype(cls, racktype, rack):
         task_list = []
-        if racktype == "ryo" or racktype == "ryo_nw":
+        if racktype == "ryo":
             task_list.append(cls(rack=rack, category="Power on validation",
                                  description="PDUs power on (Apply power to rack)").save_task())
             task_list.append(cls(rack=rack, category="Power on validation",
@@ -50,6 +50,27 @@ class Task(object):
             task_list.append(cls(rack=rack, category="Power Cycle",
                                   description="Complete one AC power cycle").save_task())
             return task_list
+
+        elif racktype == "ryo_nw":
+            task_list.append(cls(rack=rack, category="Power on validation",
+                                 description="PDUs power on (Apply power to rack)").save_task())
+            task_list.append(cls(rack=rack, category="Power on validation",
+                                 description="All devices power on (power on servers/devices)").save_task())
+            task_list.append(cls(rack=rack, category="Power on validation",
+                                 description="Validate that there are no error LED's on any devices").save_task())
+            task_list.append(cls(rack=rack, category="Power redundancy check",
+                                 description="Check if  the rack devices are wired in power redundant configuration").save_task())
+            task_list.append(cls(rack=rack, category="Power redundancy check",
+                                 description="Perform power redundancy test per  p-07918, if apply").save_task())
+            task_list.append(cls(rack=rack, category="Network Validation",
+                                 description="Connectivity validated to each connected network port").save_task())
+            task_list.append(cls(rack=rack, category="Network Validation",
+                                 description="Correct Port Speed validated").save_task())
+            task_list.append(cls(rack=rack, category="Data Collect",
+                                 description="Collect the port speed evidence of each switch. Login into the switch console and get the interfaces status, save the log into a text file").save_task())
+            task_list.append(cls(rack=rack, category="Power Cycle",
+                                 description="Complete one AC power cycle").save_task())
+            return task_list
         else:
             return task_list
 
@@ -59,8 +80,7 @@ class Task(object):
         return self._id
 
     def update_to_mongo(self):
-        Database.update(TasksConstants.COLLECTION, {"_id": self._id}, self.json())
-        return True
+        Database.update(TasksConstants.COLLECTIONS, {"_id": self._id}, self.json())
 
     def save_to_mongo(self):
         Database.insert(TasksConstants.COLLECTIONS, self.json())
@@ -69,8 +89,20 @@ class Task(object):
     def get_task_by_id(cls, task):
         return cls(**Database.find_one(TasksConstants.COLLECTIONS, {"_id": task}))
 
-    def finish(self):
-        pass
+    def start(self):
+        #  (self, user, time): ... self.start_user = user
+        #  self.started_at = time
+        self.status = "Running"
+        self.update_to_mongo()
 
-    def failed(self):
-        pass
+    def finish(self):
+        #  def finish(self, user, time):
+        #  self.finish_user = user
+        #  self.started_at = time
+        self.status = "Finished"
+        self.update_to_mongo()
+
+    def failed(self, failure):
+        self.failure = failure
+        self.status = "Debugging"
+        self.update_to_mongo()
