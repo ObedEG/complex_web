@@ -3,7 +3,10 @@
 <div class="row">
           <div class="col-lg-12">
             <div class="page-header">
-              <h2 id="tables">Rack is {{ tasks[0].rack }}</h2>
+              <h3>Rack Test Report</h3>
+                <h5 id="tables">Rack ID:  {{ get_rack(tasks[0].rack).rackid }}</h5>
+                <h5>Customer:  {{ get_rack(tasks[0].rack).customer }}</h5>
+                <h5>LeROM:  {{ get_rack(tasks[0].rack).lerom }}</h5>
             </div>
 
             <div class="bs-component">

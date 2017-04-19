@@ -2,6 +2,8 @@ from flask import Blueprint, request, session, url_for, render_template
 from werkzeug.utils import redirect
 import src.models.users.decorators as user_decorators
 from src.common.utils import Utils
+from src.models.failures.failure import Failure
+from src.models.fixes.fix import Fix
 from src.models.racks.rack import Rack
 from src.models.tasks.task import Task
 from src.models.users.user import User
@@ -120,9 +122,26 @@ def delete_rack(rack):
     return render_template('racks/delete.jinja2', rack=rack)
 
 
-#  This is the trick for run a python function from the DOM (kind of special wrapper)
+#  This is the trick to return the Rack, Failure or Fix object to the DOM (kind of special wrapper)
+@rack_blueprint.context_processor
+def utility_task():
+        def get_failure(failure):
+            return Failure.get_failure_by_id(failure)
+
+        def get_fix(fix):
+            return Fix.get_fix_by_id(fix)
+
+        def get_rack(rack):
+            return Rack.get_rack_by_id(rack)
+
+        return dict(get_failure=get_failure, get_fix=get_fix, get_rack=get_rack)
+
+
+"""
+This is the trick for run a python function from the DOM (kind of special wrapper)
 @rack_blueprint.context_processor
 def utility_mtytime():
         def get_mtytime(date):
             return Utils.get_mtytime(date).strftime("%d-%m-%Y at %H:%M")
         return dict(get_mtytime=get_mtytime)
+"""

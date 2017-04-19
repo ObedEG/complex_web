@@ -82,7 +82,7 @@ def feedback(fix):
         return render_template('fixes/feedback.jinja2', fix=actual_fix)
 
 
-#  This is the trick to return the Failure or Fix object to the DOM (kind of special wrapper)
+#  This is the trick to return the Rack, Failure or Fix object to the DOM (kind of special wrapper)
 @fix_blueprint.context_processor
 def utility_task():
         def get_failure(failure):
@@ -92,7 +92,6 @@ def utility_task():
             return Fix.get_fix_by_id(fix)
 
         def get_rack(rack):
-            print("---------Here is the rack id : {}".format(rack))
             return Rack.get_rack_by_id(rack)
 
         return dict(get_failure=get_failure, get_fix=get_fix, get_rack=get_rack)

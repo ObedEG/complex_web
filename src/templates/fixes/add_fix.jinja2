@@ -1,21 +1,16 @@
 {% extends "base.jinja2" %}
 {% block content %}
-
-This is the rack: {{ rack }} <br>
-
-    ...this is the task: {{ task }} and this is the failure >> {{ failure}}
-
 <div class="row">
           <div class="col-lg-9 col-lg-offset-2">
             <div class="well bs-component">
               <form action="{{ url_for('fixes.add_new_fix', rack=rack, task=task, failure=failure) }}" class="form-horizontal" method="post">
                 <fieldset>
-                  <legend>Adding a new task (FIX)</legend>
+                  <legend>Adding a FIX to solve a problem/delay</legend>
 
                   <div class="form-group">
                     <div class="col-lg-12">
+                      <span class="help-block">Describe what are you going to do to fix the failure in <strong>"{{ failure.category }}"</strong><br>(>20 characters)</span>
                       <textarea class="form-control" rows="4" id="textArea" name="text"></textarea>
-                        <span class="help-block">Describe what are you going to do to fix the failure in <strong>{{ failure.category }}</strong></span>
                     </div>
                   </div>
 

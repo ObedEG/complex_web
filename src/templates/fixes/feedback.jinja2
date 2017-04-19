@@ -5,18 +5,18 @@
             <div class="well bs-component">
               <form action="{{ url_for('fixes.feedback', fix=fix._id) }}" class="form-horizontal" method="post">
                 <fieldset>
-                  <legend>FEEDBACK - FIX</legend>
+                  <legend>FEEDBACK for current FIX</legend>
 
                   <div class="form-group">
                     <div class="col-lg-12">
-                      <span class="help-block">Explain why this fix failed</span>
+                      <span class="help-block">Explain why this fix failed ( > 20 Characters) </span>
                       <textarea class="form-control" rows="4" id="textFeedback" name="textFeedback"></textarea>
                     </div>
                   </div>
 
                   <div class="form-group">
                     <div class="col-lg-12">
-                      <span class="help-block">Describe a new FIX to get a solution </span>
+                      <span class="help-block">Describe a new FIX to get a solution ( > 20 Characters)  </span>
                       <textarea class="form-control" rows="4" id="textNewTask" name="textNewTask"></textarea>
                     </div>
                   </div>

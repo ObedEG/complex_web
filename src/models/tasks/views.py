@@ -56,7 +56,7 @@ def passed(task):
     return redirect(url_for('.continue_test', rack=task_to_finish.rack))
 
 
-#  This is the trick to return the Failure or Fix object to the DOM (kind of special wrapper)
+#  This is the trick to return the Rack, Failure or Fix object to the DOM (kind of special wrapper)
 @task_blueprint.context_processor
 def utility_task():
         def get_failure(failure):
@@ -65,4 +65,7 @@ def utility_task():
         def get_fix(fix):
             return Fix.get_fix_by_id(fix)
 
-        return dict(get_failure=get_failure, get_fix=get_fix)
+        def get_rack(rack):
+            return Rack.get_rack_by_id(rack)
+
+        return dict(get_failure=get_failure, get_fix=get_fix, get_rack=get_rack)
