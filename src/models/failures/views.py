@@ -1,5 +1,6 @@
-from flask import Blueprint, send_file, render_template, request, url_for, redirect
+from flask import Blueprint, send_file, render_template, request, url_for, redirect, session
 import src.models.users.decorators as user_decorators
+from src.common.utils import Utils
 from src.models.failures.failure import Failure
 from src.models.fixes.fix import Fix
 from src.models.racks.rack import Rack
@@ -15,7 +16,8 @@ def report(rack, task):
         if len(request.form["text"]) < 20:
             return render_template('failures/wrong_failure_description.jinja2', task=task, rack=rack)
         failure = Failure(rack=rack, category=Task.get_task_by_id(task).category,
-                          description=request.form["text"], task=task)
+                          description=request.form["text"], task=task, started_at=Utils.get_utc_time(),
+                          start_user=session['email'])
         failure.save_to_db()
         rackobject = Rack.get_rack_by_id(rack)
         rackobject.failed_rack()

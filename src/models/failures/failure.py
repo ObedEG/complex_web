@@ -2,18 +2,19 @@ import uuid
 
 import src.models.failures.constants as FailuresConstants
 from src.common.database import Database
+from src.common.utils import Utils
 
 
 class Failure(object):
 
-    def __init__(self, rack, category, description, task, started_at=None, start_user=None,
+    def __init__(self, rack, category, description, task, started_at, start_user,
                  finished_at=None, finish_user=None, fixes=None, solved=None, _id=None):
         self.rack = rack  # this is the Rack._id
         self.category = category  # According to racktype... and Task...
         self.description = description  # Describe the Failure
         self.task = task  # Task id related to
-        self.started_at = "" if started_at is None else started_at
-        self.start_user = "" if start_user is None else start_user
+        self.started_at = started_at
+        self.start_user = start_user
         self.finished_at = "" if finished_at is None else finished_at
         self.finish_user = "" if finish_user is None else finish_user
         self.fixes = [] if fixes is None else fixes  # this is the list of 'Fix._id' related
@@ -40,8 +41,10 @@ class Failure(object):
         self.fixes.append(fix)
         self.update_to_mongo()
 
-    def finish(self):
+    def finish(self, user):
         self.solved = True
+        self.finished_at = Utils.get_utc_time()
+        self.finish_user = user
         self.update_to_mongo()
 
     def save_to_db(self):

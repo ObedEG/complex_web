@@ -6,7 +6,7 @@ import re
 
 class Utils(object):
 
-    FMT = '%Y-%m-%d %H:%M:%S %Z%z'
+    FMT = '%Y-%m-%d %H:%M:%S'
     MONTERREY = pytz.timezone('America/Monterrey')
 
     @staticmethod
@@ -19,7 +19,6 @@ class Utils(object):
         email_address_matcher = re.compile('^[\w-]+@([\w-]+\.)+[\w]+$')
         return True if email_address_matcher.match(email) else False
 
-
     @staticmethod
     def hash_password(password):
         """
@@ -28,7 +27,6 @@ class Utils(object):
         :return: A sha512->pbkdf2_sha512 encrypted password
         """
         return pbkdf2_sha512.encrypt(password)
-
 
     @staticmethod
     def check_hashed_password(password, hashed_password):
@@ -42,16 +40,9 @@ class Utils(object):
         return pbkdf2_sha512.verify(password, hashed_password)
 
     @staticmethod
-    def get_timezone():
+    def get_utc_time():
         """
-        :return: The current time, date and timezone
+        :return: The current utc time
         """
-
         utc_dt = datetime.now(tz=pytz.utc)
-        mty_time = utc_dt.astimezone(Utils.MONTERREY)
-        # mty_time2 = mty_time.strftime(Utils.FMT)
-        return mty_time
-
-    @staticmethod
-    def get_mtytime(date):
-        return Utils.MONTERREY.localize(date)
+        return utc_dt

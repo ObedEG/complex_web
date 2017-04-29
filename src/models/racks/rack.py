@@ -5,6 +5,7 @@ import src.models.tasks.constants as TasksConstants
 import src.models.failures.constants as FailuresConstants
 import src.models.fixes.constants as FixesConstants
 from src.common.database import Database
+from src.common.utils import Utils
 from src.models.tasks.task import Task
 
 
@@ -85,16 +86,24 @@ class Rack(object):
         self.tasks = tasks
         self.update_to_mongo()
 
-    def start_rack(self):
+    def fix_rack(self):
         self.status = "Running"
+        self.update_to_mongo()
+
+    def start_rack(self, user):
+        self.status = "Running"
+        self.started_at = Utils.get_utc_time()
+        self.start_user = user
         self.update_to_mongo()
 
     def failed_rack(self):
         self.status = "Debugging"
         self.update_to_mongo()
 
-    def finish_rack(self):
+    def finish_rack(self, user):
         self.status = "Passed"
+        self.finished_at = Utils.get_utc_time()
+        self.finish_user = user
         self.update_to_mongo()
 
     def update_to_mongo(self):

@@ -1,5 +1,6 @@
-from flask import Blueprint, send_file, render_template, request, url_for, redirect
+from flask import Blueprint, send_file, render_template, request, url_for, redirect, session
 import src.models.users.decorators as user_decorators
+from src.common.utils import Utils
 from src.models.failures.failure import Failure
 from src.models.fixes.fix import Fix
 from src.models.racks.rack import Rack
@@ -18,7 +19,7 @@ def add_new_fix(rack, task, failure):
         if len(request.form["text"]) < 20:
             return render_template('fixes/wrong_fix_description.jinja2', task=task, rack=rack, failure=failure)
         fix = Fix(rack=rack, failure=failure, task=task, category=Task.get_task_by_id(task).category,
-                  description=request.form["text"])
+                  description=request.form["text"], started_at=Utils.get_utc_time(), start_user=session['email'])
         fix.save_to_db()
         failure_to_update = Failure.get_failure_by_id(failure)
         failure_to_update.add_fix(fix._id)
@@ -37,11 +38,11 @@ def add_new_fix(rack, task, failure):
 @user_decorators.requires_login
 def passed(fix):
     fix_pass = Fix.get_fix_by_id(fix)
-    fix_pass.passed()
-    Task.get_task_by_id(fix_pass.task).finish()
-    Failure.get_failure_by_id(fix_pass.failure).finish()
+    fix_pass.passed(session['email'])
+    Task.get_task_by_id(fix_pass.task).finish(session['email'])
+    Failure.get_failure_by_id(fix_pass.failure).finish(session['email'])
     rack_in_test = Rack.get_rack_by_id(fix_pass.rack)
-    rack_in_test.start_rack()
+    rack_in_test.fix_rack()
     taskid_list = rack_in_test.tasks
     tasks = []  # Empty list of task Object
     # iterating the tasks list of the rack to put the next task running
@@ -49,9 +50,9 @@ def passed(fix):
         if elem == Task.get_task_by_id(fix_pass.task)._id:
             if elem != taskid_list[-1]:
                 next_task = Task.get_task_by_id(taskid_list[taskid_list.index(elem)+1])
-                next_task.start()  # Setting the next task in "running"
+                next_task.start(session['email'])  # Setting the next task in "running"
             else:
-                rack_in_test.finish_rack()  # If it's last task, rack pass
+                rack_in_test.finish_rack(session['email'])  # If it's last task, rack pass
         tasks.append(Task.get_task_by_id(elem))
     return redirect(url_for('tasks.continue_test', rack=fix_pass.rack))
 
@@ -69,7 +70,8 @@ def feedback(fix):
             old_fix.failed(request.form["textFeedback"])
             # --- Creating new fix, add it to failure list
             new_fix = Fix(rack=old_fix.rack, failure=old_fix.failure, task=old_fix.task,
-                          category=Task.get_task_by_id(old_fix.task).category, description=request.form["textNewTask"])
+                          category=Task.get_task_by_id(old_fix.task).category, description=request.form["textNewTask"],
+                          started_at=Utils.get_utc_time(), start_user=session['email'])
             new_fix.save_to_db()
             Failure.get_failure_by_id(old_fix.failure).add_fix(new_fix._id)
             tasks = []  # Empty list of task Object

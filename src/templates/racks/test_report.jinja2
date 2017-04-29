@@ -1,0 +1,138 @@
+{% extends "base.jinja2" %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-header" align="center">
+            <h3>RACK TEST REPORT</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-4">
+        <div class="panel panel-info" >
+            <div class="panel-heading" align="center">
+                RACK INFO
+            </div>
+            <div class="panel-body">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-6" align="center">ID</div>
+                                <div class="col-lg-6" align="center">A1</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-6" align="center">LeROM</div>
+                                <div class="col-lg-6" align="center">201700123</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-6" align="center">Customer</div>
+                                <div class="col-lg-6" align="center">Client Name Andsonandon</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-6" align="center">Expected ship date</div>
+                                <div class="col-lg-6" align="center">--/--/--</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-success" >
+            <div class="panel-heading" align="center">
+                TEST
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" align="center">START
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-time"></span>  23/04/2017 16:34</div>
+                                </div>
+                                <div class="row">
+                                    <di><br></di>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-user"></span> Obed Escobedo</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" align="center">FINISH
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-send"></span> ETA<br>30/04/2017 8:00</div>
+                                </div>
+                                <div class="row">
+                                    <di><br></di>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-time"></span>  --/--/---- --:--<br></div>
+                                </div>
+                                <div class="row">
+                                    <di><br></di>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-user"></span> Finish User</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" align="center">
+                                STATUS
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <h5 align="center">45%  COMPLETED</h5>
+                                    <div class="bs-component">
+                                        <div class="progress progress-striped active">
+                                            <div class="progress-bar" style="width: 45%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <di><br></di>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 warning" align="center">RUNNING/DEBUGG (current task status, red=debug, blue=run)</div>
+                                    <div class="col-lg-4" align="center">Current Task Category</div>
+                                    <div class="col-lg-4" align="center"><span class="glyphicon glyphicon-user"></span> Obed Escobedo</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-1">
+    </div>
+</div>
+{% endblock %}

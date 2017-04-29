@@ -122,6 +122,16 @@ def delete_rack(rack):
     return render_template('racks/delete.jinja2', rack=rack)
 
 
+@rack_blueprint.route('/monitor/testreport/<string:rack>', methods=['POST', 'GET'])
+@user_decorators.requires_login
+def show_test_report(rack):
+    rack_report = Rack.get_rack_by_id(rack)
+    tasks = []
+    for elem in rack_report.tasks:
+        tasks.append(Task.get_task_by_id(elem))
+    return render_template('racks/test_report.jinja2', tasks=tasks)
+
+
 #  This is the trick to return the Rack, Failure or Fix object to the DOM (kind of special wrapper)
 @rack_blueprint.context_processor
 def utility_task():

@@ -2,6 +2,7 @@ import uuid
 
 import src.models.tasks.constants as TasksConstants
 from src.common.database import Database
+from src.common.utils import Utils
 
 
 class Task(object):
@@ -89,17 +90,16 @@ class Task(object):
     def get_task_by_id(cls, task):
         return cls(**Database.find_one(TasksConstants.COLLECTIONS, {"_id": task}))
 
-    def start(self):
-        #  (self, user, time): ... self.start_user = user
-        #  self.started_at = time
+    def start(self, user):
         self.status = "Running"
+        self.started_at = Utils.get_utc_time()
+        self.start_user = user
         self.update_to_mongo()
 
-    def finish(self):
-        #  def finish(self, user, time):
-        #  self.finish_user = user
-        #  self.started_at = time
+    def finish(self, user):
         self.status = "Finished"
+        self.finished_at = Utils.get_utc_time()
+        self.finish_user = user
         self.update_to_mongo()
 
     def failed(self, failure):

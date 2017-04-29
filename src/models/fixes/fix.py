@@ -2,19 +2,20 @@ import uuid
 
 import src.models.fixes.constants as FixesConstants
 from src.common.database import Database
+from src.common.utils import Utils
 
 
 class Fix(object):
 
-    def __init__(self, rack, failure, task, category, description, started_at=None, start_user=None,
+    def __init__(self, rack, failure, task, category, description, started_at, start_user,
                  finished_at=None, finish_user=None, solution=None, feedback=None, _id=None):
         self.rack = rack
         self.task = task  # Task._id reference
         self.failure = failure  # failure._id reference
         self.category = category  # According to racktype... and Task...
         self.description = description  # Describe the step (Task, Failure or Fix)
-        self.started_at = "" if started_at is None else started_at
-        self.start_user = "" if start_user is None else start_user
+        self.started_at = started_at
+        self.start_user = start_user
         self.finished_at = "" if finished_at is None else finished_at
         self.finish_user = "" if finish_user is None else finish_user
         self.solution = False if solution is None else solution
@@ -43,9 +44,11 @@ class Fix(object):
     def update_to_mongo(self):
         Database.update(FixesConstants.COLLECTIONS, {"_id": self._id}, self.json())
 
-    def passed(self):
+    def passed(self, user):
         self.feedback = "PASSED"
         self.solution = True
+        self.finish_user = user
+        self.finished_at = Utils.get_utc_time()
         self.update_to_mongo()
 
     def failed(self, feedback):
