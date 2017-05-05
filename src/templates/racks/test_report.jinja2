@@ -1,9 +1,12 @@
 {% extends "base.jinja2" %}
 {% block content %}
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-8 col-lg-offset-1">
+        <p class="bs-component" style="{display: inline-block}">
+                <a href="{{ url_for('racks.monitor')}}" class="btn btn-default" align="center">← BACK</a>
+        </p>
         <div class="page-header" align="center">
-            <h3>RACK TEST REPORT</h3>
+            <h1>RACK TEST REPORT</h1>
         </div>
     </div>
 </div>
@@ -22,25 +25,25 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-lg-6" align="center">ID</div>
-                                <div class="col-lg-6" align="center">A1</div>
+                                <div class="col-lg-6" align="center">{{rack.rackid}}</div>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-lg-6" align="center">LeROM</div>
-                                <div class="col-lg-6" align="center">201700123</div>
+                                <div class="col-lg-6" align="center">{{rack.lerom}}</div>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-lg-6" align="center">Customer</div>
-                                <div class="col-lg-6" align="center">Client Name Andsonandon</div>
+                                <div class="col-lg-6" align="center">{{rack.customer}}</div>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-lg-6" align="center">Expected ship date</div>
-                                <div class="col-lg-6" align="center">--/--/--</div>
+                                <div class="col-lg-6" align="center">{{ rack.expected_ship_date }}</div>
                             </div>
                         </li>
                     </ul>
@@ -61,13 +64,13 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-time"></span>  23/04/2017 16:34</div>
+                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-time"></span>  {{ get_mty_time(rack.started_at) }}</div>
                                 </div>
                                 <div class="row">
                                     <di><br></di>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-user"></span> Obed Escobedo</div>
+                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-user"></span> {{ get_user(rack.start_user).name }} {{  get_user(rack.start_user).last_name }}</div>
                                 </div>
                             </div>
                         </div>
@@ -79,19 +82,19 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-send"></span> ETA<br>30/04/2017 8:00</div>
+                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-send"></span> ETA<br>----/--/-- --:--</div>
                                 </div>
                                 <div class="row">
                                     <di><br></di>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-time"></span>  --/--/---- --:--<br></div>
+                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-time"></span>{%- if rack.finished_at != '' %}  {{ get_mty_time(rack.finished_at) }} {%- else %} ----/--/-- --:-- {%- endif %}</div>
                                 </div>
                                 <div class="row">
                                     <di><br></di>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-user"></span> Finish User</div>
+                                    <div class="col-lg-12" align="center"><span class="glyphicon glyphicon-user"></span>{%- if rack.finish_user != '' %} {{ get_user(rack.finish_user).name }} {{ get_user(rack.finish_user).last_name }} {%- endif %}</div>
                                 </div>
                             </div>
                         </div>
@@ -106,10 +109,10 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <h5 align="center">45%  COMPLETED</h5>
+                                    <h5 align="center">{{ get_progress(rack._id) }}%  COMPLETED</h5>
                                     <div class="bs-component">
                                         <div class="progress progress-striped active">
-                                            <div class="progress-bar" style="width: 45%"></div>
+                                            <div class="progress-bar" style="width: {{ get_progress(rack._id) }}%"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -117,9 +120,13 @@
                                     <di><br></di>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-4 warning" align="center">RUNNING/DEBUGG (current task status, red=debug, blue=run)</div>
-                                    <div class="col-lg-4" align="center">Current Task Category</div>
-                                    <div class="col-lg-4" align="center"><span class="glyphicon glyphicon-user"></span> Obed Escobedo</div>
+                                    {%- if rack.status != 'Passed' %}
+                                    <div class="col-lg-4 warning" align="center">{{ get_current_task_by_rack(rack._id).status }}</div>
+                                    <div class="col-lg-4" align="center">{{ get_current_task_by_rack(rack._id).category }}</div>
+                                    <div class="col-lg-4" align="center"><span class="glyphicon glyphicon-user"></span> {{ get_user(get_current_task_by_rack(rack._id).start_user).name }} {{ get_user(get_current_task_by_rack(rack._id).start_user).last_name }}</div>
+                                    {%- else %}
+                                    <div class="col-lg-12" align="center">PASSED</div>
+                                    {% endif -%}
                                 </div>
                             </div>
                         </div>

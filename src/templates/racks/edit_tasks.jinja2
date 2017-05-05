@@ -1,27 +1,69 @@
 {% extends "base.jinja2" %}
 {% block content %}
-    <div class="page-header">
-        <h1>RACK {{ rack.rackid }}</h1>
-        <h2> Customer: {{ rack.customer }} || LeROM: {{ rack.lerom }}</h2>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="bs-component">
+              <div class="well" align="center">
+                  <h3>RACK - TASKS READINESS</h3>
+                  <p>Remove a task if required by clicking on the red button</p>
+              </div>
+        </div>
     </div>
-
-List of task of this rack
-
-{ url_for('racks.rdns_rack', lerom=rack.lerom, rackid=rack.rackid) }}
-
+          <div class="col-lg-6">
+            <div class="bs-component">
+                <table class="table table-striped table-hover ">
+                    <thead>
+                      <tr class="info">
+                        <th><h4>ID</h4></th>
+                        <th><h4>LeROM</h4></th>
+                        <th><h4>Client</h4></th>
+                        <th><h4>Serial Number</h4></th>
+                        <th><h4>Exp ShipDate</h4></th>
+                      </tr>
+                    </thead>
+                    <tr class="active">
+                        <td>{{ rack.rackid }}</td>
+                        <td>{{ rack.lerom }}</td>
+                        <td>{{ rack.customer }}</td>
+                        <td>{{ rack.sn }}</td>
+                        <td>{{ rack.expected_ship_date }}</td>
+                    </tr>
+                </table>
+            </div>
+          </div>
+   </div>
+<!-- Table for tasks -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="bs-component">
+                  <table class="table table-striped table-hover transbox">
+                    <thead>
+                      <tr class="warning">
+                        <th>Task</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th></th>
+                      </tr>
+                    </thead>
     <div class="list-group">
         {% for task in tasks %}
-            <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading">
-                    <span class="glyphicon glyphicon-remove-circle"></span> {{ task.category }} </h4>
-                <p class="list-group-item-text"><strong></strong></br>
-                    Description: <strong>{{ task.description }}</strong></p>
+                    <tr class="active">
+                        <td><h4><span class="glyphicon glyphicon-menu-right"></span>{{ tasks.index(task)+1 }}</h4></td>
+                        <td><h4>{{ task.category }}</h4></td>
+                        <td><h4>{{ task.description }}</h4></td>
+                        <td>
+                            <p class="bs-component">
+                                <a href="{{ url_for('racks.removing_task', _id=task.rack, task=task._id) }}" class="btn btn-danger"> REMOVE</a>
+                            </p>
+                        </td>
+                    </tr>
                 <!--<small>
                     <span class="btn-group">
                         <button type="button" class="btn btn-danger btn-lg">Remove</button>
                     </span>
-                </small>--></a>
+                </small>
+                <a class="btn btn-success" href="{{ url_for('racks.racks_under_readiness')}}"><span class="glyphicon glyphicon-plus">Go to readiness</span> </a>
+                --></a>
         {% endfor %}
     </div>
-    <a class="btn btn-success" href="{{ url_for('racks.create_rack') }}"><span class="glyphicon glyphicon-plus"></span> Create new</a>
 {% endblock %}

@@ -6,7 +6,7 @@ import re
 
 class Utils(object):
 
-    FMT = '%Y-%m-%d %H:%M:%S'
+    FMT = '%m/%d/%Y %H:%M'
     MONTERREY = pytz.timezone('America/Monterrey')
 
     @staticmethod
@@ -46,3 +46,7 @@ class Utils(object):
         """
         utc_dt = datetime.now(tz=pytz.utc)
         return utc_dt
+
+    @staticmethod
+    def percentage(part, whole):
+        return int(100 * float(part) / float(whole))

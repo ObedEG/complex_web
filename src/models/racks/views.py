@@ -82,6 +82,16 @@ def adding_tasks(_id):
     return render_template('racks/edit_tasks.jinja2', rack=rack, tasks=tasks_list)
 
 
+@rack_blueprint.route('/adding_tasks/<string:_id>/<string:task>', methods=['POST', 'GET'])
+@user_decorators.requires_login
+def removing_task(_id, task):
+    rack = Rack.get_rack_by_id(_id)
+    rack.tasks.remove(task)
+    rack.update_tasks(rack.tasks)
+    Task.get_task_by_id(task).delete_task()
+    return redirect(url_for('racks.adding_tasks', _id=_id))
+
+
 @rack_blueprint.route('/monitor')
 def monitor():
     racks = Rack.get_all()
@@ -129,7 +139,7 @@ def show_test_report(rack):
     tasks = []
     for elem in rack_report.tasks:
         tasks.append(Task.get_task_by_id(elem))
-    return render_template('racks/test_report.jinja2', tasks=tasks)
+    return render_template('racks/test_report.jinja2', rack=rack_report, tasks=tasks)
 
 
 #  This is the trick to return the Rack, Failure or Fix object to the DOM (kind of special wrapper)
@@ -144,7 +154,21 @@ def utility_task():
         def get_rack(rack):
             return Rack.get_rack_by_id(rack)
 
-        return dict(get_failure=get_failure, get_fix=get_fix, get_rack=get_rack)
+        def get_mty_time(time):
+            return time.astimezone(Utils.MONTERREY).strftime(Utils.FMT)
+
+        def get_user(email):
+            return User.find_by_email(email)
+
+        def get_progress(rack):  # This function takes the rack._id
+            return Task.get_tasks_progress(rack)  # ...and return the tasks progress
+
+        def get_current_task_by_rack(rack):
+            return Task.get_current_task(rack)
+
+        return dict(get_failure=get_failure, get_fix=get_fix, get_rack=get_rack,
+                    get_mty_time=get_mty_time, get_user=get_user, get_progress=get_progress,
+                    get_current_task_by_rack=get_current_task_by_rack)
 
 
 """

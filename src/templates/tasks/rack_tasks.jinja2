@@ -1,17 +1,40 @@
 {% extends "base.jinja2" %}
 {% block content %}
 <div class="row">
-          <div class="col-lg-12">
-            <div class="page-header">
-              <h3>Rack Test Report</h3>
-            </div>
-
+    <div class="col-lg-6">
+        <div class="bs-component">
+              <div class="well" align="center">
+                  <h3>RACK TEST</h3>
+              </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
             <div class="bs-component">
-
+                <table class="table table-striped table-hover ">
+                    <thead>
+                      <tr class="info">
+                        <th><h4>ID</h4></th>
+                        <th><h4>LeROM</h4></th>
+                        <th><h4>Client</h4></th>
+                        <th><h4>Serial Number</h4></th>
+                        <th><h4>Exp ShipDate</h4></th>
+                      </tr>
+                    </thead>
+                    <tr class="active">
+                        <td>{{ get_rack(tasks[0].rack).rackid }}</td>
+                        <td>{{ get_rack(tasks[0].rack).lerom }}</td>
+                        <td>{{ get_rack(tasks[0].rack).customer }}</td>
+                        <td>{{ get_rack(tasks[0].rack).sn }}</td>
+                        <td>{{ get_rack(tasks[0].rack).expected_ship_date }}</td>
+                    </tr>
+                </table>
             </div>
-
+    </div>
+</div>
+<div class="row">
+<div class="col-lg-12">
             <div class="bs-component">
-                  <table class="table table-striped table-hover ">
+              <table class="table table-striped table-hover ">
                 <thead>
                   <tr class="warning">
                       <th><h4>TASK</h4></th>
@@ -22,9 +45,9 @@
                     <th></th>
                   </tr>
                 </thead>
-        {% for task in tasks %}
-                 <!---class="list-group-item"> -->
-                    <tr class=" transbox {% if task.status == 'Debugging' -%} danger {% elif task.status == 'Finished' -%} success {% elif task.status == 'Running' -%} info {% else -%} active {%- endif %}">
+                {% for task in tasks %}
+                  {%- if task.status != 'Finished' %}
+                    <tr class=" transbox {% if task.status == 'Debugging' -%} danger {% elif task.status == 'Running' -%} info {% else -%} active {%- endif %}">
 
                         <td><h4><span class="glyphicon glyphicon-menu-right"></span>{{ tasks.index(task)+1 }}</h4></td>
                         <td><h4>{{ task.category }}</h4></td>
@@ -44,35 +67,29 @@
                         <td>FAILURE: {{ get_failure(task.failure).description }}</td>
                         <td>{% if get_failure(task.failure).fixes == [] -%}<p class="bs-component">
                             <a href="{{ url_for('fixes.add_new_fix', rack=task.rack, task=task._id, failure=task.failure) }}" class="btn btn-warning">Add FIX</a>
-                            {%- endif %}
+                            {%- endif %} <!-- This condition is if a failure is reported without a fix, so you can add one with a button -->
                         </p></td>
                         <td></td>
                         <td></td>
                     </tr>
-
-                  {% for fixid in get_failure(task.failure).fixes %}
-                    <tr class=" transbox {% if task.status == 'Debugging' -%} danger {% elif task.status == 'Finished' -%} success {% elif task.status == 'Running' -%} info {% else -%} active {%- endif %}">
-                        <td></td>
-                        <td></td>
-                        <td><h4>FIX {{get_failure(task.failure).fixes.index(fixid)+1}}</h4> {{ get_fix(fixid).description }}<br>
-                            {{ fixid }}
-                        </td>
-                        <td>{% if get_fix(fixid).feedback != '' %} Feedback: {{ get_fix(fixid).feedback }} {% endif %}</td>
-                        <td><p class="bs-component">
-                            <a href="{{ url_for('fixes.passed', fix=fixid) }}" class="btn btn-success {% if get_fix(fixid).feedback != '' -%} disabled {%- endif %}">PASSED</a>
-                        </p></td>
-                        <td><p class="bs-component">
-                            <a href="{{ url_for('fixes.feedback', fix=fixid) }}" class="btn btn-danger  {% if get_fix(fixid).feedback != '' -%} disabled {%- endif %}">FAILED</a>
-                        </p></td>
-                    </tr>
-
-                  {% endfor %}
-
-                    {%- endif %}
-
-        {% endfor %}
-                </tbody>
-                </table>
+                        {% for fixid in get_failure(task.failure).fixes %}
+                            <tr class=" transbox {% if task.status == 'Debugging' -%} danger {% elif task.status == 'Finished' -%} success {% elif task.status == 'Running' -%} info {% else -%} active {%- endif %}">
+                                <td></td>
+                                <td></td>
+                                <td><h4>FIX {{get_failure(task.failure).fixes.index(fixid)+1}}</h4> {{ get_fix(fixid).description }}<br></td>
+                                <td>{% if get_fix(fixid).feedback != '' %} Feedback: {{ get_fix(fixid).feedback }} {% endif %}</td> <!-- This is to show a feedback for a fix that failed -->
+                                <td><p class="bs-component">
+                                        <a href="{{ url_for('fixes.passed', fix=fixid) }}" class="btn btn-success {% if get_fix(fixid).feedback != '' -%} disabled {%- endif %}">PASSED</a>
+                                    </p></td>
+                                <td><p class="bs-component">
+                                        <a href="{{ url_for('fixes.feedback', fix=fixid) }}" class="btn btn-danger  {% if get_fix(fixid).feedback != '' -%} disabled {%- endif %}">FAILED</a>
+                                    </p></td>
+                            </tr>
+                        {% endfor %} <!-- this for list the current failure's fixes -->
+                    {%- endif %} <!-- This endif show if a task has a failure and all debug process task/failure/fixes -->
+                  {%- endif %} <!-- This is the endif condition to avoid the <tr> of a finished task -->
+                {% endfor %} <!-- this for list the current Running task and all those are Waiting... -->
+              </table>
             <div id="source-button" class="btn btn-primary btn-xs" style="display: none;">&lt; &gt;</div>
             </div><!-- /example -->
           </div>
