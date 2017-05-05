@@ -49,4 +49,7 @@ class Utils(object):
 
     @staticmethod
     def percentage(part, whole):
-        return int(100 * float(part) / float(whole))
+        if whole == 0:
+            return 0
+        else:
+            return int(100 * float(part) / float(whole))
