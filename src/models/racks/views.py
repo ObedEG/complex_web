@@ -97,7 +97,7 @@ def monitor():
     racks = Rack.get_all()
     title = "Rack Orders Monitor"
     message = "Click on 'Details' for more information"
-    return render_template('racks/monitor.jinja2', racks=racks,title=title, message=message)
+    return render_template('racks/monitor.jinja2', racks=racks, title=title, message=message)
 
 
 @rack_blueprint.route('/monitor/<string:rack>')
@@ -133,7 +133,6 @@ def delete_rack(rack):
 
 
 @rack_blueprint.route('/monitor/testreport/<string:rack>', methods=['POST', 'GET'])
-@user_decorators.requires_login
 def show_test_report(rack):
     rack_report = Rack.get_rack_by_id(rack)
     tasks = []
