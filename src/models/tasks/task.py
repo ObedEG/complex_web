@@ -100,6 +100,8 @@ class Task(object):
                                  description="Set up IP PDUs & save logs").save_task())
             task_list.append(cls(rack=rack, category="Storage Set up",
                                  description="Set up IP and RAID config, update image if apply on all storage devices").save_task())
+            task_list.append(cls(rack=rack, category="Slave SWITCH set up",
+                                 description="Connect the ethernet cables from the nodes to a captive switch, use a P2P defined in xcat-config in order to discover them").save_task())
             task_list.append(cls(rack=rack, category="Discovery",
                                  description="Turn on nodes/servers to discover macs (run xcat-genesis image)").save_task())
             task_list.append(cls(rack=rack, category="Discovery",
@@ -116,6 +118,12 @@ class Task(object):
                                  description="Set up a RAID 1, locate drives: storcli /call show all; then run: storcli /cX add vd type=raid1 drives=XX:X-X *** 'X' is the number related").save_task())
             task_list.append(cls(rack=rack, category="Run Image",
                                  description="Install and verify redhat image into HDD of all servers").save_task())
+            task_list.append(cls(rack=rack, category="Run Image",
+                                 description="Install and verify redhat image needed into Ramdisk of all servers [ Diskless install ]").save_task())
+            task_list.append(cls(rack=rack, category="Update Mellanox Unmanaged switch image",
+                                 description="Update image if apply according to current BR. <br> 1. Run mellanox-image into a node connected to the switch. <br> 2. From that node start the services: opensm and openibd. <br> 3. Run ibswitches and get the lid number. <br> 4. Flash the switch using the command format:  flint -d lid-28 -i fw-SwitchIB-rel-11_0200_0120-00KH883_00KH888_Ax.bin b <br> 5. Reboot the switch. <br> 6. Verify FW level with: flint -d lid-28 q <br> ").save_task())
+            task_list.append(cls(rack=rack, category="Update Mellanox managed switch image",
+                                 description="Update image if needed according to current BR. Use Web-GUI to accomplish it").save_task())
             task_list.append(cls(rack=rack, category="Linpack",
                                  description="Follow linpack procedure for Mellanox/OPA, save logs for Data Collection").save_task())
             task_list.append(cls(rack=rack, category="Power Cycle Test",
