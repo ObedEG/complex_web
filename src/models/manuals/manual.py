@@ -28,5 +28,9 @@ class Manual(object):
         return cls(**Database.find_one(ManualsConstants.COLLECTIONS, {"file_name": manual_name}))
 
     @classmethod
+    def delete_manual(cls, manual_name):
+        Database.remove(ManualsConstants.COLLECTIONS, {"file_name": manual_name})
+
+    @classmethod
     def get_all(cls):
         return [cls(**elem) for elem in Database.find(ManualsConstants.COLLECTIONS, {})]

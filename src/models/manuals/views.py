@@ -30,3 +30,11 @@ def download(file_name):
     except Exception as e:
         return str(e)
 
+
+@manual_blueprint.route('/delete/<string:file_name>')
+def delete(file_name):
+    try:
+        Manual.delete_manual(file_name)
+        return redirect(url_for(".show_manuals"))
+    except Exception as e:
+        return str(e)
