@@ -19,7 +19,7 @@
             <td>{{ manual.description }}</td>
             {% if session['email'] == "oescobedo@lenovo.com" %}
             <td><p class="bs-component">
-                    <a href="{{ url_for('manuals.continue_test', rack=rack._id) }}" class="btn btn-danger">Delete</a>
+                    <a href="{{ url_for('manuals.delete', file_name=manual.file_name) }}" class="btn btn-danger">Delete</a>
                 </p></td>
             {% endif %}
         </tr>
