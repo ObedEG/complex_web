@@ -17,6 +17,9 @@
         <tr class="active">
             <td><span class="glyphicon glyphicon-menu-right"></span>  {{ manual.file_name }}</td>
             <td>{{ manual.description }}</td>
+            <td><p class="bs-component">
+                    <a href="{{ url_for('manuals.download', file_name=manual.file_name) }}" class="btn btn-info">Dowload</a>
+                </p></td>
             {% if session['email'] == "oescobedo@lenovo.com" %}
             <td><p class="bs-component">
                     <a href="{{ url_for('manuals.delete', file_name=manual.file_name) }}" class="btn btn-danger">Delete</a>
