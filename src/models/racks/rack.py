@@ -79,6 +79,15 @@ class Rack(object):
         return [cls(**elem) for elem in Database.find(RacksConstants.COLLECTIONS, {"status": 'Readiness'})]
 
     @classmethod
+    def get_ms_racks(cls):
+        return [cls(**elem) for elem in Database.find(RacksConstants.COLLECTIONS, {"racktype": 'ms'})]
+
+    @classmethod
+    def get_ms_racks_under_readinnes(cls):
+        return [cls(**elem) for elem in Database.find(RacksConstants.COLLECTIONS, {"racktype": 'ms',
+                                                                                   "status": 'Readiness'})]
+
+    @classmethod
     def get_rack_by_id(cls, _id):
         return cls(**Database.find_one(RacksConstants.COLLECTIONS, {"_id": _id}))
 

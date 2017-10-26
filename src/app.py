@@ -7,6 +7,7 @@ from src.models.tasks.views import task_blueprint
 from src.models.users.views import user_blueprint
 from src.models.failures.views import failure_blueprint
 from src.models.fixes.views import fix_blueprint
+from src.models.frecords.views import frecord_blueprint
 
 app = Flask(__name__)
 app.config.from_object('src.config')
@@ -18,6 +19,7 @@ app.register_blueprint(task_blueprint, url_prefix="/tasks")
 app.register_blueprint(manual_blueprint, url_prefix="/manuals")
 app.register_blueprint(failure_blueprint, url_prefix="/failures")
 app.register_blueprint(fix_blueprint, url_prefix="/fixes")
+app.register_blueprint(frecord_blueprint, url_prefix="/frecords")
 
 
 @app.before_first_request
@@ -28,3 +30,5 @@ def init_db():
 @app.route('/')
 def home():
     return render_template("home.jinja2")
+
+

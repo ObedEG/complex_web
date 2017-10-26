@@ -4,9 +4,12 @@ import src.models.users.decorators as user_decorators
 from src.common.utils import Utils
 from src.models.failures.failure import Failure
 from src.models.fixes.fix import Fix
+from src.models.frecords.frecords import FRecord
 from src.models.racks.rack import Rack
 from src.models.tasks.task import Task
 from src.models.users.user import User
+from src.models.frecords.views import frecord_blueprint
+from src.models.tasks.views import task_blueprint
 
 rack_blueprint = Blueprint('racks', __name__)
 
@@ -142,6 +145,9 @@ def show_test_report(rack):
 
 
 #  This is the trick to return the Rack, Failure or Fix object to the DOM (kind of special wrapper)
+
+@task_blueprint.context_processor
+@frecord_blueprint.context_processor
 @rack_blueprint.context_processor
 def utility_task():
         def get_failure(failure):
@@ -165,9 +171,20 @@ def utility_task():
         def get_current_task_by_rack(rack):
             return Task.get_current_task(rack)
 
+        def get_frecord_by_rack(rack):
+            return FRecord.get_frecord_by_rack(rack)
+
+        def get_frecord_by_task(task):
+            return FRecord.get_frecord_by_task(task)
+
+        def get_number_of_frecords_by_task(task):
+            return FRecord.get_number_of_frecords_by_task(task)
+
         return dict(get_failure=get_failure, get_fix=get_fix, get_rack=get_rack,
                     get_mty_time=get_mty_time, get_user=get_user, get_progress=get_progress,
-                    get_current_task_by_rack=get_current_task_by_rack)
+                    get_current_task_by_rack=get_current_task_by_rack, get_frecord_by_rack=get_frecord_by_rack,
+                    get_number_of_frecords_by_task=get_number_of_frecords_by_task,
+                    get_frecord_by_task=get_frecord_by_task)
 
 
 """
@@ -178,3 +195,48 @@ def utility_mtytime():
             return Utils.get_mtytime(date).strftime("%d-%m-%Y at %H:%M")
         return dict(get_mtytime=get_mtytime)
 """
+
+
+@rack_blueprint.route('/ms_create_rack', methods=['POST', 'GET'])
+@user_decorators.requires_login
+def ms_create_rack():
+    if request.method == 'POST':
+        rackid = request.form['rackid']
+        crm = ""
+        mfg_so = ""
+        lerom = ""
+        mtm = ""
+        customer = "Microsoft"
+        racktype = "ms"
+        sn = request.form['sn']
+        expected_ship_date = ""
+        ctb_date = ""
+        estimated_ship_date = ""
+        comments = request.form['comments']
+        rack = Rack(rackid, crm, mfg_so, lerom, mtm, customer, racktype, sn,
+                    expected_ship_date, ctb_date, estimated_ship_date, comments, status="Readiness")
+        rack.save_to_db()
+        return redirect(url_for(".ms_racks_under_test", _id=rack._id))  # Here put only the 1st stage and BSL
+    return render_template('racks/ms_form.jinja2')
+
+
+@rack_blueprint.route('/ms_test')
+@user_decorators.requires_login
+def ms_racks_under_test():
+    racks = Rack.get_ms_racks()
+    title = "Microsoft Racks"
+    message = "Select a rack to see the test report"
+
+    return render_template('racks/ms_monitor.jinja2', racks=racks, title=title, message=message)
+
+
+@rack_blueprint.route('/ms_readiness')
+@user_decorators.requires_login
+def ms_racks_under_readiness():
+    racks = Rack.get_ms_racks_under_readinnes()
+    title = "Microsoft Racks"
+    message = "Select a rack to continue a test report "
+
+    return render_template('racks/ms_monitor_readiness.jinja2', racks=racks, title=title, message=message)
+
+

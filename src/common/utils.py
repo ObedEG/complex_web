@@ -48,6 +48,10 @@ class Utils(object):
         return utc_dt
 
     @staticmethod
+    def get_monterrey_time():
+        return datetime.now(tz=pytz.utc).astimezone(Utils.MONTERREY).strftime(Utils.FMT)
+
+    @staticmethod
     def percentage(part, whole):
         if whole == 0:
             return 0

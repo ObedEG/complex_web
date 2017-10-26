@@ -43,7 +43,14 @@
                         </ul>
                     </li>
                     <li><a href="{{ url_for('racks.monitor') }}">Monitor</a></li>
-                    <li><a href="#"><font face="verdana">Look Up! <span class="glyphicon glyphicon-search"></span></font></a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">MICROSOFT!<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('racks.ms_create_rack')}}">Create Rack</a></li>
+                            <li><a href="{{ url_for('racks.ms_racks_under_readiness') }}">Rack Under Readiness</a></li>
+                            <li><a href="{{ url_for('racks.ms_racks_under_test') }}">Rack Under Test</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#" ><span class="glyphicon glyphicon-console"></span><font face="verdana"> WELCOME {{ session['email'] }}</font></a></li>

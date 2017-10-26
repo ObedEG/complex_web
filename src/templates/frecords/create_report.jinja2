@@ -1,0 +1,103 @@
+{% extends "base.jinja2" %}
+{% block content %}
+<div class="row" align="center">
+    <div class="bs-component">
+    <div class="col-lg-9 col-lg-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                  <h1 class="panel-title">Rack ID :  {{ get_rack(rack).rackid }} <br><br>
+                   SN :  {{ get_rack(rack).sn }} </h1>
+            </div>
+            <div class="panel-body">
+                  Host - L1 (IP) : {{ get_rack(rack).comments }}
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="row">
+          <div class="col-lg-9 col-lg-offset-2">
+            <div class="well bs-component">
+              <form action="{{ url_for('frecords.create_report', rack=rack, task=task) }}" id="eventForm" class="form-horizontal" method="post">
+                <fieldset>
+                  <legend>NODE</legend>
+
+                  <div class="form-group">
+		            <label class="col-xs-3 control-label" for="node_sn">Serial Number:</label>
+		              <div class="col-xs-5">
+			            <input type="text" class="form-control" id="node_sn" name="node_sn">
+		              </div>
+	              </div>
+
+                  <div class="form-group">
+		            <label class="col-xs-3 control-label" for="node_number">Number Location:</label>
+		              <div class="col-xs-5">
+			            <input type="text" class="form-control" id="node_number" name="node_number" placeholder="[ 1 - 36 ]">
+		              </div>
+	              </div>
+
+                  <legend>Chassis</legend>
+                  <div class="form-group">
+		            <label class="col-xs-3 control-label" for="chassis_sn">Serial Number:</label>
+		              <div class="col-xs-5">
+			            <input type="text" class="form-control" id="chassis_sn" name="chassis_sn">
+		              </div>
+	              </div>
+
+                  <div class="form-group">
+		            <label class="col-xs-3 control-label" for="chassis_number">Number Location:</label>
+		              <div class="col-xs-5">
+			            <input type="text" class="form-control" id="chassis_number" name="chassis_number" placeholder="[ 1 - 3 ]">
+		              </div>
+	              </div>
+
+                  <legend>Bad Component</legend>
+                  <div class="form-group">
+		            <label class="col-xs-3 control-label" for="badcomponent_sn">Serial Number:</label>
+		              <div class="col-xs-5">
+			            <input type="text" class="form-control" id="badcomponent_sn" name="badcomponent_sn">
+		              </div>
+	              </div>
+
+                  <div class="form-group">
+		            <label class="col-xs-3 control-label" for="badcomponent_device">Device:</label>
+		              <div class="col-xs-5">
+			            <input type="text" class="form-control" id="badcomponent_device" name="badcomponent_device" placeholder="FPGA \ DIMM \ CPU \ ...">
+		              </div>
+	              </div>
+
+	              <div class="form-group">
+		            <label class="col-xs-3 control-label" for="badcomponent_replacement">SN Replacement:</label>
+		              <div class="col-xs-5">
+			            <input type="text" class="form-control" id="badcomponent_replacement" name="badcomponent_replacement" placeholder="Serial Number Replacement ... 11S..." >
+		              </div>
+	              </div>
+
+                  <legend>FAILURE DESCRIPTION</legend>
+                  <div class="form-group">
+		            <label class="col-xs-3 control-label" for="failed_step">Test Step:</label>
+		              <div class="col-xs-5">
+			            <input type="text" class="form-control" id="failed_step" name="failed_step" placeholder=" AVT \ FLASH \ RUNIN \ ..." >
+		              </div>
+	              </div>
+
+                  <div class="form-group">
+                    <div class="col-lg-12">
+                      <textarea class="form-control" rows="4" id="description" name="description" for="description"></textarea>
+                      <span class="help-block">Error log and comments</span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-4">
+                      <button formaction="/tasks/test/{{rack}}" class="btn btn-default">Cancel</button>
+                      <button type="submit" class="btn btn-danger">Submit</button>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+</div>
+
+{% endblock %}

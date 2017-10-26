@@ -1,0 +1,33 @@
+{% extends "base.jinja2" %}
+{% block content %}
+
+Aqui pones la confirmacion en un FORM! de la task = {{ get_task_by_id(task).category }}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="page-header">
+      <h1 id="forms">PLEASE CONFIRM !</h1>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+          <div class="col-lg-9 col-lg-offset-2">
+            <div class="well bs-component">
+              <form action="{{ url_for('tasks.passed', task=task) }}" class="form-horizontal" method="post">
+                <fieldset>
+                  <legend>Are you sure that {{ get_task_by_id(task).description }} has passed {{ get_task_by_id(task).category }} ??? </legend>
+
+                  <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-4">
+                      <button formaction="/tasks/test/{{get_task_by_id(task).rack}}" class="btn btn-default">Cancel</button>
+                      <button type="submit" class="btn btn-danger">Submit</button>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+</div>
+
+{% endblock %}

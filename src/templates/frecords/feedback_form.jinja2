@@ -1,0 +1,86 @@
+{% extends "base.jinja2" %}
+{% block content %}
+
+<div class="row" align="center">
+    <div class="bs-component">
+    <div class="col-lg-9 col-lg-offset-2">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                  <h1 class="panel-title">Failure Record :  {{ get_mty_time(frecord.started_at) }} <br><br>
+                   Test Step :  {{ frecord.failed_step }} <br><br>
+                   Failure Description: <br>{{ frecord.description }}
+                   </h1>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="bs-component">
+                            <table class="table table-striped table-hover ">
+                                <tbody>
+                                    <tr>
+                                        <td><h4>NODE</h4></td>
+                                        <td><h4>Rack Location: {{frecord.node_number}}</h4></td>
+                                        <td><h4>SN: {{frecord.node_sn}}</h4></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h4>CHASSIS</h4></td>
+                                        <td><h4>Rack Location: {{frecord.chassis_number}}</h4></td>
+                                        <td><h4>SN: {{frecord.chassis_sn}}</h4></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h4>Bad Component</h4></td>
+                                        <td><h4>Device: {{frecord.badcomponent_device}}</h4></td>
+                                        <td><h4>SN: {{frecord.badcomponent_sn}}</h4></td>
+                                        <td><h4>Replacement SN: {{frecord.badcomponent_replacement}}</h4></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="row">
+          <div class="col-lg-9 col-lg-offset-2">
+            <div class="well bs-component">
+              <form action="#" id="eventForm" class="form-horizontal" method="post">
+                <fieldset>
+                  <legend> FINISH! . . .are you sure that this Failure Record is over ? <br><br>
+                      Please select PASSED or FAILED and confirm.
+                  </legend>
+
+                  <div class="form-group">
+                     <label class="col-xs-3 control-label"></label>
+                       <div class="col-xs-5 selectContainer">
+                          <select class="form-control" id="feedback" name="feedback">
+                             <option value="PASSED">Passed</option>
+                             <option value="FAILED">Failed</option>
+                          </select>
+                       </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-4">
+                      <button formaction="/tasks/test/{{frecord.rack}}" class="btn btn-default">Cancel</button>
+                      <button type="submit" class="btn btn-danger">Confirm</button>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+</div>
+
+{% endblock %}

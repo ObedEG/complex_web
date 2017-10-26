@@ -238,6 +238,13 @@ class Task(object):
             task_list.append(cls(rack=rack, category="Clear for ship",
                                  description="Clear IMM: /home/ALLEASY/clearIMM.sh").save_task())
             return task_list
+
+        elif racktype == "ms":
+            task_list.append(cls(rack=rack, category="1st Stage Test",
+                                 description="Chassis [1-3], Cisco Switch and nodes [1-36] Test").save_task())
+            task_list.append(cls(rack=rack, category="BSL Test",
+                                 description="Microsoft Special Test Validation").save_task())
+            return task_list
         else:
             return task_list
 
@@ -279,6 +286,11 @@ class Task(object):
     def failed(self, failure):
         self.failure = failure
         self.status = "Debugging"
+        self.update_to_mongo()
+
+    def not_failed_frecord(self):
+        self.failure = ""
+        self.status = "Running"
         self.update_to_mongo()
 
     @staticmethod
