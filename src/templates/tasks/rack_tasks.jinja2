@@ -70,18 +70,16 @@
                                 <td><hr style="border-top: 1px solid #ccc; background: transparent;">
                                     {{ frecordid.description }}</td>
                                 <td><h5><strong>Test Step:</strong></h5>
-                                    <hr>
-                                    Node #<br>
+                                    Node <br>
                                     SN
                                     <hr>
-                                    Chassis #<br>
+                                    Chassis <br>
                                     SN
                                 </td>
                                 <td><h5><strong>{{ frecordid.failed_step}}</strong></h5>
+                                    # {{ frecordid.node_number }} <br> {{ frecordid.node_sn }}
                                     <hr>
-                                    # {{ frecordid.node_number }} <br> SN: {{ frecordid.node_sn }}
-                                    <hr>
-                                    # {{ frecordid.chassis_number }} <br> SN: {{ frecordid.chassis_sn }}
+                                    # {{ frecordid.chassis_number }} <br> {{ frecordid.chassis_sn }}
                                 </td>
 
                                 <td>{% if frecordid.feedback == '' -%}
