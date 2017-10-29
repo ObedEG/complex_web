@@ -66,10 +66,24 @@
                                 <td><p class="bs-component">
                                         <a href="{{ url_for('frecords.edit', frecord=frecordid._id) }}" class="btn btn-warning {% if frecordid.feedback != '' -%} disabled {%- endif %}">Edit?</a>
                                     </p></td>
-                                <td>Failure Record<br>started at :<br> {{ get_mty_time(frecordid.started_at) }}</td>
-                                <td><h4>Test Step: {{ frecordid.failed_step }}</h4> {{ frecordid.description }}<br></td>
-                                <td>Device: {{ frecordid.badcomponent_device }} <br> Serial Number: {{ frecordid.badcomponent_sn }}  </td>
-                                <td>Replacement: {{ frecordid.badcomponent_replacement }}</td>
+                                <td><h5>Failure Report</h5><br><h5>START</h5> {{ get_mty_time(frecordid.started_at) }}</td>
+                                <td><hr style="border-top: 1px solid #ccc; background: transparent;">
+                                    {{ frecordid.description }}</td>
+                                <td><h5><strong>Test Step:</strong></h5>
+                                    <hr>
+                                    Node #<br>
+                                    SN
+                                    <hr>
+                                    Chassis #<br>
+                                    SN
+                                </td>
+                                <td><h5><strong>{{ frecordid.failed_step}}</strong></h5>
+                                    <hr>
+                                    # {{ frecordid.node_number }} <br> SN: {{ frecordid.node_sn }}
+                                    <hr>
+                                    # {{ frecordid.chassis_number }} <br> SN: {{ frecordid.chassis_sn }}
+                                </td>
+
                                 <td>{% if frecordid.feedback == '' -%}
                                     <p class="bs-component">
                                         <a href="{{ url_for('frecords.feedback', frecord=frecordid._id) }}" class="btn btn-info">FEEDBACK!</a>
@@ -79,7 +93,6 @@
                                     Finished at: <br>
                                     {{ get_mty_time(frecordid.finished_at) }}
                                     {%- endif %}</td>
-
 
                             </tr>
                         {% endfor %} <!-- this for list the current failure's fixes -->

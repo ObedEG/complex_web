@@ -68,8 +68,10 @@ def edit(frecord):
 
         failure_record.failed_step = request.form['failed_step']
         if request.form['description'] != "":
-            failure_record.description += failure_record.description + "<br>" + Utils.get_monterrey_time() \
-                                          + " " + User.find_by_email(session['email']).name + ": " + request.form['description']
+            new_comment = request.form['failed_step']
+            failure_record.description += "<br>" + Utils.get_monterrey_time() \
+                                          + " " + User.find_by_email(session['email']).name \
+                                         + ": " + request.form['description']
         failure_record.badcomponent_sn = request.form['badcomponent_sn']
         failure_record.badcomponent_device = request.form['badcomponent_device']
         failure_record.badcomponent_replacement = request.form['badcomponent_replacement']
