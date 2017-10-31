@@ -47,7 +47,6 @@
                 </thead>
                 {% for task in tasks %}
                     <tr class=" transbox {% if task.status == 'Debugging' -%} danger {% elif task.status == 'Running' -%} info {% else -%} active {%- endif %}">
-
                         <td><h4><span class="glyphicon glyphicon-menu-right"></span>{{ tasks.index(task)+1 }}</h4></td>
                         <td><h4>{{ task.category }}</h4></td>
                         <td><h4>{{ task.description }}</h4></td>
@@ -62,6 +61,7 @@
 
                     {% if get_number_of_frecords_by_task(task._id) != 0 -%}
                         {% for frecordid in get_frecord_by_task(task._id) %}
+                            {%- if frecordid.feedback == '' %}
                             <tr class=" transbox {% if task.status == 'Debugging' -%} danger {% elif task.status == 'Finished' -%} success {% elif task.status == 'Running' -%} info {% else -%} active {%- endif %}">
                                 <td><p class="bs-component">
                                         <a href="{{ url_for('frecords.edit', frecord=frecordid._id) }}" class="btn btn-warning {% if frecordid.feedback != '' -%} disabled {%- endif %}">Edit?</a>
@@ -93,6 +93,7 @@
                                     {%- endif %}</td>
 
                             </tr>
+                            {%- endif %}
                         {% endfor %} <!-- this for list the current failure's fixes -->
                     {%- endif %}
                 {% endfor %} <!-- this for list the current Running task and all those are Waiting... -->
