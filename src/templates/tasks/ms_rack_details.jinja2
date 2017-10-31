@@ -1,0 +1,96 @@
+{% extends "base.jinja2" %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="bs-component">
+              <div class="well" align="center">
+                  <h3>RACK TEST</h3>
+              </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+            <div class="bs-component">
+                <table class="table table-striped table-hover ">
+                    <thead>
+                      <tr class="info">
+                        <th><h4>ID</h4></th>
+                        <th><h4>LeROM</h4></th>
+                        <th><h4>Client</h4></th>
+                        <th><h4>Serial Number</h4></th>
+                        <th><h4>Exp ShipDate</h4></th>
+                      </tr>
+                    </thead>
+                    <tr class="active">
+                        <td>{{ get_rack(tasks[0].rack).rackid }}</td>
+                        <td>{{ get_rack(tasks[0].rack).lerom }}</td>
+                        <td>{{ get_rack(tasks[0].rack).customer }}</td>
+                        <td>{{ get_rack(tasks[0].rack).sn }}</td>
+                        <td>{{ get_rack(tasks[0].rack).expected_ship_date }}</td>
+                    </tr>
+                </table>
+            </div>
+    </div>
+</div>
+<div class="row">
+<div class="col-lg-12">
+            <div class="bs-component">
+              <table class="table table-striped table-hover ">
+                <thead>
+                  <tr class="warning">
+                      <th><h4>TASK</h4></th>
+                    <th><h4>CATEGORY</h4></th>
+                    <th><h4>DESCRIPTION</h4></th>
+                    <th><h4>STATUS</h4></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                {% for task in tasks %}
+                    <tr class=" transbox {% if task.status == 'Debugging' -%} danger {% elif task.status == 'Running' -%} info {% else -%} active {%- endif %}">
+                        <td><h4><span class="glyphicon glyphicon-menu-right"></span>{{ tasks.index(task)+1 }}</h4></td>
+                        <td><h4>{{ task.category }}</h4></td>
+                        <td><h4>{{ task.description }}</h4></td>
+                        <td><h4>{{ task.status }}</h4></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    {% if get_number_of_frecords_by_task(task._id) != 0 -%}
+                        {% for frecordid in get_frecord_by_task(task._id) %}
+                            {%- if frecordid.feedback == '' %}
+                            <tr class=" transbox {% if task.status == 'Debugging' -%} danger {% elif task.status == 'Finished' -%} success {% elif task.status == 'Running' -%} info {% else -%} active {%- endif %}">
+                                <td></td>
+                                <td><h5>Failure Report</h5><br><h5>START</h5> {{ get_mty_time(frecordid.started_at) }}</td>
+                                <td><hr style="border-top: 1px solid #ccc; background: transparent;">
+                                    {{ frecordid.description }}</td>
+                                <td><h5><strong>Test Step:</strong></h5>
+                                    Node <br>
+                                    SN
+                                    <hr>
+                                    Chassis <br>
+                                    SN
+                                </td>
+                                <td><h5><strong>{{ frecordid.failed_step}}</strong></h5>
+                                    # {{ frecordid.node_number }} <br> {{ frecordid.node_sn }}
+                                    <hr>
+                                    # {{ frecordid.chassis_number }} <br> {{ frecordid.chassis_sn }}
+                                </td>
+
+                                <td>{% if frecordid.feedback == '' -%}
+
+                                    {% else -%}
+                                    Feedback : {{ frecordid.feedback }} <br>
+                                    Finished at: <br>
+                                    {{ get_mty_time(frecordid.finished_at) }}
+                                    {%- endif %}</td>
+
+                            </tr>
+                            {%- endif %}
+                        {% endfor %} <!-- this for list the current failure's fixes -->
+                    {%- endif %}
+                {% endfor %} <!-- this for list the current Running task and all those are Waiting... -->
+              </table>
+            </div><!-- /example -->
+          </div>
+</div>
+{% endblock %}

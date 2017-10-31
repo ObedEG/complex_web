@@ -58,7 +58,8 @@
                 </ul>
             {% else %}
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('racks.monitor') }}">Monitor</a></li>
+                    <!---<li><a href="{{ url_for('racks.monitor') }}">Monitor</a></li> --->
+                    <li><a href="{{ url_for('racks.ms_racks_monitor') }}"><span class="glyphicon glyphicon-zoom-in"></span> Microsoft Racks</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{{ url_for('users.login_user') }}"><span class="glyphicon glyphicon-user"></span> Log in</a></li>

@@ -74,6 +74,16 @@ class Rack(object):
                                                      {"status": {"$in": ['Running', 'Debugging']}})]
 
     @classmethod
+    def get_ms_racks_under_test(cls):
+        return [cls(**elem) for elem in Database.find(RacksConstants.COLLECTIONS,
+                                                      {"racktype": 'ms', "status": {"$in": ['Running', 'Debugging']}})]
+
+    @classmethod
+    def get_ms_racks_passed(cls):
+        return [cls(**elem) for elem in Database.find(RacksConstants.COLLECTIONS, {"racktype": 'ms',
+                                                                                   "status": 'Passed'})]
+
+    @classmethod
     def get_racks_under_readiness(cls):
         # Readinnes, Running, Debugging, Passed
         return [cls(**elem) for elem in Database.find(RacksConstants.COLLECTIONS, {"status": 'Readiness'})]

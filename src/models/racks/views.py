@@ -240,3 +240,35 @@ def ms_racks_under_readiness():
     return render_template('racks/ms_monitor_readiness.jinja2', racks=racks, title=title, message=message)
 
 
+@rack_blueprint.route('/ms_racks_monitor', methods=['POST', 'GET'])
+def ms_racks_monitor():
+    racks = Rack.get_ms_racks_under_test()
+    title = "Microsoft Racks"
+    message = "<small>Select a rack to see the test report</small>"
+    if request.method == 'POST':
+        query = request.form['query']
+        if query == "all":
+            racks = Rack.get_ms_racks()
+            message += "<br><h3>ALL RACKS</h3>"
+        elif query == "under_test":
+            racks = Rack.get_ms_racks_under_test()
+            message += "<br><h3>RACKS UNDER TEST</h3>"
+        elif query == "passed":
+            racks = Rack.get_ms_racks_passed()
+            message += "<br><h3>PASSED RACK</h3>"
+        elif query == "under_readiness":
+            racks = Rack.get_ms_racks_under_readinnes()
+            message += "<br><h3>RACKS UNDER READINESS</h3>"
+        return render_template('racks/ms_racks_monitor.jinja2', racks=racks, title=title, message=message)
+    #  Es posible un POST para mandar llamar los racks por status . . .
+    return render_template('racks/ms_racks_monitor.jinja2', racks=racks, title=title, message=message)
+
+
+@rack_blueprint.route('/ms_rack_monitor_details/<string:rack>')
+def ms_rack_monitor_details(rack):
+    rack_to_test = Rack.get_rack_by_id(rack)
+    tasks_idlist = rack_to_test.tasks
+    tasks = []
+    for taskid in tasks_idlist:
+        tasks.append(Task.get_task_by_id(taskid))
+    return render_template('tasks/ms_rack_details.jinja2', tasks=tasks)
