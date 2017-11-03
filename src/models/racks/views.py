@@ -223,12 +223,21 @@ def ms_create_rack():
 @rack_blueprint.route('/ms_test')
 @user_decorators.requires_login
 def ms_racks_under_test():
-    racks = Rack.get_ms_racks()
+    racks = Rack.get_ms_racks_under_test()
     title = "Microsoft Racks"
     message = "Select a rack to see the test report"
 
     return render_template('racks/ms_monitor.jinja2', racks=racks, title=title, message=message)
 
+
+@rack_blueprint.route('/ms_passed_racks')
+@user_decorators.requires_login
+def ms_passed_racks():
+    racks = Rack.get_ms_racks_passed()
+    title = "Microsoft Racks"
+    message = "Select a rack to see the test report"
+
+    return render_template('racks/ms_monitor.jinja2', racks=racks, title=title, message=message)
 
 @rack_blueprint.route('/ms_readiness')
 @user_decorators.requires_login

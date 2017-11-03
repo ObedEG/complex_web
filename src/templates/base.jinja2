@@ -42,7 +42,13 @@
                             <li><a href="{{ url_for('manuals.show_manuals') }}">Manuals</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ url_for('racks.monitor') }}">Monitor</a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-zoom-in"></span> Monitor <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('racks.ms_racks_monitor') }}">Microsoft</a></li>
+                            <li><a href="{{ url_for('racks.monitor') }}">Intelligent Cluster</a></li>
+                        </ul>
+                    </li>
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle">MICROSOFT!<b class="caret"></b></a>
                         <ul class="dropdown-menu">
