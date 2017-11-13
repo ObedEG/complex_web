@@ -239,6 +239,7 @@ def ms_passed_racks():
 
     return render_template('racks/ms_monitor.jinja2', racks=racks, title=title, message=message)
 
+
 @rack_blueprint.route('/ms_readiness')
 @user_decorators.requires_login
 def ms_racks_under_readiness():

@@ -65,7 +65,13 @@
             {% else %}
                 <ul class="nav navbar-nav">
                     <!---<li><a href="{{ url_for('racks.monitor') }}">Monitor</a></li> --->
-                    <li><a href="{{ url_for('racks.ms_racks_monitor') }}"><span class="glyphicon glyphicon-zoom-in"></span> Microsoft Racks</a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">MONITOR<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('racks.ms_racks_monitor') }}"><span class="glyphicon glyphicon-zoom-in"></span> Microsoft Racks</a></li>
+                            <li><a href="{{ url_for('racks.monitor') }}">Intelligent Cluster</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{{ url_for('users.login_user') }}"><span class="glyphicon glyphicon-user"></span> Log in</a></li>
