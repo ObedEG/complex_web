@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <title>
+
+        TE WebTools &middot;
+
+    </title>
+
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/toolkit-inverse.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/application.css') }}">
+
+    <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <style>
+      /* note: this is a hack for ios iframe for bootstrap themes shopify page */
+      /* this chunk of css is not part of the toolkit :) */
+      body {
+        width: 1px;
+        min-width: 100%;
+        *width: 100%;
+      }
+    </style>
+  </head>
+<body>
+
+<div class="with-iconav">
+
+  <nav class="iconav">
+    <a class="iconav-brand" href="">
+      <span class="fa fa-rebel fa-2x iconav-brand-icon"></span>
+    </a>
+    <div class="iconav-slider">
+      <ul class="nav nav-pills iconav-nav flex-md-column">
+        <li class="nav-item">
+          <a class="nav-link" href="" title="Home" data-toggle="tooltip" data-placement="right" data-container="body">
+            <span class="fa fa-home"></span>
+            <small class="iconav-nav-label hidden-md-up">Home</small>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="" title="Order history" data-toggle="tooltip" data-placement="right" data-container="body">
+            <span class="fa fa-cog"></span>
+            <small class="iconav-nav-label hidden-md-up">History</small>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="" title="Fluid layout" data-toggle="tooltip" data-placement="right" data-container="body">
+            <span class="fa fa-windows fa-2x"></span>
+            <small class="iconav-nav-label hidden-md-up">Fluid layout</small>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="" title="Icon-nav" data-toggle="tooltip" data-placement="right" data-container="body">
+            <span class="fa fa-wechat"></span>
+            <small class="iconav-nav-label hidden-md-up">Icon nav</small>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="" title="Docs" data-toggle="tooltip" data-placement="right" data-container="body">
+            <span class="fa fa-linux fa-2x"></span>
+            <small class="iconav-nav-label hidden-md-up">Docs</small>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="" title="Light UI" data-toggle="tooltip" data-placement="right" data-container="body">
+            <span class="fa fa-spinner fa-pulse"></span>
+            <small class="iconav-nav-label hidden-md-up">Light UI</small>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" title="Signed in as mdo" data-toggle="tooltip" data-placement="right" data-container="body">
+            <img src="../assets/img/20150509_145619.jpg" alt="" class="rounded-circle">
+            <small class="iconav-nav-label hidden-md-up">@mdo</small>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+{% block content %}
+
+{% endblock %}
+</div>
+
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tether.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tablesorter.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/toolkit.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/application.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script>
+      // execute/clear BS loaders for docs
+      $(function(){while(window.BS&&window.BS.loader&&window.BS.loader.length){(window.BS.loader.pop())()}})
+    </script>
+  </body>
+</html>

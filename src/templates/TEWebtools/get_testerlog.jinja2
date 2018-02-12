@@ -1,0 +1,42 @@
+{% extends "TEWebtools/base_webtools.jinja2" %}
+{% block content %}
+<div class="container">
+    <div class="dashhead">
+      <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Complex Web</h6>
+        <h3 class="dashhead-title">TE - WebTools</h3>
+      </div>
+    </div>
+        <hr class="mt-0 mb-5">
+
+    <h4 id="flex-table">tester.log - CATCHER</h4>
+
+    <p>Scan a Serial Number to search and dowload from our database </p>
+        <div class="docs-example" data-example-id="">
+            <form action="{{ url_for('TEWebtools.get_tstlog') }}" id="eventForm" method="post">
+                <div class="flextable">
+                  <div class="flextable-item flextable-primary">
+                    <input type="text" class="form-control" id="serial" name="serial" placeholder="" />
+                  </div>
+                  <div class="flextable-item">
+                    <div class="btn-group">
+                      <button type="submit" class="btn btn-outline-primary">
+                        <span class="fa fa-search"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+            </form>
+        </div>
+
+    <!--
+    Agregar la lista de tester.log que encuentre ...
+    se deben de sortear de manera que el primero sea el mas actualizado
+    agregar la fecha/hora de la ultima modificacion del tester.log
+    agregar procedencia : "L1 - 172.20.21.XX" , "L2" , "L3 BACKUP"
+    dar la opcion de un boton "DOWLOAD"
+    Inventar un nombre para el tester.log de descarga... puede ser con el SN de la UNIDAD y su procedencia/fecha
+    -->
+
+</div>
+{% endblock %}

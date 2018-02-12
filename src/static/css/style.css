@@ -55,3 +55,10 @@ img {
   -webkit-text-stroke-width: 1px;
 -webkit-text-stroke-color: #000000;
 }
+
+hr.light {
+    width:70%;
+    margin:0 auto;
+    border:0px none white;
+    border-top:1px solid lightgrey;
+}
