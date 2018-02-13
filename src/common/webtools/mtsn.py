@@ -24,6 +24,6 @@ class MTSN(object):
 
     @staticmethod
     def get_from_l2(pathl2):
-        command = "ssh" + credentials.L2_IP + "ls" + pathl2 + "1>&2"
+        command = "ssh" + " " + credentials.L2_IP + " ls " + pathl2 + " 1>&2"
         response = subprocess.run(command, stderr=subprocess.PIPE, shell=True)
         return response.stderr
