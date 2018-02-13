@@ -1,3 +1,6 @@
+import subprocess
+from src.common.webtools import credentials
+
 
 class MTSN(object):
 
@@ -19,4 +22,8 @@ class MTSN(object):
             return self.serial[-8:]  # MTSN - Purley
         return self.serial[2:6] + self.serial[9:13] + "." + self.serial[13:]  # MTSN - Legacy
 
-
+    @staticmethod
+    def get_from_l2(pathl2):
+        command = "ssh" + credentials.L2_IP + "ls" + pathl2 + "1>&2"
+        response = subprocess.run(command, stderr=subprocess.PIPE, shell=True)
+        return response.stderr
