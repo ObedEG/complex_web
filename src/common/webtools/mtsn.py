@@ -1,37 +1,65 @@
 import subprocess
-from src.common.webtools import credentials
+from src.common.webtools import credentials as crd
 
 
 class MTSN(object):
 
     def __init__(self, serial_number):
         self.serial = serial_number.upper()
-        self.mt = self.serial[2:6]
-        self.model = self.get_model()
+        self.mtm = self.get_mtm()
+        self.sn = self.get_sn()
         self.mtsn = self.get_mtsn()
-        self.pathl2 = "/dfcxact/old-mtsn/" + self.mtsn
-        self.pathl2_work = "/dfcxact/work/old_mtsn/" + self.mtsn  # despues de 2-3 dias se mueve aca...
-        #  self.pathl3 = self.get_list_path_l3()  # despues de una semana, se mueve al L3_BKUP
+        self.path_mtsn = self.get_available_mtsn()
+        # self.pathl2 = "/dfcxact/old-mtsn/" + self.mtsn
+        # self.pathl2_work = "/dfcxact/work/old_mtsn/" + self.mtsn  # despues de 2-3 dias se mueve aca...
+        # self.pathl3 = self.get_list_path_l3()  # despues de una semana, se mueve al L3_BKUP
 
-    def get_model(self):
-        if len(self.serial) > 16:
-            return self.serial[6:12]
-        return self.serial[6:9]
+    def get_mtm(self):
+        return self.serial[2:].split("J")[0]  # Remove 1S and get the 1st splitted str before 'J' (sn)
+
+    def get_sn(self):
+        return self.serial[2:].replace(self.mtm, '')  # Remove 1S and MTM to get the sn
 
     def get_mtsn(self):
-        if len(self.serial) > 16:
-            return self.serial[-8:]  # MTSN - Purley
-        return self.serial[2:6] + self.serial[9:13] + "." + self.serial[13:]  # MTSN - Legacy
+        mtsn_list = []
+        if len(self.sn) > 7:
+            mtsn_list.append('{}'.format(self.sn))  # MTSN - Purley
+        else:
+            mtsn_list.append('0{}'.format(self.sn))
+        mtsn_list.append('{}{}.{}'.format(self.mtm[:4], self.sn[:4], self.sn[4:]))  # MTSN - Legacy
+        return mtsn_list
 
-    def get_list_path_l3(self):
-        command = "ls -d /data/old-mtsn/*/" + self.mtsn + " 1>&2"
-        remote_shell = "ssh " + credentials.L3_BKUP_IP + command
-        mtsn_list = subprocess.run(remote_shell, stderr=subprocess.PIPE, shell=True)
-        return mtsn_list.stderr  # lista de paths encontradas en L3. . . !!!!!!!!!!!!!!!!!!!
+    def get_available_mtsn(self):
+        available_mtsn = []
+        for mtsn in self.mtsn:
+            available_mtsn.append(self.check_exists_mtsn(paths=self.path_l2(self.mtsn),
+                                                         server='10.34.70.220'))
+        return True
+
+    def check_exists_mtsn(self, paths, server):
+        """
+        This method check if a folder mtsn exists and return the list of mtsn available
+        :param paths: This is a list of paths "/dfcxact/.../<MSTN>"
+        :param server: L2 or BKUP
+        :return: list of mtsn available
+        """
+        mtsn_exists = []
+        for path in paths:
+            command = 'test -d ' + path + ' && echo True || echo False'
+            remote_shell = 'ssh ' + server + command
+            if subprocess.run(remote_shell, stderr=subprocess.PIPE, shell=True).stdout == 'True':
+                mtsn_exists.append(path)
+        return mtsn_exists
+
+    def path_l2(self, mtsn):
+        path_l2 = []
+        path_l2.append('/dfcxact/mtsn/{}'.format(mtsn))  # Index 0
+        path_l2.append('/dfcxact/old-mtsn/{}'.format(mtsn))  # Index 1
+        path_l2.append('/dfcxact/work/old_mtsn/{}'.format(mtsn))  # Index 2
+        return path_l2
 
     @staticmethod
-    def get_from_l2(pathl2):
-        command = " ls -d " + pathl2 + " 1>&2"
-        remote_shell = "ssh " + credentials.L2_IP + command
-        response = subprocess.run(remote_shell, stderr=subprocess.PIPE, shell=True)
-        return response.stderr
+    def path_bkup(mtsn):
+        path_backup = []
+        path_backup.append('/data/old-mtsn/*/{}'.format(mtsn))
+        return path_backup
