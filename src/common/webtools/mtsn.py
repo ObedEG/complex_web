@@ -9,7 +9,7 @@ class MTSN(object):
         self.mtm = self.get_mtm()
         self.sn = self.get_sn()
         self.mtsn = self.get_mtsn()
-        self.path_mtsn = self.get_available_mtsn()
+        self.path_mtsn = self.get_available_mtsn_l2()
         # self.pathl2 = "/dfcxact/old-mtsn/" + self.mtsn
         # self.pathl2_work = "/dfcxact/work/old_mtsn/" + self.mtsn  # despues de 2-3 dias se mueve aca...
         # self.pathl3 = self.get_list_path_l3()  # despues de una semana, se mueve al L3_BKUP
@@ -29,12 +29,12 @@ class MTSN(object):
         mtsn_list.append('{}{}.{}'.format(self.mtm[:4], self.sn[:4], self.sn[4:]))  # MTSN - Legacy
         return mtsn_list
 
-    def get_available_mtsn(self):
+    def get_available_mtsn_l2(self):
         available_mtsn = []
         for mtsn in self.mtsn:
-            available_mtsn.append(self.check_exists_mtsn(paths=self.path_l2(self.mtsn),
+            available_mtsn.append(self.check_exists_mtsn(paths=self.path_l2(mtsn),
                                                          server='10.34.70.220'))
-        return True
+        return available_mtsn
 
     def check_exists_mtsn(self, paths, server):
         """

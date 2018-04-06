@@ -9,12 +9,12 @@ webtool_blueprint = Blueprint('TEWebtools', __name__)
 def get_tstlog():
     if request.method == 'POST':
         unit = MTSN(request.form['serial'])
-        return render_template('TEWebtools/results.jinja2', path=unit.pathl2)
+        return render_template('TEWebtools/results.jinja2', path=unit.get_available_mtsn_l2())
     return render_template('TEWebtools/get_testerlog.jinja2')
 
 
 @webtool_blueprint.context_processor
 def utility_webtool():
-    def get_testerlog(pathtol2):
-        return MTSN.get_from_l2(pathtol2)
+    def get_testerlog(mtsn):
+        return True
     return dict(get_testerlog=get_testerlog)
