@@ -1,4 +1,5 @@
 import subprocess
+import shlex
 from src.common.webtools import credentials as crd
 
 
@@ -36,7 +37,7 @@ class MTSN(object):
                                                          server='10.34.70.220'))
         return available_mtsn
 
-    def check_exists_mtsn(self, paths, server):
+    def check_exists_mtsn(paths, server):
         """
         This method check if a folder mtsn exists and return the list of mtsn available
         :param paths: This is a list of paths "/dfcxact/.../<MSTN>"
@@ -46,8 +47,10 @@ class MTSN(object):
         mtsn_exists = []
         for path in paths:
             command = 'test -d ' + path + ' && echo True || echo False'
-            remote_shell = 'ssh ' + server + command
-            if subprocess.run(remote_shell, stderr=subprocess.PIPE, shell=True).stdout == 'True':
+            remote_shell = 'ssh ' + server + ' ' + command
+            args = shlex.split(remote_shell)
+            shell_result = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
+            if shell_result.stdout.strip().decode('ascii') == 'True':
                 mtsn_exists.append(path)
         return mtsn_exists
 
