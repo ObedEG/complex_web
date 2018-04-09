@@ -37,7 +37,7 @@ class MTSN(object):
                                                          server='10.34.70.220'))
         return available_mtsn
 
-    def check_exists_mtsn(paths, server):
+    def check_exists_mtsn(self, paths, server):
         """
         This method check if a folder mtsn exists and return the list of mtsn available
         :param paths: This is a list of paths "/dfcxact/.../<MSTN>"
