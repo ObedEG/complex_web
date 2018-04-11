@@ -1,6 +1,7 @@
 from flask import Blueprint, session, render_template, url_for, request
 from src.common.webtools.mtsn import MTSN
 from werkzeug.utils import redirect
+import shlex, subprocess
 
 webtool_blueprint = Blueprint('TEWebtools', __name__)
 
@@ -9,7 +10,7 @@ webtool_blueprint = Blueprint('TEWebtools', __name__)
 def get_tstlog():
     if request.method == 'POST':
         unit = MTSN(request.form['serial'])
-        return render_template('TEWebtools/results.jinja2', path=unit.path_mtsn)
+        return render_template('TEWebtools/results.jinja2', paths=unit.path_mtsn, server='10.34.70.220')
     return render_template('TEWebtools/get_testerlog.jinja2')
 
 
@@ -17,4 +18,17 @@ def get_tstlog():
 def utility_webtool():
     def get_testerlog(path):
         return print(path)
-    return dict(get_testerlog=get_testerlog)
+
+    def dict_path_date(paths, server):
+        dict_path_server = {}
+        for path in paths:
+            command = 'date -r ' + path
+            remote_shell = 'ssh ' + server + ' ' + command
+            args = shlex.split(remote_shell)
+            shell_result = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
+            dict_path_server[path] = shell_result.stdout
+            print(dict_path_server)
+        print(dict_path_server)
+        return dict_path_server
+
+    return dict(get_testerlog=get_testerlog, dict_path_date=dict_path_date)

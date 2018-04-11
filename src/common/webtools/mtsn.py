@@ -65,7 +65,7 @@ class MTSN(object):
         return path_l2
 
     @staticmethod
-    def show_folder_date(paths, server):
+    def dict_folder_date(paths, server):
         """
         This function shows to the web user the DATE, time, path, Server
         :param paths: list of available mstn-paths
