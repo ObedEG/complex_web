@@ -20,15 +20,20 @@ def utility_webtool():
         return print(path)
 
     def dict_path_date(paths, server):
+        """
+                :param paths: list of available mstn-paths
+                :param server: would be L2 or Backup
+                :return: dict_path_date_server - this is a dict which PATH is key and DATE is the value
+        """
         dict_path_server = {}
         for path in paths:
             command = 'date -r ' + path
             remote_shell = 'ssh ' + server + ' ' + command
             args = shlex.split(remote_shell)
             shell_result = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
-            dict_path_server[path] = shell_result.stdout
+            dict_path_server[path] = shell_result.stdout.strip().decode('ascii')
             print(dict_path_server)
         print(dict_path_server)
-        return dict_path_server
+        return dict_path_server  # dict -> { '/dfcxact/old-mtsn/J10039LP': 'Sun Apr  8 10:23:47 CDT 2018' }
 
     return dict(get_testerlog=get_testerlog, dict_path_date=dict_path_date)
