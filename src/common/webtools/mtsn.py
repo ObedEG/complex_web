@@ -1,11 +1,11 @@
 import subprocess
 import shlex
-import pandas as pd
+#import pandas as pd
 from src.common.webtools import credentials as crd
 
 
 class MTSN(object):
-
+    
     def __init__(self, serial_number):
         self.serial = serial_number.upper()
         self.mtm = self.get_mtm()
