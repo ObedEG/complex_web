@@ -1,5 +1,6 @@
 import subprocess
 import shlex
+import pandas as pd
 from src.common.webtools import credentials as crd
 
 
@@ -62,6 +63,25 @@ class MTSN(object):
         path_l2.append('/dfcxact/old-mtsn/{}'.format(mtsn))  # Index 1
         path_l2.append('/dfcxact/work/old_mtsn/{}'.format(mtsn))  # Index 2
         return path_l2
+
+    @staticmethod
+    def show_folder_date(paths, server):
+        """
+        This function shows to the web user the DATE, time, path, Server
+        :param paths: list of available mstn-paths
+        :param server: would be L2 or Backup
+        :return: dict_path_date_server - this is a dict which PATH is key and DATE is the value
+        """
+        dict_path_server = {}
+        for path in paths:
+            command = 'date -r ' + path
+            remote_shell = 'ssh ' + server + ' ' + command
+            args = shlex.split(remote_shell)
+            shell_result = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
+            dict_path_server[path] = shell_result.stdout
+            print(dict_path_server)
+        print(dict_path_server)
+        return dict_path_server  # dict -> { '/dfcxact/old-mtsn/J10039LP': 'Sun Apr  8 10:23:47 CDT 2018' }
 
     @staticmethod
     def path_bkup(mtsn):
