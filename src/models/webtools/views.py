@@ -10,8 +10,17 @@ webtool_blueprint = Blueprint('TEWebtools', __name__)
 def get_tstlog():
     if request.method == 'POST':
         unit = MTSN(request.form['serial'])
-        return render_template('TEWebtools/results.jinja2', paths=unit.path_mtsn, server='10.34.70.220')
+
+        return render_template('TEWebtools/results.jinja2', paths=unit.pathl2_mtsn, server='10.34.70.220')
     return render_template('TEWebtools/get_testerlog.jinja2')
+
+
+@webtool_blueprint.route('/copy_folder/<string:path>', methods=['POST', 'GET'])
+def show_folder(path):
+    if request.method == 'POST':
+        unit = MTSN(request.form['serial'])
+        return render_template('TEWebtools/get_mtsn_results.jinja2', unit=unit.pathl2_mtsn, server='10.34.70.220')
+    return render_template('TEWebtools/get_mtsn.jinja2')
 
 
 @webtool_blueprint.context_processor
