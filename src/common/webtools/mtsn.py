@@ -33,7 +33,7 @@ class MTSN(object):
         Quick fix to get a uniq mtsn... not a list of 2 mtsn
         """
         for mtsn in mtsn_list:
-            cmd = 'ssh ls 10.34.70.220 /dfcxact/mtsn/'.format(mtsn)
+            cmd = 'ssh ls 10.34.70.220 /dfcxact/mtsn/{}'.format(mtsn)
             args = shlex.split(cmd)
             r = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
             if r.returncode != 0:
