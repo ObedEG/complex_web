@@ -29,7 +29,16 @@ class MTSN(object):
         else:
             mtsn_list.append('0{}'.format(self.sn))
         mtsn_list.append('{}{}.{}'.format(self.mtm[:4], self.sn[:4], self.sn[4:]))  # MTSN - Legacy
-        return mtsn_list
+        """
+        Quick fix to get a uniq mtsn... not a list of 2 mtsn
+        """
+        for mtsn in mtsn_list:
+            cmd = 'ssh ls 10.34.70.220 /dfcxact/mtsn/'.format(mtsn)
+            args = shlex.split(cmd)
+            r = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
+            if r.returncode != 0:
+                mtsn_list.remove(mtsn)
+        return mtsn_list[0]
 
     def get_available_mtsn_l2(self):
         available_mtsn = []
