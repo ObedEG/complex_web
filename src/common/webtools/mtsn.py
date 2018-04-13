@@ -41,12 +41,8 @@ class MTSN(object):
         return mtsn_list[0]
 
     def get_available_mtsn_l2(self):
-        available_mtsn = []
-        checked_path = self.check_exists_mtsn(paths=self.path_l2(self.mtsn), server='10.34.70.220')
-        for path in checked_path:
-            if path != []:
-                available_mtsn.extend(checked_path)
-        return available_mtsn
+        return self.check_exists_mtsn(paths=self.path_l2(self.mtsn), server='10.34.70.220')
+
 
     def check_exists_mtsn(self, paths, server):
         """
