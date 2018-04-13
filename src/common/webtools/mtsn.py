@@ -33,7 +33,7 @@ class MTSN(object):
         Quick fix to get a uniq mtsn... not a list of 2 mtsn
         """
         for mtsn in mtsn_list:
-            cmd = 'ssh ls 10.34.70.220 /dfcxact/mtsn/{}'.format(mtsn)
+            cmd = 'ssh 10.34.70.220 ls /dfcxact/mtsn/{}'.format(mtsn)
             args = shlex.split(cmd)
             r = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
             if r.returncode != 0:
@@ -42,9 +42,9 @@ class MTSN(object):
 
     def get_available_mtsn_l2(self):
         available_mtsn = []
-        for mtsn in self.mtsn:
-            checked_path = self.check_exists_mtsn(paths=self.path_l2(mtsn), server='10.34.70.220')
-            if checked_path != []:
+        checked_path = self.check_exists_mtsn(paths=self.path_l2(self.mtsn), server='10.34.70.220')
+        for path in checked_path:
+            if path != []:
                 available_mtsn.extend(checked_path)
         return available_mtsn
 
