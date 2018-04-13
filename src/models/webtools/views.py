@@ -11,15 +11,15 @@ def get_tstlog():
     if request.method == 'POST':
         unit = MTSN(request.form['serial'])
 
-        return render_template('TEWebtools/results.jinja2', paths=unit.pathl2_mtsn, server='10.34.70.220')
+        return render_template('TEWebtools/results.jinja2', paths=unit.paths_l2_mtsn, server='10.34.70.220')
     return render_template('TEWebtools/get_testerlog.jinja2')
 
 
-@webtool_blueprint.route('/copy_folder/<string:path>', methods=['POST', 'GET'])
-def show_folder(path):
+@webtool_blueprint.route('/get_mtsn/', methods=['POST', 'GET'])
+def show_folder():
     if request.method == 'POST':
         unit = MTSN(request.form['serial'])
-        return render_template('TEWebtools/get_mtsn_results.jinja2', unit=unit.pathl2_mtsn, server='10.34.70.220')
+        return render_template('TEWebtools/get_mtsn_results.jinja2', unit=unit.paths_l2_mtsn, server='10.34.70.220')
     return render_template('TEWebtools/get_mtsn.jinja2')
 
 
