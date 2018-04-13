@@ -1,9 +1,5 @@
 {% extends "TEWebtools/base_webtools.jinja2" %}
 {% block content %}
-
-
-{% extends "TEWebtools/base_webtools.jinja2" %}
-{% block content %}
 <div class="container">
     <div class="dashhead">
       <div class="dashhead-titles">
@@ -16,6 +12,7 @@
     <h4 id="flex-table">MTSN - CATCHER</h4>
 
     <p>Scan a Serial Number to search in the L2 (10.34.70.220) </p>
+    
         <div class="docs-example" data-example-id="">
             <form action="{{ url_for('TEWebtools.show_folder') }}" id="eventForm" method="post">
                 <div class="flextable">
@@ -33,32 +30,5 @@
             </form>
         </div>
 
-    <!--
-    Agregar la lista de tester.log que encuentre ...
-    se deben de sortear de manera que el primero sea el mas actualizado
-    agregar la fecha/hora de la ultima modificacion del tester.log
-    agregar procedencia : "L1 - 172.20.21.XX" , "L2" , "L3 BACKUP"
-    dar la opcion de un boton "DOWLOAD"
-    Inventar un nombre para el tester.log de descarga... puede ser con el SN de la UNIDAD y su procedencia/fecha
-    -->
-
 </div>
-{% endblock %}
-
-
-<!--
-
-
-<div class="page-header">
-        <h1>Select a Rack to edit info:</h1>
-    </div>
-    <div class="list-group">
-        {% for path in paths %}
-            <a href="{{ url_for('racks.edit_info', rack_id=rack._id) }}" class="list-group-item">
-                <h4 class="list-group-item-heading">
-                    <span class="glyphicon glyphicon-remove-circle"></span> Rack {{ rack.rackid }} || {{ rack.customer }}, lerom: {{ rack.lerom }}</h4>
-                    type: <strong>{{ rack.racktype }}</strong></p></a>
-        {% endfor %}
-    </div>
---->
 {% endblock %}
