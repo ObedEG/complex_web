@@ -19,7 +19,7 @@ def get_tstlog():
 def show_folder():
     if request.method == 'POST':
         unit = MTSN(request.form['serial'])
-        return render_template('TEWebtools/get_mtsn_results.jinja2', unit=unit.paths_l2_mtsn, server='10.34.70.220')
+        return render_template('TEWebtools/get_mtsn_results.jinja2', unit=unit, server='10.34.70.220')
     return render_template('TEWebtools/get_mtsn.jinja2')
 
 
