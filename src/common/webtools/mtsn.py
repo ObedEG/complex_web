@@ -1,5 +1,7 @@
 import subprocess
 import shlex
+import os
+import zipfile
 #import pandas as pd
 from src.common.webtools import credentials as crd
 
@@ -75,3 +77,39 @@ class MTSN(object):
         #   ['/data/old-mtsn/16-12-50/5465J103.G64',
         #   '/data/old-mtsn/16-12-51/5465J103.G64',
         #   '/data/old-mtsn/16-12-52/5465J103.G64']
+
+    @staticmethod
+    def copy_folder(mtsn, path, server):
+        here = path.replace(mtsn, '')
+        cmd = 'scp -r ' + server + ':' + path + ' ' + here
+        args = shlex.split(cmd)
+        r = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
+        return r.returncode  # 0 means it ran successfully!
+
+    @staticmethod
+    def zip_mtsn(path, mtsn):
+        """
+        :param path: /dfcxact/old-mtsn/J1003EMG/
+        :param mtsn: J1003EMG
+        :return: 0 if the .zip was created . . .
+        """
+        cwdpath = os.getcwd()  # save original path (*where you run this py file)
+        zip_name = mtsn + '.zip'
+        zf = zipfile.ZipFile(zip_name, "w")
+        path_mtsn = path.replace(mtsn, '')
+        absfolder = os.path.abspath(path_mtsn)  # make sure folder is absolute
+        os.chdir(absfolder)
+        for dirs, subdirs, files in os.walk('./' + mtsn):
+            zf.write(dirs)
+            for filename in files:
+                zf.write(os.path.join(dirs, filename))
+        zf.close()
+        os.chdir(cwdpath)
+        """
+        This is a very simple solution...
+        Pending provide a clean up for mtsn and its .zip files
+        """
+        cmd = 'ls ' + path_mtsn + mtsn + '.zip'
+        args = shlex.split(cmd)
+        r = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
+        return r.returncode  # 0 means it ran successfully!

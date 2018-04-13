@@ -1,4 +1,4 @@
-from flask import Blueprint, session, render_template, url_for, request
+from flask import Blueprint, session, render_template, url_for, request,send_file
 from src.common.webtools.mtsn import MTSN
 from werkzeug.utils import redirect
 import shlex, subprocess
@@ -21,6 +21,17 @@ def show_folder():
         unit = MTSN(request.form['serial'])
         return render_template('TEWebtools/get_mtsn_results.jinja2', unit=unit, server='10.34.70.220')
     return render_template('TEWebtools/get_mtsn.jinja2')
+
+
+@webtool_blueprint.route('/get_mtsn/<string:mtsn>', methods=['POST'])
+def download_folder(mtsn, path, server):
+    if request.method == 'POST':
+        if MTSN.copy_folder(mtsn, path, server) == 0:
+            try:
+                if MTSN.zip_mtsn(path, mtsn) == 0:
+                    return send_file(path, attachment_filename=mtsn + '.zip')
+            except Exception as e:
+                return str(e)
 
 
 @webtool_blueprint.context_processor
