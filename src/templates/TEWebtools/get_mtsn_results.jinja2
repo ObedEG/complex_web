@@ -29,11 +29,11 @@
                               </tr>
                           </thead>
                           <tbody>
-                          {{ dict_path_date(unit.paths_l2_mtsn, server) }}
+
                           {% for path in unit.paths_l2_mtsn %}
-                              <tr class="active">
+                              <tr>
                                 <td><span class="glyphicon glyphicon-menu-right"></span>  {{ path }}</td>
-                                <td>{{ dict_path_date[path] }}</td>
+                                <td>{{ dict_path_date(path, server) }}</td>
                                 <td><strong>{{ server }}</strong></td>
                                 <td>
                                     <p class="bs-component">

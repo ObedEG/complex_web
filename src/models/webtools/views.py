@@ -28,21 +28,16 @@ def utility_webtool():
     def get_testerlog(path):
         return print(path)
 
-    def dict_path_date(paths, server):
+    def dict_path_date(path, server):
         """
-                :param paths: list of available mstn-paths
+                :param path: available mstn-path
                 :param server: would be L2 or Backup
-                :return: dict_path_date_server - this is a dict which PATH is key and DATE is the value
+                :return: DATE from l2 --- date -r
         """
-        dict_path_server = {}
-        for path in paths:
-            command = 'date -r ' + path
-            remote_shell = 'ssh ' + server + ' ' + command
-            args = shlex.split(remote_shell)
-            shell_result = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
-            dict_path_server[path] = shell_result.stdout.strip().decode('ascii')
-            print(dict_path_server)
-        print(dict_path_server)
-        return dict_path_server  # dict -> { '/dfcxact/old-mtsn/J10039LP': 'Sun Apr  8 10:23:47 CDT 2018' }
+        cmd = 'date -r ' + path
+        r = 'ssh ' + server + ' ' + cmd
+        args = shlex.split(r)
+        shell_result = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
+        return shell_result.stdout.strip().decode('ascii')  # /dfcxact/old-mtsn/J10039LP, 'Sun Apr  8 10:23:47 CDT 2018'
 
     return dict(get_testerlog=get_testerlog, dict_path_date=dict_path_date)
