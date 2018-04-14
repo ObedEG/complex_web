@@ -24,13 +24,16 @@ def show_folder():
 
 
 @webtool_blueprint.route('/download_mtsn/')
-def download_folder(mtsn, path, server):
-        if MTSN.copy_folder(mtsn, path, server) == 0:
-            try:
-                if MTSN.zip_mtsn(path, mtsn) == 0:
-                    return send_file(path, attachment_filename=mtsn + '.zip')
-            except Exception as e:
-                return str(e)
+def download_folder():
+    mtsn = request.args.get('mtsn')
+    path = request.args.get('path')
+    server = request.args.get('server')
+    if MTSN.copy_folder(mtsn, path, server) == 0:
+        try:
+            if MTSN.zip_mtsn(path, mtsn) == 0:
+                return send_file(path, attachment_filename=mtsn + '.zip')
+        except Exception as e:
+            return str(e)
 
 
 @webtool_blueprint.context_processor
