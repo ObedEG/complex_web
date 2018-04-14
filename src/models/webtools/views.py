@@ -25,9 +25,12 @@ def show_folder():
 
 @webtool_blueprint.route('/download_mtsn/<string:server><path:path>/<string:mtsn>.zip')
 def download_folder(server, path, mtsn):
+    print('Here you have the server: {}, path: {} and mtsn: {}'.format(server, path, mtsn))
     if MTSN.copy_folder(mtsn, path, server) == 0:
+        print('I passed the copy_folder function!!')
         try:
             if MTSN.zip_mtsn(path, mtsn) == 0:
+                print('I passed the zip_mtsn function!!')
                 return send_file(path, attachment_filename=mtsn + '.zip')
         except Exception as e:
             return str(e)
