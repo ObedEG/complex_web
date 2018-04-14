@@ -23,7 +23,7 @@ def show_folder():
     return render_template('TEWebtools/get_mtsn.jinja2')
 
 
-@webtool_blueprint.route('/download_mtsn/<string:server>/<path:path>/<string:mtsn>')
+@webtool_blueprint.route('/download_mtsn/<string:server><path:path>/<string:mtsn>.zip')
 def download_folder(server, path, mtsn):
     if MTSN.copy_folder(mtsn, path, server) == 0:
         try:
