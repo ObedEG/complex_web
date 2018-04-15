@@ -100,10 +100,11 @@ class MTSN(object):
         """
         cwdpath = os.getcwd()  # save original path (*where you run this py file)
         zip_name = mtsn + '.zip'
-        zf = zipfile.ZipFile(zip_name, "w")
         path_mtsn = path.replace(mtsn, '')
         absfolder = os.path.abspath(path_mtsn)  # make sure folder is absolute
         os.chdir(absfolder)
+        # Create Zipfile at absfolder ....could be: /dfcxact/mtsn
+        zf = zipfile.ZipFile(zip_name, "w")
         for dirs, subdirs, files in os.walk('./' + mtsn):
             zf.write(dirs)
             for filename in files:
