@@ -1,7 +1,7 @@
 from flask import Blueprint, session, render_template, url_for, request,send_file
 from src.common.webtools.mtsn import MTSN
 from werkzeug.utils import redirect
-import shlex, subprocess
+import shlex, subprocess, os
 
 webtool_blueprint = Blueprint('TEWebtools', __name__)
 
@@ -23,7 +23,6 @@ def show_folder():
     return render_template('TEWebtools/get_mtsn.jinja2')
 
 
-#  _<string:server>_<path:path>_<string:mtsn>.zip
 @webtool_blueprint.route('/download_mtsn', methods=['GET'])
 def download_folder():
     server = request.args.get('server')
@@ -35,7 +34,9 @@ def download_folder():
         try:
             if MTSN.zip_mtsn(path, mtsn) == 0:
                 print('I passed the zip_mtsn function!!')
-                return send_file(path + '.zip', attachment_filename=mtsn + '.zip')
+                absfolder = os.path.abspath(path)
+                print(absfolder + '.zip')
+                return send_file(absfolder + '.zip', attachment_filename=mtsn + '.zip') # Revisar por que pasa "download_folder.zip"
         except Exception as e:
             return str(e)
 
