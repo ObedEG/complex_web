@@ -37,7 +37,7 @@
                                 <td><strong>{{ server }}</strong></td>
                                 <td>
                                     <p class="bs-component">
-                                        <a href="{{ url_for('TEWebtools.download_folder', mtsn=unit.mtsn, path=path, server=server) }}" class="btn btn-success">Download</a>
+                                        <a href="{{ url_for('TEWebtools.download_folder', server=server, path=path, mtsn=unit.mtsn) }}" class="btn btn-success">Download</a>
                                     </p>
                                 </td>
                               </tr>

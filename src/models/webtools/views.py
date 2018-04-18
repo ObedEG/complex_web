@@ -1,7 +1,7 @@
 from flask import Blueprint, session, render_template, url_for, request,send_file
 from src.common.webtools.mtsn import MTSN
 from werkzeug.utils import redirect
-import shlex, subprocess
+import shlex, subprocess, os
 
 webtool_blueprint = Blueprint('TEWebtools', __name__)
 
@@ -23,14 +23,22 @@ def show_folder():
     return render_template('TEWebtools/get_mtsn.jinja2')
 
 
-@webtool_blueprint.route('/download_mtsn/')
-def download_folder(mtsn, path, server):
-        if MTSN.copy_folder(mtsn, path, server) == 0:
-            try:
-                if MTSN.zip_mtsn(path, mtsn) == 0:
-                    return send_file(path, attachment_filename=mtsn + '.zip')
-            except Exception as e:
-                return str(e)
+@webtool_blueprint.route('/download_mtsn', methods=['GET'])
+def download_folder():
+    server = request.args.get('server')
+    path = request.args.get('path')
+    mtsn = request.args.get('mtsn')
+    print('Here you have the server: {}, path: {} and mtsn: {}'.format(server, path, mtsn))
+    if MTSN.copy_folder(mtsn, path, server) == 0:
+        print('I passed the copy_folder function!!')
+        try:
+            if MTSN.zip_mtsn(path, mtsn) == 0:
+                print('I passed the zip_mtsn function!!')
+                absfolder = os.path.abspath(path)
+                print(absfolder + '.zip')
+                return send_file(absfolder + '.zip', attachment_filename=mtsn + '.zip') # Revisar por que pasa "download_folder.zip"
+        except Exception as e:
+            return str(e)
 
 
 @webtool_blueprint.context_processor
