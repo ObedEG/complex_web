@@ -1,10 +1,12 @@
-from src.common.webtools import credentials
+import shlex
+import subprocess
 
 
 class Utils(object):
-    if __name__ == '__main__':
-        @staticmethod
-        def serial_num_handler(sn):
-            return True
 
-    #  queda pendiente hacer las conexiones al L2 para mandar llamar los MTSN . .
+    @staticmethod
+    def run_shell(cmd):
+        args = shlex.split(cmd)
+        r = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
+        return r.returncode  # 0 means it ran successfully!
+
