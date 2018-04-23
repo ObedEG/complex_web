@@ -10,12 +10,12 @@ class Unit(object):
         self.sn = self.get_sn()
         self.path_to_xml = self.get_path_xml()  # string '/data/CSC/mediabuild/<serial>.xml'
         self.macs = self.get_macs()  # list of macs ---> 08:94:ef:59:cf:45
-        self.Shipdate = self.get_dict_data['Shipdate']
-        self.MONUMBER = self.get_dict_data['MONUMBER']
-        self.SONUMBER = self.get_dict_data['SONUMBER']
-        self.SOLINEITEM = self.get_dict_data['SOLINEITEM']
-        self.Customer_name = self.get_dict_data['Customer_name']
-        self.Order_qty = self.get_dict_data['Order_qty']
+        self.Shipdate = self.get_dict_data()['Shipdate']
+        self.MONUMBER = self.get_dict_data()['MONUMBER']
+        self.SONUMBER = self.get_dict_data()['SONUMBER']
+        self.SOLINEITEM = self.get_dict_data()['SOLINEITEM']
+        self.Customer_name = self.get_dict_data()['Customer_name']
+        self.Order_qty = self.get_dict_data()['Order_qty']
 
     def get_mtm(self):
         return self.serial[2:].split("J", 1)[0]  # Remove 1S, split until 1st J
