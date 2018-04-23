@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 class XML2DataFrame:
 
     def __init__(self, xml_data):
-        self.tree = ET.parse(xml_data)  #  xml_data is the path-file where is located
+        self.tree = ET.parse(xml_data)  # xml_data -> path/file location
         self.root = self.tree.getroot()
 
     def parse_root(self):
@@ -26,22 +26,41 @@ class XML2DataFrame:
 #        structure_data = self.parse_root(self.root)
 #        return pd.DataFrame(structure_data)
 
-"""
->>> new_element[0]
-<Element 'filename' at 0x7f49a792a638>
->>> new_element[1]
-<Element 'bomout' at 0x7f49a792a6d8>
->>> new_element[2]
-<Element 'dfcout' at 0x7f49a792a728>
+    def get_kitmacs(self):
+        return self.parse_root()[0]['kitmacs'].split()
 
-See get_mackit --- in unit.py --- to get macs
->>> new_element[3]
-<Element 'kitmacs' at 0x7f49a792a778>
+        """
+        mac_list_xml
+        ['MACKIT3=23S0894EF59D3F7',
+        'MACKIT4=23S0894EF59D3F4',
+        ...
+        'ZATTR_00YD664-USBCAPT-0002-000=MACKIT5',
+        'ZATTR_SBB7A01802-SB27A36576-0001-056=MACKIT1;MACKIT2;MACKIT3;MACKIT4']
+        """
 
->>> new_element[4]
-<Element 'vars' at 0x7f49a792a7c8>
->>> new_element[5]
-<Element 'orderdata' at 0x7f49a792a818>
->>> new_element[6]
-<Element 'nested' at 0x7f49a792a908>
-"""
+    def get_orderdata(self):
+        """
+
+        :return: a dict of xml - orderdata
+        """
+        data_list = self.parse_root()[0]['orderdata'].split()
+        """
+        ['Shipdate 2018-04-11',
+            'MONUMBER J1BX84301K00',
+                'SONUMBER 4215683950', ... ]
+
+        SOLINEITEM 000010
+        Customer_name CONNECTRIASCP4363 PO IS 0323-2271
+        Orderable_part 7X19TX2000
+        Order_qty 2
+        Ship_to_country US
+        ZCUPO 23330840
+        BSTKD_E
+        CUSNO 1213385517
+
+        """
+        data_dict = dict()
+        for data in data_list:
+            data_dict[data.split(' ', 1)[0]] = data.split(' ', 1)[1]  # data_dict['Shipdate'] = '2018-04-11'
+        print(data_dict)
+        return data_dict
