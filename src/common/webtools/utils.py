@@ -22,6 +22,10 @@ class Utils(object):
         keys = ['serial', 'ip-os', 'hostname-xcc', 'ip-xcc', 'subnet-xcc', 'gateway-xcc']
         cmd = 'grep {} /data/CSC/truven/serial_ip.csv'.format(serial_number)
         r = Utils.stdout_shell(cmd)
-        for key, result in keys, r.replace('\n', '').split(','):
-            truven[key] = result
+        values = r.replace('\n', '').split(',')
+        # values :
+        #  ['1S7X19CTO1WWJ1003EMG', '172.20.101.1',
+        # 'TRVWHIESQL04A-OOB', '10.235.249.49', '255.255.252.0', '10.235.248.1']
+        for key, value in keys, values:
+            truven[key] = value
         return truven
