@@ -5,7 +5,7 @@ from src.common.webtools.utils import Utils
 
 csc_blueprint = Blueprint('csc', __name__)
 
-truven_vm_ip = '172.15.0.11'
+truven_vm_ip = '172.15.0.22'
 
 
 @csc_blueprint.route('/main')
