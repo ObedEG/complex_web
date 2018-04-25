@@ -43,7 +43,7 @@ class XML2DataFrame:
 
         :return: a dict of xml - orderdata
         """
-        data_list = self.parse_root()[0]['orderdata'].split()
+        data_list = self.parse_root()[0]['orderdata'].split('\n')
         """
         ['Shipdate 2018-04-11',
             'MONUMBER J1BX84301K00',
@@ -60,7 +60,6 @@ class XML2DataFrame:
 
         """
         data_dict = dict()
-        for data in data_list:
+        for data in [x for x in data_list if x != '']:
             data_dict[data.split(' ', 1)[0]] = data.split(' ', 1)[1]  # data_dict['Shipdate'] = '2018-04-11'
-        print(data_dict)
         return data_dict
