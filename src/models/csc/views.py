@@ -25,9 +25,9 @@ def truven_addunit():
             unit = Unit(request.form['serial'])
             unit.copy_xml_from_l2()
             unit_dict = Utils.truven_def(serial_number=unit.serial)
-            Xcat.create_node(hostname=unit.sn.lowercase(), ip_os=unit_dict['ip-os'],
+            Xcat.create_node(hostname=unit.sn.lower(), ip_os=unit_dict['ip-os'],
                              ip_bmc=unit_dict['ip-os'], vm=truven_vm_ip)
-            Xcat.set_node_macs(hostname=unit.sn.lowercase(), macs=unit.format_mac_xcat())
+            Xcat.set_node_macs(hostname=unit.sn.lower(), macs=unit.format_mac_xcat())
             return redirect(url_for(".truven_menu"))
         else:
             return "Please SCAN a correct Serial Number"
