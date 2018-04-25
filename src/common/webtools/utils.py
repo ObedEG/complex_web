@@ -19,7 +19,8 @@ class Utils(object):
     @staticmethod
     def truven_def(serial_number):
         truven = dict()
-        keys = list('serial', 'ip-os', 'hostname-xcc', 'ip-xcc', 'subnet-xcc', 'gateway-xcc')
+        keys = list()
+        keys.extend('serial', 'ip-os', 'hostname-xcc', 'ip-xcc', 'subnet-xcc', 'gateway-xcc')
         cmd = 'grep {} /data/CSC/truven/serial_ip.csv'.format(serial_number)
         r = Utils.stdout_shell(cmd)
         for key, result in keys, r.split(','):
