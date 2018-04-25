@@ -47,7 +47,7 @@ class Unit(object):
             ...
             'MACKIT1': '23S0894EF59CF44'}
         """
-        return mac_dict.values()  # A list of mackit values ...'MACKIT':'23S-raw-mac'
+        return list(mac_dict.values())  # A list of mackit values ...'MACKIT':'23S-raw-mac'
 
     def get_macs(self):
         mac_list = []

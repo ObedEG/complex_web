@@ -34,7 +34,7 @@ class Xcat(object):
         """
         cmnds = list()
         cmnds.append('mkdef -t node {0} groups=all,compute,ipmi mgt=ipmi '
-                     'ip={1} netboot=xnba bmc={0}-xcc installnic=mac primarynic=mac'.format(hostname, ip_os))  # create node
+                     'ip={1} netboot=xnba bmc={0}-bmc installnic=mac primarynic=mac'.format(hostname, ip_os))  # create node
         cmnds.append('mkdef -t node {0}-bmc groups=bmc ip={1}'.format(hostname, ip_bmc))  # create bmc
         cmnds.append('makehosts {0},{0}-bmc'.format(hostname))  # make hosts
         cmnds.append('makeconfluentcfg {}'.format(hostname))  # make confluent
@@ -62,6 +62,7 @@ class Xcat(object):
         :return: 0 - if the final command ran well
         """
         create_node = ' chdef -t node {} mac='.format(hostname) + "'" + macs + "'"
+        print(create_node)
         return Utils.run_shell('ssh ' + vm + create_node)
 
     @staticmethod
