@@ -26,6 +26,4 @@ class Utils(object):
         # values :
         #  ['1S7X19CTO1WWJ1003EMG', '172.20.101.1',
         # 'TRVWHIESQL04A-OOB', '10.235.249.49', '255.255.252.0', '10.235.248.1']
-        for key, value in keys, values:
-            truven[key] = value
-        return truven
+        return dict(zip(keys, values))
