@@ -27,7 +27,8 @@ def truven_addunit():
             unit_dict = Utils.truven_def(serial_number=unit.serial)
             Xcat.create_node(hostname=unit.sn.lower(), ip_os=unit_dict['ip-os'],
                              ip_bmc=unit_dict['ip-os'], vm=truven_vm_ip)
-            Xcat.set_node_macs(hostname=unit.sn.lower(), macs=unit.format_mac_xcat())
+            Xcat.set_node_macs(hostname=unit.sn.lower(), macs=unit.format_mac_xcat(),
+                               vm=truven_vm_ip)
             return redirect(url_for(".truven_menu"))
         else:
             return "Please SCAN a correct Serial Number"
