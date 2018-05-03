@@ -1,6 +1,5 @@
 import shlex
 import subprocess
-from src.common.webtools.xcat.unit import Unit
 
 
 class Utils(object):
