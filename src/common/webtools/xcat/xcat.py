@@ -51,14 +51,14 @@ class Xcat(object):
         # Create stanza file of the defined node and add the macs
         cmnds = list()
         cmnds.append(" lsdef {0} > /tmp/{0}".format(hostname))
-        cmnds.append(' echo -n "' + "    mac='{}'".format(macs) + '" > /tmp/{}'.format(hostname))
+        cmnds.append(' echo -n "' + "    mac='{}'".format(macs) + '" >> /tmp/{}'.format(hostname))
         for cmd in cmnds:
             Utils.run_shell('ssh ' + vm + ' ' + cmd)
         # Copy stanza file created to the VM
         copy_stanzafile = "scp /tmp/{0} {1}:/tmp/".format(hostname, vm)
         # Change def of the node using the edited stanza file with macs info
         if Utils.run_shell(copy_stanzafile) == 0:
-            return Utils.shell_checkoutput('ssh ' + vm + ' cat /tmp/{} | chdef -z'.format(hostname))
+            return Utils.shell_checkoutput('ssh ' + vm + ' cat /tmp/{} | ssh ' + vm + 'chdef -z'.format(hostname))
 
     @staticmethod
     def set_node_switch(hostname, switch, switchport, vm):
