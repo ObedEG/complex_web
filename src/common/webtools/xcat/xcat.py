@@ -52,11 +52,19 @@ class Xcat(object):
 
         # cmd = " lsdef {0} > /tmp/{0}".format(hostname)
         # Utils.run_shell('ssh ' + vm + ' ' + cmd)
-        path = '/tmp/{0}'.format(hostname)
-        stanzafile = open(path, 'x')
-        stanzafile.write('{}:'.format(hostname))
-        stanzafile.write('    mac={0}'.format(macs))
-        stanzafile.close()
+        if Utils.run_shell('ls /tmp/{}'.format(hostname)) != 0:
+            path = '/tmp/{0}'.format(hostname)
+            stanzafile = open(path, 'x')
+            stanzafile.write('{}:'.format(hostname))
+            stanzafile.write('    mac={0}'.format(macs))
+            stanzafile.close()
+        else:
+            Utils.run_shell('rm -rf /tmp/{}'.format(hostname))
+            path = '/tmp/{0}'.format(hostname)
+            stanzafile = open(path, 'x')
+            stanzafile.write('{}:'.format(hostname))
+            stanzafile.write('    mac={0}'.format(macs))
+            stanzafile.close()
         # Copy stanza file created to the VM
         copy_stanzafile = "scp /tmp/{0} {1}:/tmp/".format(hostname, vm)
         # Change def of the node using the edited stanza file with macs info
