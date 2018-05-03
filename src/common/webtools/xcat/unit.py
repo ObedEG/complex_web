@@ -9,6 +9,7 @@ class Unit(object):
         self.mtm = self.get_mtm()
         self.sn = self.get_sn()
         self.path_to_xml = self.get_path_xml()  # string '/data/CSC/mediabuild/<serial>.xml'
+        self.copy_xml_from_l2()
         self.macs = self.get_macs()  # list of macs ---> 08:94:ef:59:cf:45
         self.Shipdate = self.get_dict_data()['Shipdate']
         self.MONUMBER = self.get_dict_data()['MONUMBER']

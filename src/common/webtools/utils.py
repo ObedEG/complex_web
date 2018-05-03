@@ -5,11 +5,36 @@ import subprocess
 class Utils(object):
 
     @staticmethod
+    def shell(cmd):
+        args = shlex.split(cmd)
+        print(args)
+        r = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
+        return r  # returns the commplete subprocess object!
+
+    @staticmethod
+    def shell_checkoutput(cmd):
+        """
+        Alternatively, for trusted input, the shell’s own pipeline support
+        may still be used directly:
+
+        output=`dmesg | grep hda`
+        becomes:
+
+        output=check_output("dmesg | grep hda", shell=True)
+        """
+        output = subprocess.check_output(cmd, shell=True)
+        return output
+
+    @staticmethod
     def run_shell(cmd):
         args = shlex.split(cmd)
         print(args)
         r = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
         return r.returncode  # 0 means it ran successfully!
+
+    @staticmethod
+    def run_true_shell(cmd):
+        return subprocess.run(cmd, shell=True, stdout=subprocess.PIPE).returncode
 
     @staticmethod
     def stdout_shell(cmd):
@@ -18,9 +43,15 @@ class Utils(object):
         return r.stdout.decode()  # return the stdout of the ran cmd!
 
     @staticmethod
+    def run_shell_stdin(cmd, stdin):
+        args = shlex.split(cmd)
+        r = subprocess.run(args=args, stdin=stdin, universal_newlines=False, stdout=subprocess.PIPE)
+        return r.returncode  # 0 means it ran successfully!
+
+    @staticmethod
     def truven_def(serial_number):
         truven = dict()
-        keys = ['serial', 'ip-os', 'hostname-xcc', 'ip-xcc', 'subnet-xcc', 'gateway-xcc']
+        keys = ['serial', 'ip-os', 'hostname-bmc', 'ip-bmc', 'subnet-bmc', 'gateway-bmc']
         cmd = 'grep {} /data/CSC/truven/serial_ip.csv'.format(serial_number)
         r = Utils.stdout_shell(cmd)
         values = r.replace('\n', '').split(',')
