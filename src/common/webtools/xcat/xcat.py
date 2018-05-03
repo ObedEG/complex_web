@@ -54,7 +54,7 @@ class Xcat(object):
         # Utils.run_shell('ssh ' + vm + ' ' + cmd)
         if Utils.run_shell('ls /tmp/{}'.format(hostname)) != 0:
             path = '/tmp/{0}'.format(hostname)
-            lines = ['{}:'.format(hostname), '   objtype=node', '   mac={0}'.format(macs)]
+            lines = ['{}:'.format(hostname) + '\n', '   objtype=node' + '\n', '   mac={0}'.format(macs) + '\n']
             stanzafile = open(path, 'x')
             stanzafile.writelines(lines)
             stanzafile.close()
