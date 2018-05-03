@@ -50,11 +50,9 @@ class Utils(object):
         return r.returncode  # 0 means it ran successfully!
 
     @staticmethod
-    def truven_def(serial_number):
-        truven = dict()
-        unit = Unit(serial_number)
+    def truven_def(serial_number, mo):
         keys = ['serial', 'ip-os', 'hostname-bmc', 'ip-bmc', 'subnet-bmc', 'gateway-bmc']
-        cmd = 'grep {0} /data/CSC/truven/{1}.csv'.format(serial_number, unit.MONUMBER)
+        cmd = 'grep {0} /data/CSC/truven/{1}.csv'.format(serial_number, mo)
         r = Utils.stdout_shell(cmd)
         values = r.replace('\n', '').split(',')
         # values :
