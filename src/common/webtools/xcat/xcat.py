@@ -58,7 +58,7 @@ class Xcat(object):
         copy_stanzafile = "scp /tmp/{0} {1}:/tmp/".format(hostname, vm)
         # Change def of the node using the edited stanza file with macs info
         if Utils.run_shell(copy_stanzafile) == 0:
-            return Utils.shell_checkoutput('ssh ' + vm + ' cat /tmp/{} | ssh ' + vm + ' chdef -z'.format(hostname))
+            return Utils.shell_checkoutput('ssh ' + vm + ' cat /tmp/{} | ssh '.format(hostname) + vm + ' chdef -z')
 
     @staticmethod
     def set_node_switch(hostname, switch, switchport, vm):
