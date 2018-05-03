@@ -49,11 +49,14 @@ class Xcat(object):
         discovered by mac without switch/switchport definition
         """
         # Create stanza file of the defined node and add the macs
-        cmnds = list()
-        cmnds.append(" lsdef {0} > /tmp/{0}".format(hostname))
-        cmnds.append(' echo "' + "    mac='{0}'".format(macs) + '" >> /tmp/{0}'.format(hostname))
-        for cmd in cmnds:
-            Utils.run_shell('ssh ' + vm + ' ' + cmd)
+
+        # cmd = " lsdef {0} > /tmp/{0}".format(hostname)
+        # Utils.run_shell('ssh ' + vm + ' ' + cmd)
+        path = '/tmp/{0}'.format(hostname)
+        stanzafile = open(path, 'x')
+        stanzafile.write('{}:'.format(hostname))
+        stanzafile.write('    mac={0}'.format(macs))
+        stanzafile.close()
         # Copy stanza file created to the VM
         copy_stanzafile = "scp /tmp/{0} {1}:/tmp/".format(hostname, vm)
         # Change def of the node using the edited stanza file with macs info
