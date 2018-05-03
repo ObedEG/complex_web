@@ -54,16 +54,16 @@ class Xcat(object):
         # Utils.run_shell('ssh ' + vm + ' ' + cmd)
         if Utils.run_shell('ls /tmp/{}'.format(hostname)) != 0:
             path = '/tmp/{0}'.format(hostname)
+            lines = ['{}:'.format(hostname), '   objtype=node', '   mac={0}'.format(macs)]
             stanzafile = open(path, 'x')
-            stanzafile.write('{}:'.format(hostname))
-            stanzafile.write('    mac={0}'.format(macs))
+            stanzafile.writelines(lines)
             stanzafile.close()
         else:
             Utils.run_shell('rm -rf /tmp/{}'.format(hostname))
             path = '/tmp/{0}'.format(hostname)
+            lines = ['{}:'.format(hostname), '   objtype=node', '   mac={0}'.format(macs)]
             stanzafile = open(path, 'x')
-            stanzafile.write('{}:'.format(hostname))
-            stanzafile.write('    mac={0}'.format(macs))
+            stanzafile.writelines(lines)
             stanzafile.close()
         # Copy stanza file created to the VM
         copy_stanzafile = "scp /tmp/{0} {1}:/tmp/".format(hostname, vm)
