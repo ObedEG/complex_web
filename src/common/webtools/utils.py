@@ -1,5 +1,6 @@
 import shlex
 import subprocess
+from src.common.webtools.xcat.unit import Unit
 
 
 class Utils(object):
@@ -51,8 +52,9 @@ class Utils(object):
     @staticmethod
     def truven_def(serial_number):
         truven = dict()
+        unit = Unit(serial_number)
         keys = ['serial', 'ip-os', 'hostname-bmc', 'ip-bmc', 'subnet-bmc', 'gateway-bmc']
-        cmd = 'grep {} /data/CSC/truven/serial_ip.csv'.format(serial_number)
+        cmd = 'grep {0} /data/CSC/truven/{1}.csv'.format(serial_number, unit.MONUMBER)
         r = Utils.stdout_shell(cmd)
         values = r.replace('\n', '').split(',')
         # values :

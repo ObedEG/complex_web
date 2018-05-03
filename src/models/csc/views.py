@@ -23,7 +23,6 @@ def truven_addunit():
     if request.method == 'POST':
         if str(request.form['serial']).startswith('1S'):
             unit = Unit(request.form['serial'])
-            unit.copy_xml_from_l2()
             unit_dict = Utils.truven_def(serial_number=unit.serial)
             Xcat.create_node(hostname=unit.sn.lower(), ip_os=unit_dict['ip-os'],
                              ip_bmc=unit_dict['ip-bmc'], vm=truven_vm_ip)
