@@ -13,6 +13,7 @@ from src.models.csc.views import csc_blueprint
 
 app = Flask(__name__)
 app.config.from_object('src.config')
+print(app.config['UPLOAD_FOLDER'])
 app.secret_key = "123"
 
 app.register_blueprint(user_blueprint, url_prefix="/users")

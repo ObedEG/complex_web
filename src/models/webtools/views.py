@@ -1,7 +1,9 @@
-from flask import Blueprint, session, render_template, url_for, request,send_file
+from flask import Blueprint, session, render_template, url_for, request,send_file, flash, send_from_directory
 from src.common.webtools.mtsn import MTSN
-from werkzeug.utils import redirect
+from src.common.webtools.utils import Utils
+from werkzeug.utils import redirect, secure_filename
 import shlex, subprocess, os
+from src.app import app
 
 webtool_blueprint = Blueprint('TEWebtools', __name__)
 
@@ -39,6 +41,32 @@ def download_folder():
                 return send_file(absfolder + '.zip', attachment_filename=mtsn + '.zip') # Revisar por que pasa "download_folder.zip"
         except Exception as e:
             return str(e)
+
+
+@webtool_blueprint.route('/upload_file', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and Utils.allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for(".uploaded_file",
+                                    filename=filename))
+    return render_template('TEWebtools/node_status/update_file.jinja2')
+
+
+@webtool_blueprint.route('/uploaded_file', methods=['GET', 'POST'])
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
 @webtool_blueprint.context_processor

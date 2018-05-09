@@ -1,5 +1,6 @@
 import shlex
 import subprocess
+ALLOWED_EXTENSIONS = set(['csv'])
 
 
 class Utils(object):
@@ -51,10 +52,19 @@ class Utils(object):
     @staticmethod
     def truven_def(serial_number, mo):
         keys = ['serial', 'ip-os', 'hostname-bmc', 'ip-bmc', 'subnet-bmc', 'gateway-bmc']
-        cmd = 'grep {0} /data/CSC/truven/{1}.csv'.format(serial_number, mo)
+        cmd = 'grep {0} /data/CSC/truven/{1}/{1}.csv'.format(serial_number, mo)
         r = Utils.stdout_shell(cmd)
         values = r.replace('\n', '').split(',')
         # values :
         #  ['1S7X19CTO1WWJ1003EMG', '172.20.101.1',
         # 'TRVWHIESQL04A-OOB', '10.235.249.49', '255.255.252.0', '10.235.248.1']
         return dict(zip(keys, values))
+
+    @staticmethod
+    def get_mo_truven_list():
+        cmd = 'ls /data/CSC/truven/*/*.csv'
+        csv_file = Utils.shell(cmd).stdout.split()
+
+    @staticmethod
+    def allowed_file(filename):
+        return '.' in filename and filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
