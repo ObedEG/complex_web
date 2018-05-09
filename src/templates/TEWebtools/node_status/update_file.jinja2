@@ -1,7 +1,22 @@
-<!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
+{% extends "TEWebtools/base_webtools.jinja2" %}
+{% block content %}
+<div class="container">
+    <div class="dashhead">
+      <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Complex Web</h6>
+        <h3 class="dashhead-title">TE - WebTools</h3>
+      </div>
+    </div>
+        <hr class="mt-0 mb-5">
+
+    <h4 id="flex-table">MS Nodes Status</h4>
+
+    <p>Please, update the excel file with the serial numbers and L1 info: </p>
+
     <form method=post enctype=multipart/form-data>
       <p><input type=file name=file>
          <input type=submit value=Upload>
     </form>
+
+</div>
+{% endblock %}

@@ -60,12 +60,11 @@ def upload_file():
         if file and Utils.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
-            return redirect(url_for(".uploaded_file",
-                                    filename=filename))
+            return redirect(url_for(".uploaded_file", filename=filename))
     return render_template('TEWebtools/node_status/update_file.jinja2')
 
 
-@webtool_blueprint.route('/uploaded_file', methods=['GET', 'POST'])
+@webtool_blueprint.route('/uploads/<filename>', methods=['GET', 'POST'])
 def uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
