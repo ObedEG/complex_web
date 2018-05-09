@@ -3,9 +3,10 @@ from src.common.webtools.mtsn import MTSN
 from src.common.webtools.utils import Utils
 from werkzeug.utils import redirect, secure_filename
 import shlex, subprocess, os
-from src.app import app
 
 webtool_blueprint = Blueprint('TEWebtools', __name__)
+
+UPLOAD_FOLDER = '/data/webtools/uploads'
 
 
 @webtool_blueprint.route('/get_tstlog', methods=['POST', 'GET'])
@@ -58,7 +59,7 @@ def upload_file():
             return redirect(request.url)
         if file and Utils.allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
             return redirect(url_for(".uploaded_file",
                                     filename=filename))
     return render_template('TEWebtools/node_status/update_file.jinja2')
@@ -66,7 +67,7 @@ def upload_file():
 
 @webtool_blueprint.route('/uploaded_file', methods=['GET', 'POST'])
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    return send_from_directory(UPLOAD_FOLDER, filename)
 
 
 @webtool_blueprint.context_processor
