@@ -78,9 +78,7 @@ class Utils(object):
             cells = []
             current_sheet = book[sheet]
             for cell in range(2, 38):
-                cell_value = current_sheet['A{}'.format(cell)]
-                if cell_value is not None or cell_value != '':
-                    cells.append(cell_value)
+                cells.append(current_sheet['A{}'.format(cell)])
             Utils.create_nodes_list_file(cells, sheet + '.lst')
 
     @staticmethod
@@ -94,5 +92,5 @@ class Utils(object):
             nodes_file_lst.writelines(line)
         nodes_file_lst.close()
         return Utils.run_shell('scp /data/webtools/nodes_list/{} '
-                            '10.34.70.220:/dfcxact/workarea/Complex/Microsoft/node_status/nodes_list/')
+                            '10.34.70.220:/dfcxact/workarea/Complex/Microsoft/node_status/nodes_list/'.format(file))
 
