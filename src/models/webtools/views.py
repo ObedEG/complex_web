@@ -65,13 +65,12 @@ def upload_file():
 
 @webtool_blueprint.route('/node_status/result/<filename>', methods=['GET', 'POST'])
 def return_file(filename):
-    render_template('TEWebtools/node_status/get_results.jinja2')
     Utils.handle_excel(os.path.join(UPLOAD_FOLDER, filename))
-    Utils.run_shell('ssh 10.34.70.220 /dfcxact/workarea/Complex/Microsoft/node_status/run_tst_status')
-    Utils.run_shell('scp 10.34.70.220:/dfcxact/workarea/Complex/Microsoft/node_status/status/summary_status.csv '
-                    '/data/webtools/nodes_status')
-    return send_from_directory('/data/webtools/nodes_status', 'summary_status.csv')
-
+    #Utils.run_shell('ssh 10.34.70.220 /dfcxact/workarea/Complex/Microsoft/node_status/run_tst_status')
+    # Utils.run_shell('scp 10.34.70.220:/dfcxact/workarea/Complex/Microsoft/node_status/status/summary_status.csv '
+    #                '/data/webtools/nodes_status')
+    #return send_from_directory('/data/webtools/nodes_status', 'summary_status.csv')
+    return render_template('TEWebtools/node_status/get_results.jinja2')
 
 @webtool_blueprint.context_processor
 def utility_webtool():
