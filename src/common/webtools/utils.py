@@ -82,7 +82,9 @@ class Utils(object):
 
     @staticmethod
     def create_nodes_list_file(node_list, file):
-        str_list = [x for x in node_list if x != '']
+        print(node_list)
+        str_list = [str(x.value) for x in node_list if x != '']
+        print(str_list)
         nodes_file_lst = open('/data/webtools/nodes_list/{}'.format(file), 'w')
         for line in str_list:
             # Revisar la ultima unidad... que no tenga salto de linea ...
