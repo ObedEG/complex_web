@@ -82,19 +82,17 @@ class Utils(object):
 
     @staticmethod
     def create_nodes_list_file(node_list, file):
-        if Utils.clear_file(file) == 0:
-            str_list = [x for x in node_list if x != '']
-            nodes_file_lst = open('/data/webtools/nodes_list/{}'.format(file), 'w')
-            for line in str_list:
-                # Revisar la ultima unidad... que no tenga salto de linea ...
-                nodes_file_lst.write(line + '\n')
-            nodes_file_lst.close()
-            return Utils.run_shell('scp /data/webtools/nodes_list/{} '
+        Utils.clear_file(file)
+        str_list = [x for x in node_list if x != '']
+        nodes_file_lst = open('/data/webtools/nodes_list/{}'.format(file), 'w')
+        for line in str_list:
+            # Revisar la ultima unidad... que no tenga salto de linea ...
+            nodes_file_lst.write(line + '\n')
+        nodes_file_lst.close()
+        return Utils.run_shell('scp /data/webtools/nodes_list/{} '
                             '10.34.70.220:/dfcxact/workarea/Complex/Microsoft/node_status/nodes_list/')
-        else:
-            return "Could not clear the file {} . . .".format(file)
 
     @staticmethod
     def clear_file(file):
         cmd = 'clear_file /data/webtools/nodes_list/' + file
-        return Utils.run_shell(cmd)
+        Utils.run_shell(cmd)
