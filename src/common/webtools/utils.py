@@ -1,6 +1,7 @@
 import shlex
 import subprocess
-ALLOWED_EXTENSIONS = set(['csv'])
+import openpyxl
+ALLOWED_EXTENSIONS = set(['csv', 'xlsx'])
 
 
 class Utils(object):
@@ -68,3 +69,32 @@ class Utils(object):
     @staticmethod
     def allowed_file(filename):
         return '.' in filename and filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
+
+    @staticmethod
+    def handle_excel(filename_path):
+        l1 = ["112", "102", "117", "103", "104", "116", "108", "115", "113", "114"]
+        book = openpyxl.load_workbook(filename_path)
+        for sheet in l1:
+            current_sheet = book.get_sheet_by_name(sheet)
+            cells = current_sheet['A2':'A37']
+            Utils.create_nodes_list_file(cells, sheet + '.lst')
+
+
+    @staticmethod
+    def create_nodes_list_file(node_list, file):
+        if Utils.clear_file(file) == 0:
+            str_list = [x for x in node_list if x != '']
+            nodes_file_lst = open('/data/webtools/nodes_list/{}'.format(file), 'w')
+            for line in str_list:
+                # Revisar la ultima unidad... que no tenga salto de linea ...
+                nodes_file_lst.write(line + '\n')
+            nodes_file_lst.close()
+            return Utils.run_shell('scp /data/webtools/nodes_list/{} '
+                            '10.34.70.220:/dfcxact/workarea/Complex/Microsoft/node_status/nodes_list/')
+        else:
+            return "Could not clear the file {} . . .".format(file)
+
+    @staticmethod
+    def clear_file(file):
+        cmd = '> /data/webtools/nodes_list/' + file
+        return Utils.run_shell(cmd)

@@ -13,7 +13,6 @@ UPLOAD_FOLDER = '/data/webtools/uploads'
 def get_tstlog():
     if request.method == 'POST':
         unit = MTSN(request.form['serial'])
-
         return render_template('TEWebtools/results.jinja2', paths=unit.paths_l2_mtsn, server='10.34.70.220')
     return render_template('TEWebtools/get_testerlog.jinja2')
 
@@ -44,7 +43,7 @@ def download_folder():
             return str(e)
 
 
-@webtool_blueprint.route('/upload_file', methods=['GET', 'POST'])
+@webtool_blueprint.route('/nodes_status/upload_file', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -60,13 +59,18 @@ def upload_file():
         if file and Utils.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
-            return redirect(url_for(".uploaded_file", filename=filename))
+            return redirect(url_for(".return_file", filename=filename))
     return render_template('TEWebtools/node_status/update_file.jinja2')
 
 
-@webtool_blueprint.route('/uploads/<filename>', methods=['GET', 'POST'])
-def uploaded_file(filename):
-    return send_from_directory(UPLOAD_FOLDER, filename)
+@webtool_blueprint.route('/node_status/result/<filename>', methods=['GET', 'POST'])
+def return_file(filename):
+    render_template('TEWebtools/node_status/get_results.jinja2')
+    Utils.handle_excel(os.path.join(UPLOAD_FOLDER, filename))
+    Utils.run_shell('ssh 10.34.70.220 /dfcxact/workarea/Complex/Microsoft/node_status/run_tst_status')
+    Utils.run_shell('scp 10.34.70.220:/dfcxact/workarea/Complex/Microsoft/node_status/status/summary_status.csv '
+                    '/data/webtools/nodes_status')
+    return send_from_directory('/data/webtools/nodes_status', 'summary_status.csv')
 
 
 @webtool_blueprint.context_processor
