@@ -72,13 +72,14 @@ class Utils(object):
 
     @staticmethod
     def handle_excel(filename_path):
+        cells = []
         l1 = ["112", "102", "117", "103", "104", "116", "108", "115", "113", "114"]
         book = openpyxl.load_workbook(filename_path)
         for sheet in l1:
-            current_sheet = book[sheet]
-            cells = current_sheet['A2':'A37']
-            Utils.create_nodes_list_file(cells, sheet + '.lst')
-
+            for cell in range(2, 37):
+                current_sheet = book[sheet]
+                cells.append(current_sheet['A{}'.format(cell)])
+                Utils.create_nodes_list_file(cells, sheet + '.lst')
 
     @staticmethod
     def create_nodes_list_file(node_list, file):
