@@ -73,7 +73,6 @@ class Utils(object):
     @staticmethod
     def handle_excel(filename_path):
         l1 = ["112", "102", "117", "103", "104", "116", "108", "115", "113", "114"]
-        Utils.clear_files()
         book = openpyxl.load_workbook(filename_path)
         for sheet in l1:
             current_sheet = book[sheet]
@@ -84,7 +83,7 @@ class Utils(object):
     @staticmethod
     def create_nodes_list_file(node_list, file):
         str_list = [x for x in node_list if x != '']
-        nodes_file_lst = open('/data/webtools/nodes_list/{}'.format(file), 'x')
+        nodes_file_lst = open('/data/webtools/nodes_list/{}'.format(file), 'w')
         for line in str_list:
             # Revisar la ultima unidad... que no tenga salto de linea ...
             nodes_file_lst.write(line + '\n')
@@ -92,7 +91,3 @@ class Utils(object):
         return Utils.run_shell('scp /data/webtools/nodes_list/{} '
                             '10.34.70.220:/dfcxact/workarea/Complex/Microsoft/node_status/nodes_list/')
 
-    @staticmethod
-    def clear_files():
-        cmd = 'rm -rf /data/webtools/nodes_list/*'
-        Utils.run_shell(cmd)
