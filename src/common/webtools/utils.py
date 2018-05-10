@@ -75,7 +75,7 @@ class Utils(object):
         l1 = ["112", "102", "117", "103", "104", "116", "108", "115", "113", "114"]
         book = openpyxl.load_workbook(filename_path)
         for sheet in l1:
-            current_sheet = book.get_sheet_by_name(sheet)
+            current_sheet = book[sheet]
             cells = current_sheet['A2':'A37']
             Utils.create_nodes_list_file(cells, sheet + '.lst')
 
