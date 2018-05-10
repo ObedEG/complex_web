@@ -96,5 +96,5 @@ class Utils(object):
 
     @staticmethod
     def clear_file(file):
-        cmd = '> /data/webtools/nodes_list/' + file
+        cmd = 'clear_file /data/webtools/nodes_list/' + file
         return Utils.run_shell(cmd)
