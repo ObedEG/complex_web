@@ -86,7 +86,7 @@ class Utils(object):
         nodes_file_lst = open('/data/webtools/nodes_list/{}'.format(file), 'w')
         for line in str_list:
             # Revisar la ultima unidad... que no tenga salto de linea ...
-            nodes_file_lst.write(line + '\n')
+            nodes_file_lst.writelines(line)
         nodes_file_lst.close()
         return Utils.run_shell('scp /data/webtools/nodes_list/{} '
                             '10.34.70.220:/dfcxact/workarea/Complex/Microsoft/node_status/nodes_list/')
