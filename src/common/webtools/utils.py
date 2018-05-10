@@ -86,7 +86,7 @@ class Utils(object):
     @staticmethod
     def create_nodes_list_file(node_list, file):
         print(node_list)
-        str_list = [str(x.value) for x in node_list if x != '']
+        str_list = [str(x.value) for x in node_list if x.value is not None]
         print(str_list)
         nodes_file_lst = open('/data/webtools/nodes_list/{}'.format(file), 'w')
         for line in str_list:
