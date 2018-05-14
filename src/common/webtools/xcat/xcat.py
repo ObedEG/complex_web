@@ -1,4 +1,4 @@
-from src.common.webtools.utils import Utils
+from src.common.webtools.webtools_utils import WebtoolsUtils
 
 
 class Xcat(object):
@@ -20,7 +20,7 @@ class Xcat(object):
         cmnds.append('confetty set /nodegroups/switch/attributes/current secret.hardwaremanagementpassword="RO"')
         cmnds.append('confetty set /nodegroups/everything/attributes/current discovery.policy=open')
         for cmd in cmnds:
-            Utils.run_shell('ssh ' + vm + ' ' + cmd)
+            WebtoolsUtils.run_shell('ssh ' + vm + ' ' + cmd)
 
     @staticmethod
     def create_node(hostname, ip_os, ip_bmc, vm):
@@ -40,7 +40,7 @@ class Xcat(object):
         cmnds.append('makeconfluentcfg {}'.format(hostname))  # make confluent
         cmnds.append('nodeattrib {} console.method=ipmi'.format(hostname))  # config confetty
         for cmd in cmnds:
-            Utils.run_shell('ssh ' + vm + ' ' + cmd)
+            WebtoolsUtils.run_shell('ssh ' + vm + ' ' + cmd)
 
     @staticmethod
     def set_node_macs(hostname, macs, vm):
@@ -52,14 +52,14 @@ class Xcat(object):
 
         # cmd = " lsdef {0} > /tmp/{0}".format(hostname)
         # Utils.run_shell('ssh ' + vm + ' ' + cmd)
-        if Utils.run_shell('ls /tmp/{}'.format(hostname)) != 0:
+        if WebtoolsUtils.run_shell('ls /tmp/{}'.format(hostname)) != 0:
             path = '/tmp/{0}'.format(hostname)
             lines = ['{}:'.format(hostname) + '\n', '   objtype=node' + '\n', '   mac={0}'.format(macs) + '\n']
             stanzafile = open(path, 'x')
             stanzafile.writelines(lines)
             stanzafile.close()
         else:
-            Utils.run_shell('rm -rf /tmp/{}'.format(hostname))
+            WebtoolsUtils.run_shell('rm -rf /tmp/{}'.format(hostname))
             path = '/tmp/{0}'.format(hostname)
             lines = ['{}:'.format(hostname) + '\n', '   objtype=node' + '\n', '   mac={0}'.format(macs) + '\n']
             stanzafile = open(path, 'x')
@@ -68,8 +68,8 @@ class Xcat(object):
         # Copy stanza file created to the VM
         copy_stanzafile = "scp /tmp/{0} {1}:/tmp/".format(hostname, vm)
         # Change def of the node using the edited stanza file with macs info
-        if Utils.run_shell(copy_stanzafile) == 0:
-            return Utils.run_shell('ssh ' + vm + ' chdef_node_macs {}'.format(hostname))
+        if WebtoolsUtils.run_shell(copy_stanzafile) == 0:
+            return WebtoolsUtils.run_shell('ssh ' + vm + ' chdef_node_macs {}'.format(hostname))
 
     @staticmethod
     def set_node_switch(hostname, switch, switchport, vm):
@@ -78,7 +78,7 @@ class Xcat(object):
         in order to test P2P requirements
         """
         create_node = ' chdef -t node {0} switch={1} switchport={2}'.format(hostname, switch, switchport)
-        return Utils.run_shell('ssh ' + vm + create_node)
+        return WebtoolsUtils.run_shell('ssh ' + vm + create_node)
 
     @staticmethod
     def restart_discovery_services(vm):
@@ -88,4 +88,4 @@ class Xcat(object):
         cmnds.append(' service dhcpd restart')
         cmnds.append(' service network restart')
         for cmd in cmnds:
-            Utils.run_shell('ssh ' + vm + cmd)
+            WebtoolsUtils.run_shell('ssh ' + vm + cmd)

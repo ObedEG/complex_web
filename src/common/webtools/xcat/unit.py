@@ -1,4 +1,4 @@
-from src.common.webtools.utils import Utils
+from src.common.webtools.webtools_utils import WebtoolsUtils
 from src.common.webtools.XML2DataFrame import XML2DataFrame
 
 
@@ -63,7 +63,7 @@ class Unit(object):
 
     def copy_xml_from_l2(self):
         cmd = 'scp 10.34.70.220:/dfcxact/mediabuild/UNIT_DATA_MB/{}.xml /data/CSC/mediabuild/'.format(self.serial)
-        return Utils.run_shell(cmd)
+        return WebtoolsUtils.run_shell(cmd)
 
     def get_dict_data(self):
         return XML2DataFrame(self.path_to_xml).get_orderdata()

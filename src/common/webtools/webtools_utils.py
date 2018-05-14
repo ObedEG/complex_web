@@ -4,7 +4,7 @@ import openpyxl
 ALLOWED_EXTENSIONS = set(['csv', 'xlsx'])
 
 
-class Utils(object):
+class WebtoolsUtils(object):
 
     @staticmethod
     def shell(cmd):
@@ -54,7 +54,7 @@ class Utils(object):
     def truven_def(serial_number, mo):
         keys = ['serial', 'ip-os', 'hostname-bmc', 'ip-bmc', 'subnet-bmc', 'gateway-bmc']
         cmd = 'grep {0} /data/CSC/truven/{1}/{1}.csv'.format(serial_number, mo)
-        r = Utils.stdout_shell(cmd)
+        r = WebtoolsUtils.stdout_shell(cmd)
         values = r.replace('\n', '').split(',')
         # values :
         #  ['1S7X19CTO1WWJ1003EMG', '172.20.101.1',
@@ -64,11 +64,11 @@ class Utils(object):
     @staticmethod
     def get_mo_truven_list():
         cmd = 'ls /data/CSC/truven/*/*.csv'
-        csv_file = Utils.shell(cmd).stdout.split()
+        csv_file = WebtoolsUtils.shell(cmd).stdout.split()
 
     @staticmethod
     def allowed_file(filename):
-        return '.' in filename and filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
     @staticmethod
     def handle_excel(filename_path):
@@ -79,7 +79,7 @@ class Utils(object):
             current_sheet = book[sheet]
             for cell in range(2, 38):
                 cells.append(current_sheet['A{}'.format(cell)])
-            Utils.create_nodes_list_file(cells, sheet + '.lst')
+            WebtoolsUtils.create_nodes_list_file(cells, sheet + '.lst')
         book.close()
 
     @staticmethod
@@ -92,6 +92,6 @@ class Utils(object):
             # Revisar la ultima unidad... que no tenga salto de linea ...
             nodes_file_lst.writelines(line + "\n")
         nodes_file_lst.close()
-        return Utils.run_shell('scp /data/webtools/nodes_list/{} '
+        return WebtoolsUtils.run_shell('scp /data/webtools/nodes_list/{} '
                             '10.34.70.220:/dfcxact/workarea/Complex/Microsoft/node_status/nodes_list/'.format(file))
 

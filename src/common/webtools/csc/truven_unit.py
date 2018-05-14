@@ -1,4 +1,4 @@
-from src.common.webtools.utils import Utils
+from src.common.webtools.webtools_utils import WebtoolsUtils
 from src.common.webtools.XML2DataFrame import XML2DataFrame
 
 
@@ -17,9 +17,7 @@ class TruvenUnit(object):
         self.SOLINEITEM = self.get_dict_data()['SOLINEITEM']
         self.Customer_name = self.get_dict_data()['Customer_name']
         self.Order_qty = self.get_dict_data()['Order_qty']
-
-        # Make a function to look up the truven settings. . .
-        self.hostname = self.get_truven_settings()['hostname']
+        self.hostname = self.get_truven_settings()['hostname']  # Getting truven settings . . .
         self.ip = self.get_truven_settings()['ip']
         self.subnet = self.get_truven_settings()['subnet']
         self.gateway = self.get_truven_settings()['gateway']
@@ -70,7 +68,7 @@ class TruvenUnit(object):
 
     def copy_xml_from_l2(self):
         cmd = 'scp 10.34.70.220:/dfcxact/mediabuild/UNIT_DATA_MB/{}.xml /data/CSC/mediabuild/'.format(self.serial)
-        return Utils.run_shell(cmd)
+        return WebtoolsUtils.run_shell(cmd)
 
     def get_dict_data(self):
         return XML2DataFrame(self.path_to_xml).get_orderdata()
@@ -79,7 +77,7 @@ class TruvenUnit(object):
         truven_dict_data = dict()
         path = '/data/CSC/truven/settings/{}/units_settings.csv'.format(self.SONUMBER)
         cmd = 'grep {} {}'.format(self.serial, path)
-        truven_settings = Utils.stdout_shell(cmd).split(',')
+        truven_settings = WebtoolsUtils.stdout_shell(cmd).split(',')
         keys = ['hostname', 'ip', 'subnet', 'gateway', 'ip-os']
         for key, i in keys, range(1, 6):
             truven_dict_data[key] = truven_settings[i]

@@ -1,0 +1,23 @@
+{% extends "csc/csc_base.jinja2" %}
+{% block content %}
+<div class="container">
+
+    <div class="dashhead">
+      <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Complex Web</h6>
+      </div>
+    </div>
+
+        <hr class="mt-0 mb-5">
+
+    <h4 id="flex-table">CSC - Truven Order</h4>
+
+    <p>Please update an csv file related to a SO with the serial numbers and truven settings... </p>
+
+    <form method=post enctype=multipart/form-data>
+      <p><input type=file name=file>
+         <input type=submit value=Update>
+    </form>
+
+</div>
+{% endblock %}

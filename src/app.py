@@ -10,6 +10,7 @@ from src.models.fixes.views import fix_blueprint
 from src.models.frecords.views import frecord_blueprint
 from src.models.webtools.views import webtool_blueprint
 from src.models.csc.views import csc_blueprint
+from src.models.csc.csc_trueven import csc_truven_blueprint
 
 app = Flask(__name__)
 app.config.from_object('src.config')
@@ -25,6 +26,7 @@ app.register_blueprint(fix_blueprint, url_prefix="/fixes")
 app.register_blueprint(frecord_blueprint, url_prefix="/frecords")
 app.register_blueprint(webtool_blueprint, url_prefix="/TEWebtools")
 app.register_blueprint(csc_blueprint, url_prefix="/csc")
+app.register_blueprint(csc_truven_blueprint, url_prefix="/csc_truven")
 
 
 @app.before_first_request

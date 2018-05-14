@@ -1,8 +1,10 @@
-from flask import Blueprint, session, render_template, url_for, request,send_file, flash, send_from_directory
+from flask import Blueprint, session, render_template, url_for, request, send_file, flash, send_from_directory
 from src.common.webtools.mtsn import MTSN
-from src.common.webtools.utils import Utils
+from src.common.webtools.webtools_utils import WebtoolsUtils
 from werkzeug.utils import redirect, secure_filename
-import shlex, subprocess, os
+import shlex
+import subprocess
+import os
 
 webtool_blueprint = Blueprint('TEWebtools', __name__)
 
@@ -56,7 +58,7 @@ def upload_file():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
-        if file and Utils.allowed_file(file.filename):
+        if file and WebtoolsUtils.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
             return redirect(url_for(".return_file", filename=filename))
@@ -65,7 +67,7 @@ def upload_file():
 
 @webtool_blueprint.route('/node_status/result/<filename>', methods=['GET', 'POST'])
 def return_file(filename):
-    Utils.handle_excel(os.path.join(UPLOAD_FOLDER, filename))
+    WebtoolsUtils.handle_excel(os.path.join(UPLOAD_FOLDER, filename))
     #Utils.run_shell('ssh 10.34.70.220 /dfcxact/workarea/Complex/Microsoft/node_status/run_tst_status')
     # Utils.run_shell('scp 10.34.70.220:/dfcxact/workarea/Complex/Microsoft/node_status/status/summary_status.csv '
     #                '/data/webtools/nodes_status')
