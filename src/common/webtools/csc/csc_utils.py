@@ -10,7 +10,7 @@ class CscUtils(object):
     @staticmethod
     def get_so_by_file(filename_path):
         with open(filename_path, newline='') as f:
-            reader = csv.reader(f)
+            reader = csv.DictReader(f)
             for row in reader:
                 return row['so']
 
