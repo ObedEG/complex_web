@@ -70,5 +70,6 @@ def upload_units_by_so():
 def read_uploaded_file(filename):
     so = CscUtils.get_so_by_file(os.path.join('/data/webtools/uploads/csc/truven/', filename))
     if CscUtils.create_settings_folder(so) == 0:
-        cmd = 'cp {} /data/CSC/truven/settings/{}/units_settings.csv'
-        WebtoolsUtils.run_shell(cmd)
+        cmd = 'cp {} /data/CSC/truven/settings/{}/units_settings.csv'.format(so)
+        if WebtoolsUtils.run_shell(cmd) == 0:
+            return "We get the xlsx file!"

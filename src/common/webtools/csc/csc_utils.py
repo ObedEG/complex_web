@@ -1,19 +1,18 @@
 import shlex
 import subprocess
 from src.common.webtools.webtools_utils import WebtoolsUtils
-import openpyxl
-ALLOWED_EXTENSIONS = set(['csv', 'xlsx'])
+import csv
+ALLOWED_EXTENSIONS = set(['csv'])
 
 
 class CscUtils(object):
 
     @staticmethod
     def get_so_by_file(filename_path):
-        book = openpyxl.load_workbook(filename_path)
-        sheet = book.active
-        SO = str(sheet['A2'].value)
-        book.close()
-        return SO
+        with open(filename_path, newline='') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                return row['so']
 
     @staticmethod
     def create_settings_folder(so):
