@@ -68,7 +68,7 @@ def upload_units_by_so():
 
 @csc_truven_blueprint.route('/read_file/<filename>', methods=['POST', 'GET'])
 def read_uploaded_file(filename):
-    so = CscUtils.get_so_by_file(filename)
+    so = CscUtils.get_so_by_file(os.path.join('/data/webtools/uploads/csc/truven/', filename))
     if CscUtils.create_settings_folder(so) == 0:
         cmd = 'cp {} /data/CSC/truven/settings/{}/units_settings.csv'
         WebtoolsUtils.run_shell(cmd)
