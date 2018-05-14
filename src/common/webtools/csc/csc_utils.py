@@ -2,7 +2,7 @@ import shlex
 import subprocess
 from src.common.webtools.webtools_utils import WebtoolsUtils
 import openpyxl
-ALLOWED_EXTENSIONS = set(['csv'])
+ALLOWED_EXTENSIONS = set(['csv', 'xlsx'])
 
 
 class CscUtils(object):
