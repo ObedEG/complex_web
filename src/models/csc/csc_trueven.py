@@ -62,7 +62,7 @@ def upload_units_by_so():
         if file and CscUtils.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
-            return redirect(url_for(".read_upload_file", filename=filename))
+            return redirect(url_for(".read_uploaded_file", filename=filename))
     return render_template('csc/truven/update_file.jinja2')
 
 
