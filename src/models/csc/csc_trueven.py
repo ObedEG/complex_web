@@ -10,6 +10,7 @@ csc_truven_blueprint = Blueprint('csc_truven', __name__)
 
 truven_vm_ip = '172.15.0.22'
 UPLOAD_FOLDER = '/data/webtools/uploads/csc/truven'
+WORK_FOLDER = '/data/CSC/truven/settings'
 
 
 @csc_truven_blueprint.route('/add_unit', methods=['POST', 'GET'])
@@ -68,8 +69,9 @@ def upload_units_by_so():
 
 @csc_truven_blueprint.route('/read_file/<filename>', methods=['POST', 'GET'])
 def read_uploaded_file(filename):
-    so = CscUtils.get_so_by_file(os.path.join('/data/webtools/uploads/csc/truven/', filename))
+    up_file = os.path.join(UPLOAD_FOLDER, filename)
+    so = CscUtils.get_so_by_file(up_file)
     if CscUtils.create_settings_folder(so) == 0:
-        cmd = 'cp {} /data/CSC/truven/settings/{}/units_settings.csv'.format(so)
+        cmd = 'cp {} {}/{}/units_settings.csv'.format(up_file, WORK_FOLDER, so)
         if WebtoolsUtils.run_shell(cmd) == 0:
-            return "We get the xlsx file!"
+            return "We get the csv file!"
