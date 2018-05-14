@@ -12,7 +12,8 @@ class CscUtils(object):
         with open(filename_path, newline='') as f:
             reader = csv.DictReader(f)
             for row in reader:
-                return row['so']
+                so = row['so']
+        return so
 
     @staticmethod
     def create_settings_folder(so):
