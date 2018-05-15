@@ -1,8 +1,13 @@
 from src.common.webtools.webtools_utils import WebtoolsUtils
 from src.common.webtools.XML2DataFrame import XML2DataFrame
-
+import csv
 
 class TruvenUnit(object):
+
+    """
+    /data/CSC/truven/units/4215720857/J1003EMG:
+    asu_showall_J1003EMG.log  lan_print1_J1003EMG.log
+    """
 
     def __init__(self, serial_number):
         self.serial = serial_number.upper()
@@ -22,6 +27,7 @@ class TruvenUnit(object):
         self.subnet = self.get_truven_settings()['subnet']
         self.gateway = self.get_truven_settings()['gateway']
         self.ip_os = self.get_truven_settings()['ip-os']
+        self.LOG_FOLDER = '/data/CSC/truven/units/{}/{}'.format(self.SONUMBER, self.sn)
 
     def get_mtm(self):
         return self.serial[2:].split("J", 1)[0]  # Remove 1S, split until 1st J
@@ -75,10 +81,9 @@ class TruvenUnit(object):
 
     def get_truven_settings(self):
         truven_dict_data = dict()
-        path = '/data/CSC/truven/settings/{}/units_settings.csv'.format(self.SONUMBER)
-        cmd = 'grep {} {}'.format(self.serial, path)
-        truven_settings = WebtoolsUtils.stdout_shell(cmd).split(',')
-        keys = ['hostname', 'ip', 'subnet', 'gateway', 'ip-os']
-        for key, i in keys, range(1, 6):
-            truven_dict_data[key] = truven_settings[i]
-        return truven_dict_data
+        path = '/data/CSC/truven/settings/{}/unit_settings.csv'.format(self.SONUMBER)
+        with open(path, newline='') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if row['serial'] == self.serial:
+                    return row
