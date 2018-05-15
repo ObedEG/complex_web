@@ -18,7 +18,7 @@
 
     <p> Search by SO </p>
     <div class="docs-example" data-example-id="">
-            <form action="{{ url_for('csc_truven.status_by_so', so=so) }}" id="eventForm" method="post">
+            <form action="{{ url_for('csc_truven.truven_status') }}" id="eventForm" method="post">
                 <div class="flextable">
                   <div class="flextable-item flextable-primary">
                     <input type="text" class="form-control" id="so" name="so" placeholder="" />
@@ -50,8 +50,6 @@
                           {% for so in all_so %}
                               <tr>
                                 <td><strong> {{ so }} </strong></td>
-                              </tr>
-                              <tr>
                                 <td> {{ get_number_of_units_by_so(so) }} </td>
                               </tr>
                           {% endfor %}
