@@ -77,6 +77,8 @@ def read_uploaded_file(filename):
             if CscUtils.create_work_folder(so) == 0:
                 units = CscUtils.get_all_sn_by_file(up_file)
                 for serial in units:
-                    CscUtils.create_serial_folder(so=so, serial=serial)
+                    mtm = serial[2:].split("J", 1)[0]
+                    sn = serial[2:].replace(mtm, '')
+                    CscUtils.create_serial_folder(so=so, serial=sn)
                 return render_template('csc/truven/update_file_done.jinja2',
                                        filename=filename, so=so, num_units=len(units))
