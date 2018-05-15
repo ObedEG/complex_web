@@ -71,14 +71,17 @@ def upload_units_by_so():
 def read_uploaded_file(filename):
     up_file = os.path.join(UPLOAD_FOLDER, filename)
     so = CscUtils.get_so_by_file(up_file)
-    if CscUtils.create_settings_folder(so) == 0:
-        cmd = 'cp {} {}/{}/unit_settings.csv'.format(up_file, WORK_FOLDER, so)
-        if WebtoolsUtils.run_shell(cmd) == 0:
-            if CscUtils.create_work_folder(so) == 0:
-                units = CscUtils.get_all_sn_by_file(up_file)
-                for serial in units:
-                    mtm = serial[2:].split("J", 1)[0]
-                    sn = serial[2:].replace(mtm, '')
-                    CscUtils.create_serial_folder(so=so, serial=sn)
-                return render_template('csc/truven/update_file_done.jinja2',
-                                       filename=filename, so=so, num_units=len(units))
+    if CscUtils.validate_so(so) != 0:
+        if CscUtils.create_settings_folder(so) == 0:
+            cmd = 'cp {} {}/{}/unit_settings.csv'.format(up_file, WORK_FOLDER, so)
+            if WebtoolsUtils.run_shell(cmd) == 0:
+                if CscUtils.create_work_folder(so) == 0:
+                    units = CscUtils.get_all_sn_by_file(up_file)
+                    for serial in units:
+                        mtm = serial[2:].split("J", 1)[0]
+                        sn = serial[2:].replace(mtm, '')
+                        CscUtils.create_serial_folder(so=so, serial=sn)
+                    return render_template('csc/truven/update_file_done.jinja2',
+                                           filename=filename, so=so, num_units=len(units))
+    else:
+        return "This SO was created before!! {}".format(so)

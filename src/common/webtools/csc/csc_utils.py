@@ -16,6 +16,11 @@ class CscUtils(object):
         return so
 
     @staticmethod
+    def validate_so(so):
+        cmd = 'ls -d /data/CSC/truven/settings/{}'.format(so)
+        return WebtoolsUtils.run_shell(cmd)  # '0' if ran correctly
+
+    @staticmethod
     def create_settings_folder(so):
         cmd = 'mkdir -p /data/CSC/truven/settings/{}/'.format(so)
         return WebtoolsUtils.run_shell(cmd)  # '0' if ran correctly
