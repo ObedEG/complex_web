@@ -74,4 +74,9 @@ def read_uploaded_file(filename):
     if CscUtils.create_settings_folder(so) == 0:
         cmd = 'cp {} {}/{}/unit_settings.csv'.format(up_file, WORK_FOLDER, so)
         if WebtoolsUtils.run_shell(cmd) == 0:
-            return render_template('csc/truven/update_file_done.jinja2', filename=filename, so=so)
+            if CscUtils.create_work_folder(so) == 0:
+                units = CscUtils.get_all_sn_by_file(up_file)
+                for serial in units:
+                    CscUtils.create_serial_folder(so=so, serial=serial)
+                return render_template('csc/truven/update_file_done.jinja2',
+                                       filename=filename, so=so, num_units=len(units))
