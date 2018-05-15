@@ -1,7 +1,7 @@
 from flask import Blueprint, request, redirect, render_template, url_for, flash, send_file
 from src.common.webtools.xcat.unit import Unit
 from src.common.webtools.xcat.xcat import Xcat
-from src.common.webtools.csc.csc_utils import CscUtils
+from src.common.webtools.csc.truven_utils import TruvenUtils
 from src.common.webtools.webtools_utils import WebtoolsUtils
 from werkzeug.utils import redirect, secure_filename
 import os
@@ -32,19 +32,14 @@ def truven_addunit():
 
 @csc_truven_blueprint.route('/status', methods=['POST', 'GET'])
 def truven_status():
+    all_so = TruvenUtils.get_all_so()
     if request.method == 'POST':
-        if str(request.form['serial']).startswith('1S'):
-            unit = Unit(request.form['serial'])
-            #unit_dict = WebtoolsUtils.truven_def(serial_number=unit.serial, mo=unit.MONUMBER)
-            #Xcat.create_node(hostname=unit.sn.lower(), ip_os=unit_dict['ip-os'],
-            #                 ip_bmc=unit_dict['ip-bmc'], vm=truven_vm_ip)
-            Xcat.set_node_macs(hostname=unit.sn.lower(), macs=unit.format_mac_xcat(),
-                               vm=truven_vm_ip)
-            return redirect(url_for(".truven_menu"))
+        so = request.form['so']
+        if so in all_so:
+            return redirect(url_for(".status_by_so", so=so))
         else:
-            return "Please SCAN a correct Serial Number"
-
-    return render_template('csc/truven_addunit.jinja2')
+            return "Please provide a defined SO..."
+    return render_template('csc/truven/main_status.jinja2', all_so=all_so)
 
 
 @csc_truven_blueprint.route('/input_so_file/', methods=['POST', 'GET'])
@@ -60,7 +55,7 @@ def upload_units_by_so():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
-        if file and CscUtils.allowed_file(file.filename):
+        if file and TruvenUtils.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
             return redirect(url_for(".read_uploaded_file", filename=filename))
@@ -70,18 +65,33 @@ def upload_units_by_so():
 @csc_truven_blueprint.route('/read_file/<filename>', methods=['POST', 'GET'])
 def read_uploaded_file(filename):
     up_file = os.path.join(UPLOAD_FOLDER, filename)
-    so = CscUtils.get_so_by_file(up_file)
-    if CscUtils.validate_so(so) != 0:
-        if CscUtils.create_settings_folder(so) == 0:
+    so = TruvenUtils.get_so_by_file(up_file)
+    if TruvenUtils.validate_so(so) != 0:
+        if TruvenUtils.create_settings_folder(so) == 0:
             cmd = 'cp {} {}/{}/unit_settings.csv'.format(up_file, WORK_FOLDER, so)
             if WebtoolsUtils.run_shell(cmd) == 0:
-                if CscUtils.create_work_folder(so) == 0:
-                    units = CscUtils.get_all_sn_by_file(up_file)
+                if TruvenUtils.create_work_folder(so) == 0:
+                    units = TruvenUtils.get_all_sn_by_file(up_file)
                     for serial in units:
                         mtm = serial[2:].split("J", 1)[0]
                         sn = serial[2:].replace(mtm, '')
-                        CscUtils.create_serial_folder(so=so, serial=sn)
+                        TruvenUtils.create_serial_folder(so=so, serial=sn)
                     return render_template('csc/truven/update_file_done.jinja2',
                                            filename=filename, so=so, num_units=len(units))
     else:
         return "This SO was created before!! {}".format(so)
+
+
+@csc_truven_blueprint.route('/status/<string:so>')
+def status_by_so(so):
+    units = TruvenUtils.get_dict_units_settings_by_so(so)
+    return render_template('csc/truven/units_status.jinja2', units=units, so=so)
+
+
+@csc_truven_blueprint.context_processor
+def truven_utility():
+
+    def get_number_of_units_by_so(so):
+        return len(TruvenUtils.get_all_sn_by_so(so))
+
+    return dict(get_number_of_units_by_so=get_number_of_units_by_so)

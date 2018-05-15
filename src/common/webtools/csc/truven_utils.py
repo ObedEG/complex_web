@@ -5,7 +5,7 @@ import csv
 ALLOWED_EXTENSIONS = set(['csv'])
 
 
-class CscUtils(object):
+class TruvenUtils(object):
 
     @staticmethod
     def get_so_by_file(filename_path):
@@ -19,6 +19,11 @@ class CscUtils(object):
     def validate_so(so):
         cmd = 'ls -d /data/CSC/truven/settings/{}'.format(so)
         return WebtoolsUtils.run_shell(cmd)  # '0' if ran correctly
+
+    @staticmethod
+    def get_all_so():
+        cmd = 'ls /data/CSC/truven/settings/'
+        return WebtoolsUtils.stdout_shell(cmd).split()  # list of SOs
 
     @staticmethod
     def create_settings_folder(so):
@@ -43,6 +48,21 @@ class CscUtils(object):
             for row in reader:
                 all_sn.append(row['serial'])
             return all_sn
+
+    @staticmethod
+    def get_all_sn_by_so(so):
+        filename_path = '/data/CSC/truven/settings/{}/unit_settings.csv'.format(so)
+        return TruvenUtils.get_all_sn_by_file(filename_path)
+
+    @staticmethod
+    def get_dict_units_settings_by_so(so):
+        unit_list = list()
+        filename_path = '/data/CSC/truven/settings/{}/unit_settings.csv'.format(so)
+        with open(filename_path, newline='') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                unit_list.append(row)
+            return unit_list  # This is a list of dict of each unit
 
     @staticmethod
     def allowed_file(filename):

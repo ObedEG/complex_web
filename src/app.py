@@ -10,7 +10,7 @@ from src.models.fixes.views import fix_blueprint
 from src.models.frecords.views import frecord_blueprint
 from src.models.webtools.views import webtool_blueprint
 from src.models.csc.views import csc_blueprint
-from src.models.csc.csc_trueven import csc_truven_blueprint
+from src.models.csc.csc_truven import csc_truven_blueprint
 
 app = Flask(__name__)
 app.config.from_object('src.config')

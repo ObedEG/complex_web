@@ -1,10 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "csc/csc_base.jinja2" %}
+{% block content %}
+<div class="container">
+
+    <div class="dashhead">
+      <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Complex Web</h6>
+      </div>
+    </div>
+
+        <hr class="mt-0 mb-5">
+
+    <h4 id="flex-table">CSC - Truven Order</h4>
+
+    <p>UNITS STATUS </p>
+
+    <br>
+
+    <p> Search by SO </p>
+    <div class="docs-example" data-example-id="">
+            <form action="{{ url_for('csc_truven.status_by_so', so=so) }}" id="eventForm" method="post">
+                <div class="flextable">
+                  <div class="flextable-item flextable-primary">
+                    <input type="text" class="form-control" id="so" name="so" placeholder="" />
+                  </div>
+                  <div class="flextable-item">
+                    <div class="btn-group">
+                      <button type="submit" class="btn btn-outline-primary">
+                        <span class="fa fa-search"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+            </form>
+        </div>
+
+    <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component">
+
+                      <table class="table">
+                          <thead>
+                              <tr>
+                                  <th>SO</th>
+                                  <th>Number of Units</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+
+                          {% for so in all_so %}
+                              <tr>
+                                <td><strong> {{ so }} </strong></td>
+                              </tr>
+                              <tr>
+                                <td> {{ get_number_of_units_by_so(so) }} </td>
+                              </tr>
+                          {% endfor %}
+                          </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}
