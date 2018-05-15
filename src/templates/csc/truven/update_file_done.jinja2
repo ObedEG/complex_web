@@ -1,0 +1,20 @@
+{% extends "csc/csc_base.jinja2" %}
+{% block content %}
+<div class="container">
+
+    <div class="dashhead">
+      <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Complex Web</h6>
+      </div>
+    </div>
+
+        <hr class="mt-0 mb-5">
+
+    <h4 id="flex-table">CSC - Truven Order</h4>
+
+     <p> We got the uploaded file! *** {{ filename }} *** </p>
+     <br>
+     <p> also the Settings OS-folder was made and unit_settings.csv has been saved at *** /data/CSC/truven/settings/{{ os }}/unit_settings.csv *** </p>
+
+</div>
+{% endblock %}

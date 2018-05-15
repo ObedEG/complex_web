@@ -74,5 +74,4 @@ def read_uploaded_file(filename):
     if CscUtils.create_settings_folder(so) == 0:
         cmd = 'cp {} {}/{}/unit_settings.csv'.format(up_file, WORK_FOLDER, so)
         if WebtoolsUtils.run_shell(cmd) == 0:
-            flash("We got the file! --- > {}".format(filename))
-            return render_template('csc/truven_menu.jinja2')
+            return render_template('csc/truven/update_file_done.jinja2', filename=filename, so=so)
