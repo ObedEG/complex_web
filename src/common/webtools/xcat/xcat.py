@@ -2,6 +2,7 @@ from src.common.webtools.webtools_utils import WebtoolsUtils
 
 
 class Xcat(object):
+
     @staticmethod
     def create_switch(switch, ip, vm):
         """
@@ -89,3 +90,9 @@ class Xcat(object):
         cmnds.append(' service network restart')
         for cmd in cmnds:
             WebtoolsUtils.run_shell('ssh ' + vm + cmd)
+
+    @staticmethod
+    def clean_xcat(vm):
+        # cleanXcatNodes is /home/ALLEASY/cleanXcatNodes.sh copied to /usr/bin/
+        cmd = 'ssh {} cleanXcatNodes'.format(vm)
+        return WebtoolsUtils.run_shell(cmd)

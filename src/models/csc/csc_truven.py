@@ -13,23 +13,6 @@ UPLOAD_FOLDER = '/data/webtools/uploads/csc/truven'
 WORK_FOLDER = '/data/CSC/truven/settings'
 
 
-@csc_truven_blueprint.route('/add_unit', methods=['POST', 'GET'])
-def truven_addunit():
-    if request.method == 'POST':
-        if str(request.form['serial']).startswith('1S'):
-            unit = Unit(request.form['serial'])
-            # unit_dict = WebtoolsUtils.truven_def(serial_number=unit.serial, mo=unit.MONUMBER)
-            # Xcat.create_node(hostname=unit.sn.lower(), ip_os=unit_dict['ip-os'],
-
-            #                 ip_bmc=unit_dict['ip-bmc'], vm=truven_vm_ip)
-            Xcat.set_node_macs(hostname=unit.sn.lower(), macs=unit.format_mac_xcat(),
-                               vm=truven_vm_ip)
-            return redirect(url_for(".truven_menu"))
-        else:
-            return "Please SCAN a correct Serial Number"
-    return render_template('csc/truven_addunit.jinja2')
-
-
 @csc_truven_blueprint.route('/status', methods=['POST', 'GET'])
 def truven_status():
     all_so = TruvenUtils.get_all_so()
@@ -88,10 +71,34 @@ def status_by_so(so):
     return render_template('csc/truven/units_status.jinja2', units=units, so=so)
 
 
+@csc_truven_blueprint.route('/vm/setup/', methods=['POST', 'GET'])
+def setup_vm():
+    if request.method == 'POST':
+        return True
+    return render_template('csc/truven/units_status.jinja2')
+
+
+@csc_truven_blueprint.route('/vm/workarea/', methods=['POST', 'GET'])
+def workarea():
+    if request.method == 'POST':
+        return True
+    return render_template('csc/truven/workarea.jinja2')
+
+
 @csc_truven_blueprint.context_processor
 def truven_utility():
 
     def get_number_of_units_by_so(so):
         return len(TruvenUtils.get_all_sn_by_so(so))
 
-    return dict(get_number_of_units_by_so=get_number_of_units_by_so)
+    def ping_device(ip):
+        return WebtoolsUtils.ping_device(vm=truven_vm_ip, ip=ip)
+
+    def get_workarea_units_dict():
+        return TruvenUtils.get_workarea_units()
+
+    def get_workarea_so():
+        return TruvenUtils.get_workarea_so()
+
+    return dict(get_number_of_units_by_so=get_number_of_units_by_so, ping_device=ping_device,
+                get_workarea_units_dict=get_workarea_units_dict, get_workarea_so=get_workarea_so)

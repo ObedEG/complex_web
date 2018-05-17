@@ -35,36 +35,26 @@ class WebtoolsUtils(object):
         return r.returncode  # 0 means it ran successfully!
 
     @staticmethod
-    def run_true_shell(cmd):
-        return subprocess.run(cmd, shell=True, stdout=subprocess.PIPE).returncode
-
-    @staticmethod
     def stdout_shell(cmd):
         args = shlex.split(cmd)
+        print(args)
         r = subprocess.run(args=args, universal_newlines=False, stdout=subprocess.PIPE)
         return r.stdout.decode()  # return the stdout of the ran cmd!
 
     @staticmethod
-    def run_shell_stdin(cmd, stdin):
-        args = shlex.split(cmd)
-        r = subprocess.run(args=args, stdin=stdin, universal_newlines=False, stdout=subprocess.PIPE)
-        return r.returncode  # 0 means it ran successfully!
-
-    @staticmethod
-    def truven_def(serial_number, mo):
-        keys = ['serial', 'ip-os', 'hostname-bmc', 'ip-bmc', 'subnet-bmc', 'gateway-bmc']
-        cmd = 'grep {0} /data/CSC/truven/{1}/{1}.csv'.format(serial_number, mo)
-        r = WebtoolsUtils.stdout_shell(cmd)
-        values = r.replace('\n', '').split(',')
-        # values :
-        #  ['1S7X19CTO1WWJ1003EMG', '172.20.101.1',
-        # 'TRVWHIESQL04A-OOB', '10.235.249.49', '255.255.252.0', '10.235.248.1']
-        return dict(zip(keys, values))
-
-    @staticmethod
-    def get_mo_truven_list():
-        cmd = 'ls /data/CSC/truven/*/*.csv'
-        csv_file = WebtoolsUtils.shell(cmd).stdout.split()
+    def ping_device(vm, ip):
+        cmd = 'ssh {0} ping -c 1 -w 1 {1}'.format(vm, ip)
+        stdout = WebtoolsUtils.stdout_shell(cmd).split('\n')
+        """['PING 172.15.0.22 (172.15.0.22) 56(84) bytes of data.',
+        '64 bytes from 172.15.0.22: icmp_seq=1 ttl=64 time=0.187 ms',
+        '',
+        '--- 172.15.0.22 ping statistics ---',
+        '1 packets transmitted, 1 received, 0% packet loss, time 0ms',
+        'rtt min/avg/max/mdev = 0.187/0.187/0.187/0.000 ms', '']"""
+        if stdout[1] is not '':
+            return "ONLINE"  # Device ONLINE
+        else:
+            return "OFFLINE"
 
     @staticmethod
     def allowed_file(filename):
