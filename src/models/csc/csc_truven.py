@@ -81,7 +81,12 @@ def setup_vm():
 @csc_truven_blueprint.route('/vm/workarea/', methods=['POST', 'GET'])
 def workarea():
     if request.method == 'POST':
-        return True
+        so = request.form['so']
+        if so in TruvenUtils.get_all_so():
+            TruvenUtils.set_workarea(so)
+        else:
+            return "The SO: {} was not defined, please add a csv definition " \
+                   "to http://10.34.70.230:81/csc_truven/input_so_file/".format(so)
     return render_template('csc/truven/workarea.jinja2')
 
 

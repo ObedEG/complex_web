@@ -19,6 +19,25 @@
      <p>STATUS: {{ ping_device('172.15.0.22') }}</p>
      <br>
 
+    <p>Write down an defined SO to set up TRUVEN-Units in our VM</p>
+        <div class="docs-example" data-example-id="">
+            <form action="{{ url_for('csc_truven.workarea') }}" id="eventForm" method="post">
+                <div class="flextable">
+                  <div class="flextable-item flextable-primary">
+                    <input type="text" class="form-control" id="so" name="so" placeholder="" />
+                  </div>
+                  <div class="flextable-item">
+                    <div class="btn-group">
+                      <button type="submit" class="btn btn-outline-primary">
+                        <span class="fa fa-search"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+            </form>
+        </div>
+
+
     <hr>
 
     <br>
@@ -64,6 +83,9 @@
                                 <th>IP</th>
                                 <th>SUBNET</th>
                                 <th>GATEWAY</th>
+                                <th>STATUS</th>
+                                <th>PROGRESS</th>
+                                <th>CSC Test</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -75,6 +97,12 @@
                                 <td> {{ unit['ip'] }} </td>
                                 <td> {{ unit['subnet'] }}</td>
                                 <td> {{ unit['gateway'] }}</td>
+                                <td> {{ ping_device(unit['ip-os']) }} </td>
+                                <td> check_progress() </td>
+                                <td>
+                                    <p class="bs-component">
+                                        <a href="" class="btn btn-success">GO!</a>
+                                    </p> </td>
                               </tr>
                           {% endfor %}
                           </tbody>

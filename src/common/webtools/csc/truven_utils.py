@@ -78,9 +78,9 @@ class TruvenUtils(object):
         if Xcat.clean_xcat(vm=csc_truven_vm) == 0:
             Xcat.create_switch(switch='switch1', ip='172.30.50.1', vm=csc_truven_vm)
             if WebtoolsUtils.run_shell(cmd) == 0:
-                units = TruvenUtils.get_dict_units_settings_by_so(so)
+                units = TruvenUtils.get_all_sn_by_so(so)
                 for unit in units:
-                    tu = TruvenUnit(unit['serial'])
+                    tu = TruvenUnit(unit)
                     Xcat.create_node(hostname=tu.hostname, ip_os=tu.ip_os,
                                      ip_bmc=tu.ip, vm=csc_truven_vm)
                     Xcat.set_node_macs(hostname=tu.hostname, macs=tu.format_mac_xcat(),
