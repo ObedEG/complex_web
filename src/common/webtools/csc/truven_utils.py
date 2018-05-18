@@ -81,9 +81,9 @@ class TruvenUtils(object):
                 units = TruvenUtils.get_all_sn_by_so(so)
                 for unit in units:
                     tu = TruvenUnit(unit)
-                    Xcat.create_node(hostname=tu.hostname, ip_os=tu.ip_os,
+                    Xcat.create_node(hostname=tu.sn, ip_os=tu.ip_os,
                                      ip_bmc=tu.ip, vm=csc_truven_vm)
-                    Xcat.set_node_macs(hostname=tu.hostname, macs=tu.format_mac_xcat(),
+                    Xcat.set_node_macs(hostname=tu.sn, macs=tu.format_mac_xcat(),
                                        vm=csc_truven_vm)
                 return Xcat.restart_discovery_services(vm=csc_truven_vm)
 
@@ -100,7 +100,6 @@ class TruvenUtils(object):
         cmd = 'ls {}'.format(workarea_file)
         if WebtoolsUtils.run_shell(cmd) == 0:
             return TruvenUtils.get_so_by_file(workarea_file)
-
 
     @staticmethod
     def allowed_file(filename):
