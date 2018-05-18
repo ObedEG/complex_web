@@ -80,7 +80,6 @@ class TruvenUnit(object):
         return XML2DataFrame(self.path_to_xml).get_orderdata()
 
     def get_truven_settings(self):
-        truven_dict_data = dict()
         path = '/data/CSC/truven/settings/{}/unit_settings.csv'.format(self.SONUMBER)
         with open(path, newline='') as f:
             reader = csv.DictReader(f)

@@ -2,6 +2,7 @@ from flask import Blueprint, request, redirect, render_template, url_for, flash,
 from src.common.webtools.xcat.unit import Unit
 from src.common.webtools.xcat.xcat import Xcat
 from src.common.webtools.csc.truven_utils import TruvenUtils
+from src.common.webtools.csc.truven_unit import TruvenUnit
 from src.common.webtools.webtools_utils import WebtoolsUtils
 from werkzeug.utils import redirect, secure_filename
 import os
@@ -90,14 +91,14 @@ def workarea():
     return render_template('csc/truven/workarea.jinja2')
 
 
-@csc_truven_blueprint.route("/vm/workarea/<string:unit['serial']>", methods=['POST', 'GET'])
-def test_unit(unit):
-    return render_template('csc/truven/test_unit.jinja2', unit=unit)
+@csc_truven_blueprint.route("/vm/workarea/<string:serial>", methods=['POST', 'GET'])
+def test_unit(serial):
+    return render_template('csc/truven/test_unit.jinja2', serial=serial)
 
 
-@csc_truven_blueprint("/vm/workarea/<string:unit['serial']>/run_test", methods=['POST', 'GET'])
-def run_test(unit):
-    return TruvenUtils.run_test(unit)
+@csc_truven_blueprint("/vm/workarea/<string:serial>/run_test", methods=['POST', 'GET'])
+def run_test(serial):
+    return TruvenUtils.run_test(serial)
 
 
 @csc_truven_blueprint.context_processor
@@ -114,6 +115,7 @@ def truven_utility():
 
     def get_workarea_so():
         return TruvenUtils.get_workarea_so()
+
 
     return dict(get_number_of_units_by_so=get_number_of_units_by_so, ping_device=ping_device,
                 get_workarea_units_dict=get_workarea_units_dict, get_workarea_so=get_workarea_so)
