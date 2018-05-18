@@ -104,3 +104,50 @@ class TruvenUtils(object):
     @staticmethod
     def allowed_file(filename):
         return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+    """
+    --- Test tools ---
+    """
+
+    @staticmethod
+    def copy_asu_to_unit(vm, sn):
+        cmd = 'ssh {0} scp /root/asu64 {1}:/root/'.format(vm, sn)
+        return WebtoolsUtils.run_shell(cmd)
+
+    @staticmethod
+    def verify_unit_tools(vm, sn):
+        asu64 = 'ssh {0} psh {1} ls /root/asu64'.format(vm, sn)
+        ipmitool = 'ssh {0} psh {1} ipmitool'.format(vm, sn)
+        if WebtoolsUtils.run_shell(asu64) == 0:
+            return WebtoolsUtils.run_shell(ipmitool)
+
+    @staticmethod
+    def change_xcc_hostname(vm, sn, xcc_hostname):
+        cmd = 'ssh {0} psh {1} /root/asu64 set IMM.HostName1 {2} --kcs'.format(vm, sn, xcc_hostname)
+        return WebtoolsUtils.run_shell(cmd)
+
+    @staticmethod
+    def change_xcc_netmask(vm, sn, xcc_netmask):
+        cmd = 'ssh {0} psh {1} ipmitool lan set 1 netmask {2}'.format(vm, sn, xcc_netmask)
+        return WebtoolsUtils.run_shell(cmd)
+
+    @staticmethod
+    def change_xcc_gateway(vm, sn, xcc_gateway):
+        cmd = 'ssh {0} psh {1} ipmitool lan set 1 defgw ipaddr {2}'.format(vm, sn, xcc_gateway)
+        return WebtoolsUtils.run_shell(cmd)
+
+    @staticmethod
+    def run_test(unit):
+        return TruvenUtils.copy_asu_to_unit(vm=csc_truven_vm, sn=unit['sn'])
+
+    """Pending Gathering info
+
+    *** Gathering evidence info   (subprocess.run().stdout !!!! save into a file)
+
+    ssh <vm> psh <sn> ipmitool lan print 1
+
+
+    ssh <vm> psh <sn> /root/asu64 show all --kcs
+    """
+
+

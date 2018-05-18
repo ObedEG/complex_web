@@ -1,0 +1,61 @@
+{% extends "csc/csc_base.jinja2" %}
+{% block content %}
+
+<div class="container">
+
+    <div class="dashhead">
+      <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Complex Web</h6>
+      </div>
+    </div>
+
+        <hr class="mt-0 mb-5">
+
+    <h4 id="flex-table">CSC - Truven Order</h4>
+
+
+    <br>
+     <p> VM - mgt22 (172.15.0.22) </p>
+     <p>STATUS: {{ ping_device('172.15.0.22') }}</p>
+     <br>
+
+    <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component">
+
+                      <table class="table">
+                          <thead>
+                              <tr>
+                                  <th>Serial Number</th>
+                                <th>Hostname</th>
+                                <th>IP</th>
+                                <th>SUBNET</th>
+                                <th>GATEWAY</th>
+                                <th>STATUS</th>
+                                <th>PROGRESS</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                                <td><strong> {{ unit['serial'] }} </strong></td>
+                                <td> {{ unit['hostname'] }} </td>
+                                <td> {{ unit['ip'] }} </td>
+                                <td> {{ unit['subnet'] }}</td>
+                                <td> {{ unit['gateway'] }}</td>
+                                <td> {{ ping_device(unit['ip-os']) }} </td>
+                                <td> check_progress() </td>
+                          </tr>
+                          </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+
+        <p class="bs-component">
+            <a href="{{ url_for('csc_truven.run_test', unit=unit) }}" class="btn btn-success">RUN TEST</a>
+        </p>
+
+        <p><a href='/csc/truven'>BACK</a></p>
+
+</div>
+{% endblock %}

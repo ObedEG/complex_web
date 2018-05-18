@@ -101,8 +101,9 @@
                                 <td> check_progress() </td>
                                 <td>
                                     <p class="bs-component">
-                                        <a href="" class="btn btn-success">GO!</a>
-                                    </p> </td>
+                                        <a href="{{ url_for('csc_truven.test_unit', unit=unit) }}" class="btn btn-success">VIEW</a>
+                                    </p>
+                                </td>
                               </tr>
                           {% endfor %}
                           </tbody>
