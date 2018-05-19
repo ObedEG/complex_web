@@ -137,8 +137,7 @@ class TruvenUtils(object):
         return WebtoolsUtils.run_shell(cmd)
 
     @staticmethod
-    def run_test(serial):
-        unit = TruvenUnit(serial)
+    def run_test(unit):
         return TruvenUtils.copy_asu_to_unit(vm=csc_truven_vm, sn=unit['sn'])
 
     """Pending Gathering info

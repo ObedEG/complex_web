@@ -93,12 +93,13 @@ def workarea():
 
 @csc_truven_blueprint.route('/vm/workarea/<string:serial>', methods=['POST', 'GET'])
 def test_unit(serial):
-    return render_template('csc/truven/test_unit.jinja2', serial=serial)
+    unit = TruvenUnit(serial)
+    return render_template('csc/truven/test_unit.jinja2', serial=serial, unit=unit)
 
 
 @csc_truven_blueprint.route('/vm/workarea/<string:serial>/run_test', methods=['POST', 'GET'])
-def run_test(serial):
-    return TruvenUtils.run_test(serial)
+def run_test(unit):
+    return TruvenUtils.run_test(unit=unit)
 
 
 @csc_truven_blueprint.context_processor
