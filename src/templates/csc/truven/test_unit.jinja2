@@ -39,12 +39,12 @@
                           </thead>
                           <tbody>
                           <tr>
-                                <td><strong> {{ unit['serial'] }} </strong></td>
-                                <td> {{ unit['hostname'] }} </td>
-                                <td> {{ unit['ip'] }} </td>
-                                <td> {{ unit['subnet'] }}</td>
-                                <td> {{ unit['gateway'] }}</td>
-                                <td> {{ ping_device(unit['ip-os']) }} </td>
+                                <td><strong> {{ unit.serial }} </strong></td>
+                                <td> {{ unit.hostname] }} </td>
+                                <td> {{ unit.ip }} </td>
+                                <td> {{ unit.subnet }}</td>
+                                <td> {{ unit.gateway }}</td>
+                                <td> {{ ping_device(unit.ip_os) }} </td>
                                 <td> check_progress() </td>
                           </tr>
                           </tbody>
