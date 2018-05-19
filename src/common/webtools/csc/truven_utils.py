@@ -138,7 +138,7 @@ class TruvenUtils(object):
 
     @staticmethod
     def run_test(unit):
-        return TruvenUtils.copy_asu_to_unit(vm=csc_truven_vm, sn=unit.sn)
+        return TruvenUtils.copy_asu_to_unit(vm=csc_truven_vm, sn=unit.ip_os)
 
     """Pending Gathering info
 
