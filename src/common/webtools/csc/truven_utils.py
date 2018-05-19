@@ -117,7 +117,7 @@ class TruvenUtils(object):
     @staticmethod
     def verify_unit_tools(vm, sn):
         asu64 = 'ssh {0} psh {1} ls /root/asu64'.format(vm, sn)
-        ipmitool = 'ssh {0} psh {1} ipmitool'.format(vm, sn)
+        ipmitool = 'ssh {0} psh {1} ipmitool lan print 1'.format(vm, sn)
         if WebtoolsUtils.run_shell(asu64) == 0:
             return WebtoolsUtils.run_shell(ipmitool)
 
