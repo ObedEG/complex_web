@@ -141,7 +141,7 @@ class TruvenUtils(object):
         if TruvenUtils.copy_asu_to_unit(vm=csc_truven_vm, sn=unit.ip_os) == 0:
             if TruvenUtils.verify_unit_tools(vm=csc_truven_vm, sn=unit.sn) == 0:
                 hostname = TruvenUtils.change_xcc_hostname(vm=csc_truven_vm, sn=unit.sn, xcc_hostname=unit.hostname)
-                netmask = TruvenUtils.change_xcc_netmask(vm=csc_truven_vm, sn=unit.sn, xcc_netmask=unit.netmask)
+                netmask = TruvenUtils.change_xcc_netmask(vm=csc_truven_vm, sn=unit.sn, xcc_netmask=unit.subnet)
                 gateway = TruvenUtils.change_xcc_gateway(vm=csc_truven_vm, sn=unit.sn, xcc_gateway=unit.gateway)
                 if hostname + netmask + gateway == 0:
                     return "We finished the test!!!"
