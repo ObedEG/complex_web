@@ -98,7 +98,8 @@ def test_unit(serial):
 
 
 @csc_truven_blueprint.route('/vm/workarea/<string:serial>/run_test', methods=['POST', 'GET'])
-def run_test(unit):
+def run_test(serial):
+    unit = TruvenUnit(serial)
     return TruvenUtils.run_test(unit=unit)
 
 
