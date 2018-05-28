@@ -60,6 +60,7 @@ def read_uploaded_file(filename):
                         mtm = serial[2:].split("J", 1)[0]
                         sn = serial[2:].replace(mtm, '')
                         TruvenUtils.create_serial_folder(so=so, serial=sn)
+                        TruvenUtils.create_file_results(so=so, serial=sn)
                     return render_template('csc/truven/update_file_done.jinja2',
                                            filename=filename, so=so, num_units=len(units))
     else:
@@ -100,7 +101,7 @@ def test_unit(serial):
 @csc_truven_blueprint.route('/vm/workarea/<string:serial>/run_test', methods=['POST', 'GET'])
 def run_test(serial):
     unit = TruvenUnit(serial)
-    return TruvenUtils.run_test(unit=unit)
+    return TruvenUtils.run_test(unit) + TruvenUtils.get_result_logs(unit.SONUMBER, unit.sn, truven_vm_ip)
 
 
 @csc_truven_blueprint.context_processor
