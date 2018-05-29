@@ -200,6 +200,3 @@ class TruvenUtils(object):
 """
 Validate results logs with expected settings
 """
-    @staticmethod
-    def validate_logs():
-        return True
