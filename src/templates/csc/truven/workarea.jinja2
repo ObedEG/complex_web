@@ -98,11 +98,16 @@
                                 <td> {{ unit['subnet'] }}</td>
                                 <td> {{ unit['gateway'] }}</td>
                                 <td> {{ ping_device(unit['ip-os']) }} </td>
-                                <td> check_progress() </td>
+                                <td> {{ check_progress(get_workarea_so(), unit['serial']) }}</td>
                                 <td>
+                                    {% if check_progress(get_workarea_so(), unit['serial']) == 'Waiting' -%}
                                     <p class="bs-component">
-                                        <a href="{{ url_for('csc_truven.test_unit', serial=unit['serial']) }}" class="btn btn-success">VIEW</a>
+                                        <a href="{{ url_for('csc_truven.run_test', serial=unit['serial']) }}" class="btn btn-success">CSC Set up!</a>
                                     </p>
+                                    {% else -%}
+                                    <a href=""> ipmitool_lan_XXXXXX.log </a> <br>
+                                    <a href=""> asu_showall_XXXXXX.log </a>
+                                    {%- endif %}
                                 </td>
                               </tr>
                           {% endfor %}

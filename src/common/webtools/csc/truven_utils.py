@@ -143,8 +143,7 @@ class TruvenUtils(object):
                 hostname = TruvenUtils.change_xcc_hostname(vm=csc_truven_vm, sn=unit.sn, xcc_hostname=unit.hostname)
                 netmask = TruvenUtils.change_xcc_netmask(vm=csc_truven_vm, sn=unit.sn, xcc_netmask=unit.subnet)
                 gateway = TruvenUtils.change_xcc_gateway(vm=csc_truven_vm, sn=unit.sn, xcc_gateway=unit.gateway)
-                if hostname + netmask + gateway == 0:
-                    return "We finished the XCC/IMM configuration ..."
+                return hostname + netmask + gateway  # 0 - if all ran well
 
     """
     --- Data Collection tools ---
@@ -188,4 +187,19 @@ class TruvenUtils(object):
                    TruvenUtils.write_stdoutput_file(output_list=TruvenUtils.get_ipmitool_lan_log(vm, serial),
                                                     pathfile='/data/CSC/truven/units/{0}/{1}/ipmitool_lan_{1}.log'
                                                     .format(so, serial)) == 0:
-                return "and results are save at /data/CSC/truven/units/{0}/{1}/".format(so, serial)
+                return 0
+
+    @staticmethod
+    def check_progress(so, serial):
+        cmd = 'ls /data/CSC/truven/units/{0}/{1}/'.format(so, serial)
+        if WebtoolsUtils.stdout_shell(cmd) != '':
+            return "Finish"
+        else:
+            return "Waiting"
+
+"""
+Validate results logs with expected settings
+"""
+    @staticmethod
+    def validate_logs():
+        return True

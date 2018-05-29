@@ -101,7 +101,10 @@ def test_unit(serial):
 @csc_truven_blueprint.route('/vm/workarea/<string:serial>/run_test', methods=['POST', 'GET'])
 def run_test(serial):
     unit = TruvenUnit(serial)
-    return TruvenUtils.run_test(unit) + TruvenUtils.get_result_logs(unit.SONUMBER, unit.sn, truven_vm_ip)
+    if TruvenUtils.run_test(unit) + TruvenUtils.get_result_logs(unit.SONUMBER, unit.sn, truven_vm_ip) == 0:
+        return redirect(url_for(".workarea"))
+    else:
+        return "Something did not run correctly . . . verify log: /var/www/html/complex-web/log/uwsgi.log"
 
 
 @csc_truven_blueprint.context_processor
@@ -119,6 +122,9 @@ def truven_utility():
     def get_workarea_so():
         return TruvenUtils.get_workarea_so()
 
+    def check_progress(so, serial):
+        return TruvenUtils.check_progress(so, serial)
 
     return dict(get_number_of_units_by_so=get_number_of_units_by_so, ping_device=ping_device,
-                get_workarea_units_dict=get_workarea_units_dict, get_workarea_so=get_workarea_so)
+                get_workarea_units_dict=get_workarea_units_dict, get_workarea_so=get_workarea_so,
+                check_progress=check_progress)
