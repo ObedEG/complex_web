@@ -191,7 +191,9 @@ class TruvenUtils(object):
 
     @staticmethod
     def check_progress(so, serial):
-        cmd = 'ls /data/CSC/truven/units/{0}/{1}/'.format(so, serial)
+        mtm = serial[2:].split("J", 1)[0]
+        sn = serial[2:].replace(mtm, '')
+        cmd = 'ls /data/CSC/truven/units/{0}/{1}/'.format(so, sn)
         if WebtoolsUtils.stdout_shell(cmd) != '':
             return "Finish"
         else:
