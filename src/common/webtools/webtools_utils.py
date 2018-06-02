@@ -16,7 +16,7 @@ class WebtoolsUtils(object):
     @staticmethod
     def shell_checkoutput(cmd):
         """
-        Alternatively, for trusted input, the shell’s own pipeline support
+        Alternatively, for trusted input, the shells own pipeline support
         may still be used directly:
 
         output=`dmesg | grep hda`
