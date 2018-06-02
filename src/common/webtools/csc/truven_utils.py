@@ -202,7 +202,7 @@ class TruvenUtils(object):
     @staticmethod
     def get_log_value(value, so, sn):
         cmd = 'grep {0} /data/CSC/truven/units/{1}/{2}/asu_showall_{2}.log'.format(value, so, sn)
-        return WebtoolsUtils.stdout_shell(cmd).split('=')[1]  # Return the current value at file log
+        return WebtoolsUtils.stdout_shell(cmd).split()[1].split('=')[1]  # Return the current value at file log
 
     @staticmethod
     def check_log_values(unit):
