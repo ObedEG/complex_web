@@ -199,6 +199,21 @@ class TruvenUtils(object):
         else:
             return "Waiting"
 
-"""
-Validate results logs with expected settings
-"""
+    @staticmethod
+    def get_log_value(value, so, sn):
+        cmd = 'grep {0} /data/CSC/truven/units/{1}/{2}/asu_showall_{2}.log'.format(value, so, sn)
+        return WebtoolsUtils.stdout_shell(cmd).split('=')[1]  # Return the current value at file log
+
+    @staticmethod
+    def check_log_values(unit):
+        hostname_log = TruvenUtils.get_log_value('IMM.HostName1', unit.SONUMBER, unit.sn)
+        ip_log = TruvenUtils.get_log_value('IMM.HostIPAddress1', unit.SONUMBER, unit.sn)
+        gateway_log = TruvenUtils.get_log_value('IMM.GatewayIPAddress1', unit.SONUMBER, unit.sn)
+        subnet_log = TruvenUtils.get_log_value('IMM.HostIPSubnet1', unit.SONUMBER, unit.sn)
+        if hostname_log == unit.hostname and ip_log == unit.ip and gateway_log == unit.gateway \
+                and subnet_log == unit.subnet:
+            return WebtoolsUtils.pass_itac_csc(unit.serial, unit.MONUMBER)
+        else:
+            return 'Please verify IMM logs at /data/CSC/truven/units/{0}/{1}/asu_showall_{1}.log'.format(unit.SONUMBER,
+                                                                                                         unit.sn)
+

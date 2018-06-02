@@ -102,7 +102,10 @@ def test_unit(serial):
 def run_test(serial):
     unit = TruvenUnit(serial)
     if TruvenUtils.run_test(unit) + TruvenUtils.get_result_logs(unit.SONUMBER, unit.sn, truven_vm_ip) == 0:
-        return redirect(url_for(".workarea"))
+        if TruvenUtils.check_log_values(unit) == 0:
+            return render_template('csc/truven/workarea.jinja2')
+        else:
+            return "Something did not run correctly . . . verify log: /var/www/html/complex-web/log/uwsgi.log"
     else:
         return "Something did not run correctly . . . verify log: /var/www/html/complex-web/log/uwsgi.log"
 

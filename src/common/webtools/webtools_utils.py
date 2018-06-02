@@ -85,3 +85,8 @@ class WebtoolsUtils(object):
         return WebtoolsUtils.run_shell('scp /data/webtools/nodes_list/{} '
                             '10.34.70.220:/dfcxact/workarea/Complex/Microsoft/node_status/nodes_list/'.format(file))
 
+    @staticmethod
+    def pass_itac_csc(serial, mo):
+        cmd = 'ssh 10.34.70.220 python /dfcxact/dless/itac_client.py -n {0} -s complex -c -w {1}'.format(serial, mo)
+        return WebtoolsUtils.run_shell(cmd)
+
