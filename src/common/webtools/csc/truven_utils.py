@@ -212,7 +212,7 @@ class TruvenUtils(object):
         subnet_log = TruvenUtils.get_log_value('IMM.HostIPSubnet1', unit.SONUMBER, unit.sn)
         if hostname_log == unit.hostname and ip_log == unit.ip and gateway_log == unit.gateway \
                 and subnet_log == unit.subnet:
-            return WebtoolsUtils.pass_itac_csc(unit.serial, unit.MONUMBER)
+            return 0  # WebtoolsUtils.pass_itac_csc(unit.serial, unit.MONUMBER)
         else:
             return 'Please verify IMM logs at /data/CSC/truven/units/{0}/{1}/asu_showall_{1}.log'.format(unit.SONUMBER,
                                                                                                          unit.sn)
