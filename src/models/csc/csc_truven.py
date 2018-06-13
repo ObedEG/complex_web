@@ -128,6 +128,9 @@ def truven_utility():
     def check_progress(so, serial):
         return TruvenUtils.check_progress(so, serial)
 
+    def run_rescan():
+        return TruvenUtils.run_rescan_nodes_by_uuid()
+
     return dict(get_number_of_units_by_so=get_number_of_units_by_so, ping_device=ping_device,
                 get_workarea_units_dict=get_workarea_units_dict, get_workarea_so=get_workarea_so,
-                check_progress=check_progress)
+                check_progress=check_progress, run_rescan=run_rescan)

@@ -217,3 +217,6 @@ class TruvenUtils(object):
             return 'Please verify IMM logs at /data/CSC/truven/units/{0}/{1}/asu_showall_{1}.log'.format(unit.SONUMBER,
                                                                                                          unit.sn)
 
+    @staticmethod
+    def run_rescan_nodes_by_uuid():
+        return WebtoolsUtils.run_shell('ssh {} node_discover_by_uuid'.format(csc_truven_vm))
