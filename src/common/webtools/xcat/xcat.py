@@ -84,7 +84,7 @@ class Xcat(object):
     @staticmethod
     def restart_discovery_services(vm):
         cmnds = list()
-        cmnds.append(' makedns - n')
+        cmnds.append(' makedns -n')
         cmnds.append(' makedhcp -n')
         cmnds.append(' service dhcpd restart')
         cmnds.append(' service network restart')
