@@ -162,7 +162,7 @@ class TruvenUtils(object):
         :param pathfile: path and filename, example: '/data/webtools/nodes_list/{}'.format(file)
         :return: 0 if ran well
         """
-        file = open(pathfile, 'w')
+        file = open(pathfile, 'w+')
         for line in output_list:
             file.writelines(line + "\n")
         file.close()

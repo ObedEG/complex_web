@@ -60,7 +60,7 @@ def read_uploaded_file(filename):
                         mtm = serial[2:].split("J", 1)[0]
                         sn = serial[2:].replace(mtm, '')
                         TruvenUtils.create_serial_folder(so=so, serial=sn)
-                        TruvenUtils.create_file_results(so=so, serial=sn)
+                        #  TruvenUtils.create_file_results(so=so, serial=sn)
                     return render_template('csc/truven/update_file_done.jinja2',
                                            filename=filename, so=so, num_units=len(units))
     else:
