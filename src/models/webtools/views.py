@@ -65,6 +65,30 @@ def upload_file():
     return render_template('TEWebtools/node_status/update_file.jinja2')
 
 
+@webtool_blueprint.route('/upload_iso', methods=['GET', 'POST'])
+def upload_iso():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and WebtoolsUtils.allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            return redirect(url_for(".confirm_upload", filename=filename))
+    return render_template('TEWebtools/uploader.jinja2')
+
+@webtool_blueprint.route('/node_status/result/<filename>', methods=['GET', 'POST'])
+def confirm_upload(filename):
+    return render_template('TEWebtools/upload_success.jinja2', filename=filename)
+
+
 @webtool_blueprint.route('/node_status/result/<filename>', methods=['GET', 'POST'])
 def return_file(filename):
     WebtoolsUtils.handle_excel(os.path.join(UPLOAD_FOLDER, filename))

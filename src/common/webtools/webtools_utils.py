@@ -1,7 +1,7 @@
 import shlex
 import subprocess
 import openpyxl
-ALLOWED_EXTENSIONS = set(['csv', 'xlsx'])
+ALLOWED_EXTENSIONS = set(['csv', 'xlsx', 'iso'])
 
 
 class WebtoolsUtils(object):
