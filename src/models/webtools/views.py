@@ -84,7 +84,7 @@ def upload_iso():
             return redirect(url_for(".confirm_upload", filename=filename))
     return render_template('TEWebtools/uploader.jinja2')
 
-@webtool_blueprint.route('/node_status/result/<filename>', methods=['GET', 'POST'])
+@webtool_blueprint.route('/upload_sucess', methods=['GET', 'POST'])
 def confirm_upload(filename):
     return render_template('TEWebtools/upload_success.jinja2', filename=filename)
 
