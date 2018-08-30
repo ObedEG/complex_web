@@ -1,9 +1,9 @@
 {% extends "TEWebtools/base_webtools.jinja2" %}
 {% block content %}
 
- <form action = "http://localhost:5000/uploader" method = "POST"
+ <form action = {{ url_for('TEWebtools.upload_iso') }} method = "POST"
          enctype = "multipart/form-data">
-         <input type = "file" name = "file" />
+         <input type = "file" name = "filen" />
          <input type = "submit"/>
       </form>
 
