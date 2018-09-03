@@ -11,6 +11,7 @@ from src.models.frecords.views import frecord_blueprint
 from src.models.webtools.views import webtool_blueprint
 from src.models.csc.views import csc_blueprint
 from src.models.csc.csc_truven import csc_truven_blueprint
+from src.models.csc.nutanix_cigna.views import cigna_blueprint
 
 app = Flask(__name__)
 app.config.from_object('src.config')
@@ -27,6 +28,7 @@ app.register_blueprint(frecord_blueprint, url_prefix="/frecords")
 app.register_blueprint(webtool_blueprint, url_prefix="/TEWebtools")
 app.register_blueprint(csc_blueprint, url_prefix="/csc")
 app.register_blueprint(csc_truven_blueprint, url_prefix="/csc_truven")
+app.register_blueprint(cigna_blueprint, url_prefix="/cigna")
 
 
 @app.before_first_request

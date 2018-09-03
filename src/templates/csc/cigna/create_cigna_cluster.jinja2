@@ -1,0 +1,139 @@
+{% extends "csc/csc_base.jinja2" %}
+{% block content %}
+
+NUTANIX - CIGNA
+
+Create Cluster
+
+<form action="{{ url_for('cigna.create_cluster') }}" id="eventForm" method="post" class="form-horizontal">
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="cluster_name">Cluster Name</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="cluster_name" name="cluster_name">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="crm">Qty Nodes</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="qty_nodes" name="qty_nodes">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="hv_ip_start">HV IP start at</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="hv_ip_start" name="hv_ip_start">
+		</div>
+	</div>
+
+    <div class="form-group">
+		<label class="col-xs-3 control-label" for="hv_subnet">HV subnet</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="hv_subnet" name="hv_subnet">
+		</div>
+	</div>
+
+    <div class="form-group">
+		<label class="col-xs-3 control-label" for="hv_gateway">HV Gateway</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="hv_gateway" name="hv_gateway">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="cvm_ip_start">CVM IP start at</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="cvm_ip_start" name="cvm_ip_start">
+		</div>
+	</div>
+
+    <div class="form-group">
+		<label class="col-xs-3 control-label" for="cvm_subnet">CVM subnet</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="cvm_subnet" name="cvm_subnet">
+		</div>
+	</div>
+
+    <div class="form-group">
+		<label class="col-xs-3 control-label" for="cvm_gateway">CVM Gateway</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="cvm_gateway" name="cvm_gateway">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="storage_ip_start">Storage IP start at</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="storage_ip_start" name="storage_ip_start">
+		</div>
+	</div>
+
+    <div class="form-group">
+		<label class="col-xs-3 control-label" for="storage_subnet">Storage subnet</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="storage_subnet" name="storage_subnet">
+		</div>
+	</div>
+
+    <div class="form-group">
+		<label class="col-xs-3 control-label" for="storage_gateway">Storage Gateway</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="storage_gateway" name="storage_gateway">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="imm_ip_start">IMM IP start at</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="imm_ip_start" name="imm_ip_start">
+		</div>
+	</div>
+
+    <div class="form-group">
+		<label class="col-xs-3 control-label" for="imm_subnet">IMM subnet</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="imm_subnet" name="imm_subnet">
+		</div>
+	</div>
+
+    <div class="form-group">
+		<label class="col-xs-3 control-label" for="imm_gateway">IMM Gateway</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="imm_gateway" name="imm_gateway">
+		</div>
+	</div>
+
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="site_address">Site Address</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="site_address" name="site_address">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="AOS_version">AOS Version</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="AOS_version" name="AOS_version">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-xs-3 control-label" for="AHV_version">AHV Version</label>
+		<div class="col-xs-5">
+			<input type="text" class="form-control" id="AHV_version" name="AHV_version">
+		</div>
+	</div>
+
+    <div class="form-group">
+        <div class="col-xs-5 col-xs-offset-3">
+            <button type="submit" class="btn btn-default">Create CIGNA CLUSTER</button>
+        </div>
+    </div>
+</form>
+</div>
+
+
+
+{% endblock %}
